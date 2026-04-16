@@ -58,3 +58,9 @@ decreaseQtyBtn.addEventListener("click", decreaseQuantity);
 priceInput.addEventListener("input", updateEstimatedTotal);
 
 updateEstimatedTotal();
+// toggle selection UI (no logic yet)
+document.querySelectorAll(".option-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    btn.classList.toggle("active");
+  });
+});
