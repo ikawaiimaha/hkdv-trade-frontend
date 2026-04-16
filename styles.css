@@ -345,10 +345,6 @@ body {
 
 /* MODAL */
 
-.hidden {
-  display: none;
-}
-
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -358,6 +354,10 @@ body {
   justify-content: center;
   padding: 24px;
   z-index: 100;
+}
+
+.modal-overlay.hidden {
+  display: none;
 }
 
 .modal-card {
