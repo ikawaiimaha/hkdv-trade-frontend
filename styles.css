@@ -1,6 +1,24 @@
 body {
   font-family: Arial;
   background: #f7f7fb;
+  margin: 0;
+}
+
+.app-shell {
+  padding: 20px;
+}
+
+.top-nav {
+  background: white;
+  padding: 12px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.brand {
+  font-weight: bold;
+}
+
+.page-shell {
   padding: 20px;
 }
 
@@ -11,12 +29,26 @@ body {
 }
 
 .item-card {
+  background: white;
   border: 1px solid #ddd;
   padding: 16px;
   border-radius: 12px;
   width: 180px;
-  background: white;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+.item-card:hover {
+  border-color: #3a35a0;
+}
+
+.target-card {
+  border: 2px solid #3a35a0;
+}
+
+.selectable.selected {
+  background: #ecebff;
+  border-color: #3a35a0;
 }
 
 .primary-btn {
@@ -26,7 +58,18 @@ body {
   border: none;
   padding: 8px;
   border-radius: 8px;
+  cursor: pointer;
 }
+
+.secondary-btn {
+  background: #eee;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* MODAL */
 
 .modal-overlay {
   position: fixed;
@@ -45,7 +88,22 @@ body {
   background: white;
   padding: 20px;
   border-radius: 16px;
-  width: 400px;
+  width: 420px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.modal-close {
+  border: none;
+  background: #eee;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 }
 
 .offer-section {
@@ -56,6 +114,7 @@ body {
   border: 1px dashed #ccc;
   padding: 10px;
   border-radius: 10px;
+  min-height: 40px;
 }
 
 .empty {
@@ -83,4 +142,9 @@ body {
 
 .fairness.neutral {
   background: #eee;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 10px;
 }
