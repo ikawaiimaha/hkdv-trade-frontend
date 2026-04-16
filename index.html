@@ -12,7 +12,17 @@
 
   <!-- NAV -->
   <header class="top-nav">
-    <div class="brand">HKDV</div>
+    <div class="nav-left">
+      <div class="brand">HKDV</div>
+      <nav class="nav-links">
+        <a class="active">Dashboard</a>
+        <a>Inventory</a>
+        <a>Duplicates</a>
+        <a>Wishlist</a>
+        <a>Listings</a>
+      </nav>
+    </div>
+    <button class="primary-btn small">+ List</button>
   </header>
 
   <!-- PAGE -->
@@ -21,33 +31,53 @@
     <h1>Dashboard</h1>
     <p class="subtitle">Inventory Preview</p>
 
+    <!-- INVENTORY -->
     <div class="item-grid">
 
       <!-- TARGET ITEM -->
       <article class="item-card target-card">
-        <div class="item-image">Item</div>
+        <div class="item-image"></div>
         <h3>HK Lamp</h3>
-        <p>SR • Petite • Medium</p>
-        <button class="primary-btn" id="open-offer-builder">Make Offer</button>
+        <p>SR • Petite • Medium Demand</p>
+        <button class="primary-btn" id="open-offer">Make Offer</button>
       </article>
 
-      <!-- INVENTORY -->
+      <!-- INVENTORY ITEMS -->
       <article class="item-card selectable" data-value="100">
-        <div class="item-image">Item</div>
+        <div class="item-image"></div>
         <h3>HK Plush</h3>
-        <p>SSR • Sweet • High</p>
+        <p>SSR • Sweet • High Demand</p>
       </article>
 
       <article class="item-card selectable" data-value="60">
-        <div class="item-image">Item</div>
+        <div class="item-image"></div>
         <h3>HK Lamp</h3>
-        <p>SR • Petite • Medium</p>
+        <p>SR • Petite • Medium Demand</p>
       </article>
 
       <article class="item-card selectable" data-value="30">
-        <div class="item-image">Item</div>
+        <div class="item-image"></div>
         <h3>HK Chair</h3>
-        <p>R • Lucky • Low</p>
+        <p>R • Lucky • Low Demand</p>
+      </article>
+
+    </div>
+
+    <!-- DUPLICATES -->
+    <h2 class="section-title">Duplicates</h2>
+
+    <div class="item-grid">
+
+      <article class="item-card">
+        <div class="item-image"></div>
+        <h3>HK Plush</h3>
+        <p>SSR • Sweet • High Demand</p>
+      </article>
+
+      <article class="item-card">
+        <div class="item-image"></div>
+        <h3>HK Lamp</h3>
+        <p>SR • Petite • Medium Demand</p>
       </article>
 
     </div>
@@ -81,7 +111,7 @@
 
     <div class="offer-section">
       <h4>Fairness</h4>
-      <div id="fairness-indicator" class="fairness neutral">
+      <div id="fairness" class="fairness neutral">
         No offer yet
       </div>
     </div>
