@@ -207,10 +207,28 @@ body {
   font-size: 12px;
   padding: 6px 10px;
   border-radius: 999px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.item-badge-ssr {
+  background: #ffe7b8;
+  color: #8a5600;
+}
+
+.item-badge-sr {
   background: #ecebff;
   color: #3a35a0;
-  font-weight: 600;
-  white-space: nowrap;
+}
+
+.item-badge-r {
+  background: #e8f4ff;
+  color: #1d5f9e;
+}
+
+.item-badge-c {
+  background: #efefef;
+  color: #5c5c5c;
 }
 
 .item-meta {
@@ -262,7 +280,7 @@ body {
 
 .duplicate-top {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 12px;
@@ -270,6 +288,13 @@ body {
 
 .duplicate-top h3 {
   font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.duplicate-tier {
+  font-size: 13px;
+  color: #66667a;
+  font-weight: 600;
 }
 
 .demand-badge {
