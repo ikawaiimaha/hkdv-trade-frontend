@@ -186,8 +186,12 @@
       </div>
 
       <div class="modal-section">
-        <label class="modal-label" for="quantity">Quantity to list</label>
-        <input class="modal-input" id="quantity" type="number" value="1" min="1" max="3" />
+        <label class="modal-label">Quantity to list</label>
+        <div class="quantity-stepper">
+          <button type="button" class="stepper-btn" id="decrease-qty-btn">−</button>
+          <div class="stepper-value" id="quantity-display">1</div>
+          <button type="button" class="stepper-btn" id="increase-qty-btn">+</button>
+        </div>
       </div>
 
       <div class="modal-section">
@@ -211,6 +215,11 @@
             <span>7d</span>
           </label>
         </div>
+      </div>
+
+      <div class="modal-total-row">
+        <span>Estimated total</span>
+        <strong id="estimated-total">400</strong>
       </div>
 
       <div class="modal-footer">
