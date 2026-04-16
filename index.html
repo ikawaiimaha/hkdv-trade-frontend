@@ -16,12 +16,12 @@
 
   <main class="page-shell">
 
-    <h1>Inventory</h1>
+    <h1>Trade Demo</h1>
 
     <div class="item-grid">
 
       <!-- TARGET ITEM -->
-      <article class="item-card">
+      <article class="item-card target-card">
         <h3>HK Lamp</h3>
         <p>SR • Petite • Medium Demand</p>
         <button class="primary-btn" id="open-offer-builder">Make Offer</button>
@@ -53,7 +53,10 @@
 <div class="modal-overlay hidden" id="offer-modal">
   <div class="modal-card">
 
-    <h2>Make Offer</h2>
+    <div class="modal-header">
+      <h2>Make Offer</h2>
+      <button id="close-offer" class="modal-close">×</button>
+    </div>
 
     <div class="offer-section">
       <h3>You Want</h3>
@@ -76,7 +79,10 @@
       </div>
     </div>
 
-    <button class="secondary-btn" id="close-offer">Cancel</button>
+    <div class="modal-footer">
+      <button class="secondary-btn" id="cancel-offer">Cancel</button>
+      <button class="primary-btn">Send Offer</button>
+    </div>
 
   </div>
 </div>
