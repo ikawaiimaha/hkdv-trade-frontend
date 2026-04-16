@@ -2,253 +2,86 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HKDV Trader OS</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-  <div class="app-shell">
-    <header class="top-nav">
-      <div class="nav-left">
-        <div class="brand">HKDV</div>
-        <nav class="nav-links">
-          <a href="#" class="nav-link active">Dashboard</a>
-          <a href="#" class="nav-link">Inventory</a>
-          <a href="#" class="nav-link">Duplicates</a>
-          <a href="#" class="nav-link">Wishlist</a>
-          <a href="#" class="nav-link">Listings</a>
-          <a href="#" class="nav-link">Offers</a>
-          <a href="#" class="nav-link">Reputation</a>
-        </nav>
-      </div>
 
-      <div class="nav-right">
-        <button class="list-btn">+ List</button>
-        <div class="profile-chip">KM</div>
-      </div>
-    </header>
+<div class="app-shell">
 
-    <main class="page-shell">
-      <section class="page-header">
-        <div>
-          <h1>Dashboard</h1>
-          <p>Welcome back, Trader</p>
-        </div>
-      </section>
+  <header class="top-nav">
+    <div class="brand">HKDV</div>
+  </header>
 
-      <section class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-label">Inventory</div>
-          <div class="stat-value">124</div>
-        </div>
+  <main class="page-shell">
 
-        <div class="stat-card">
-          <div class="stat-label">Duplicates</div>
-          <div class="stat-value">18</div>
-        </div>
+    <h1>Inventory</h1>
 
-        <div class="stat-card">
-          <div class="stat-label">Wishlist</div>
-          <div class="stat-value">32</div>
-        </div>
+    <div class="item-grid">
 
-        <div class="stat-card">
-          <div class="stat-label">Active Listings</div>
-          <div class="stat-value">6</div>
-        </div>
-      </section>
+      <!-- TARGET ITEM -->
+      <article class="item-card">
+        <h3>HK Lamp</h3>
+        <p>SR • Petite • Medium Demand</p>
+        <button class="primary-btn" id="open-offer-builder">Make Offer</button>
+      </article>
 
-      <section class="content-panel">
-        <div class="panel-section">
-          <div class="panel-header">
-            <div>
-              <h2>Inventory Preview</h2>
-              <p>Your recently managed items</p>
-            </div>
-          </div>
+      <!-- USER INVENTORY -->
+      <article class="item-card selectable" data-value="100">
+        <h3>HK Plush</h3>
+        <p>SSR • Sweet • High</p>
+      </article>
 
-          <div class="item-grid">
-            <article class="item-card">
-              <div class="item-image">Item Image</div>
-              <div class="item-body">
-                <div class="item-top">
-                  <h3>HK Lamp</h3>
-                  <span class="item-badge item-badge-sr">SR</span>
-                </div>
+      <article class="item-card selectable" data-value="60">
+        <h3>HK Lamp</h3>
+        <p>SR • Petite • Medium</p>
+      </article>
 
-                <div class="item-signal-row">
-                  <span class="collection-chip">Petite Collection</span>
-                  <span class="demand-chip demand-medium">Medium Demand</span>
-                </div>
+      <article class="item-card selectable" data-value="30">
+        <h3>HK Chair</h3>
+        <p>R • Lucky • Low</p>
+      </article>
 
-                <p class="item-meta">Decor • Qty: 3</p>
-                <p class="item-value">Value Signal: SR • Petite • Medium</p>
-              </div>
-              <div class="item-actions">
-                <button class="secondary-btn">View</button>
-                <button class="primary-btn" id="open-list-modal-btn">List</button>
-              </div>
-            </article>
+    </div>
 
-            <article class="item-card">
-              <div class="item-image">Item Image</div>
-              <div class="item-body">
-                <div class="item-top">
-                  <h3>HK Plush</h3>
-                  <span class="item-badge item-badge-ssr">SSR</span>
-                </div>
+  </main>
 
-                <div class="item-signal-row">
-                  <span class="collection-chip">Sweet Collection</span>
-                  <span class="demand-chip demand-high">High Demand</span>
-                </div>
+</div>
 
-                <p class="item-meta">Plush • Qty: 5</p>
-                <p class="item-value">Value Signal: SSR • Sweet • High</p>
-              </div>
-              <div class="item-actions">
-                <button class="secondary-btn">View</button>
-                <button class="primary-btn">List</button>
-              </div>
-            </article>
+<!-- OFFER BUILDER MODAL -->
+<div class="modal-overlay hidden" id="offer-modal">
+  <div class="modal-card">
 
-            <article class="item-card">
-              <div class="item-image">Item Image</div>
-              <div class="item-body">
-                <div class="item-top">
-                  <h3>HK Chair</h3>
-                  <span class="item-badge item-badge-r">R</span>
-                </div>
+    <h2>Make Offer</h2>
 
-                <div class="item-signal-row">
-                  <span class="collection-chip">Lucky Bag</span>
-                  <span class="demand-chip demand-low">Low Demand</span>
-                </div>
-
-                <p class="item-meta">Furniture • Qty: 1</p>
-                <p class="item-value">Value Signal: R • Lucky Bag • Low</p>
-              </div>
-              <div class="item-actions">
-                <button class="secondary-btn">View</button>
-                <button class="primary-btn">List</button>
-              </div>
-            </article>
-          </div>
-        </div>
-
-        <div class="panel-section">
-          <div class="panel-header">
-            <div>
-              <h2>Duplicates Preview</h2>
-              <p>Items you can list quickly right now</p>
-            </div>
-          </div>
-
-          <div class="duplicate-grid">
-            <article class="duplicate-card">
-              <div class="duplicate-image">Duplicate Item</div>
-              <div class="duplicate-body">
-                <div class="duplicate-top">
-                  <div>
-                    <h3>HK Plush</h3>
-                    <p class="duplicate-tier">SSR • Sweet Collection</p>
-                  </div>
-                  <span class="demand-chip demand-high">High Demand</span>
-                </div>
-                <p class="duplicate-meta">Qty Available: 5</p>
-                <p class="duplicate-meta">Trade Signal: premium wishlist target</p>
-              </div>
-              <div class="duplicate-actions">
-                <button class="secondary-btn">List 1</button>
-                <button class="primary-btn">List All</button>
-              </div>
-            </article>
-
-            <article class="duplicate-card">
-              <div class="duplicate-image">Duplicate Item</div>
-              <div class="duplicate-body">
-                <div class="duplicate-top">
-                  <div>
-                    <h3>HK Lamp</h3>
-                    <p class="duplicate-tier">SR • Petite Collection</p>
-                  </div>
-                  <span class="demand-chip demand-medium">Medium Demand</span>
-                </div>
-                <p class="duplicate-meta">Qty Available: 3</p>
-                <p class="duplicate-meta">Trade Signal: solid filler or 1:1 SR swap</p>
-              </div>
-              <div class="duplicate-actions">
-                <button class="secondary-btn">List 1</button>
-                <button class="primary-btn">List All</button>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <div class="modal-overlay hidden" id="list-modal-overlay">
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="list-modal-title">
-      <div class="modal-header">
-        <h2 id="list-modal-title">List Item</h2>
-        <button class="modal-close-btn" id="close-list-modal-btn" aria-label="Close modal">×</button>
-      </div>
-
-      <div class="modal-item-preview">
-        <div class="modal-item-thumb">Item</div>
-        <div class="modal-item-info">
-          <h3>HK Lamp</h3>
-
-          <div class="modal-signal-row">
-            <span class="item-badge item-badge-sr">SR</span>
-            <span class="collection-chip">Petite Collection</span>
-            <span class="demand-chip demand-medium">Medium Demand</span>
-          </div>
-
-          <p>You own: 3</p>
-        </div>
-      </div>
-
-      <div class="modal-section">
-        <span class="modal-label">Listing Type</span>
-        <div class="option-row" data-group="listing-type">
-          <button type="button" class="option-btn active">Open to Offers</button>
-          <button type="button" class="option-btn">Wishlist Priority</button>
-        </div>
-      </div>
-
-      <div class="modal-section">
-        <span class="modal-label">Looking For</span>
-        <div class="option-row" data-group="looking-for">
-          <button type="button" class="option-btn">SSR</button>
-          <button type="button" class="option-btn">SR</button>
-          <button type="button" class="option-btn">Sweet</button>
-          <button type="button" class="option-btn">Event</button>
-        </div>
-      </div>
-
-      <div class="modal-section">
-        <label class="modal-label">Quantity to list</label>
-        <div class="quantity-stepper">
-          <button type="button" class="stepper-btn" id="decrease-qty-btn">−</button>
-          <div class="stepper-value" id="quantity-display">1</div>
-          <button type="button" class="stepper-btn" id="increase-qty-btn">+</button>
-        </div>
-      </div>
-
-      <div class="modal-section">
-        <label class="modal-label" for="notes">Notes (optional)</label>
-        <input class="modal-input" id="notes" type="text" placeholder="Looking for Sweet SSR only" />
-      </div>
-
-      <div class="modal-footer">
-        <button class="secondary-btn" id="cancel-list-modal-btn">Cancel</button>
-        <button class="primary-btn">Post Listing</button>
+    <div class="offer-section">
+      <h3>You Want</h3>
+      <div class="offer-box target-box">
+        HK Lamp (SR • Petite)
       </div>
     </div>
-  </div>
 
-  <script src="app.js"></script>
+    <div class="offer-section">
+      <h3>You Offer</h3>
+      <div id="offer-items" class="offer-box empty">
+        Select items below
+      </div>
+    </div>
+
+    <div class="offer-section">
+      <h3>Fairness</h3>
+      <div id="fairness-indicator" class="fairness neutral">
+        No offer yet
+      </div>
+    </div>
+
+    <button class="secondary-btn" id="close-offer">Cancel</button>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+
 </body>
 </html>
