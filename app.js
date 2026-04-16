@@ -9,15 +9,14 @@ const fairnessBox = document.getElementById("fairness");
 
 let total = 0;
 let selected = [];
-
 const target = 80;
 let modalOpen = false;
 
-openBtn.onclick = () => {
+openBtn.addEventListener("click", () => {
   modal.classList.remove("hidden");
   modalOpen = true;
   document.body.classList.add("select-mode");
-};
+});
 
 function closeModal() {
   modal.classList.add("hidden");
@@ -26,19 +25,23 @@ function closeModal() {
   reset();
 }
 
-closeBtn.onclick = closeModal;
-cancelBtn.onclick = closeModal;
+closeBtn.addEventListener("click", closeModal);
+cancelBtn.addEventListener("click", closeModal);
 
-items.forEach(item => {
-  item.onclick = () => {
+modal.addEventListener("click", (event) => {
+  if (event.target === modal) closeModal();
+});
+
+items.forEach((item) => {
+  item.addEventListener("click", () => {
     if (!modalOpen) return;
 
     const value = Number(item.dataset.value);
-    const name = item.querySelector("h3").innerText;
+    const name = item.dataset.name;
 
     if (item.classList.contains("selected")) {
       item.classList.remove("selected");
-      selected = selected.filter(i => i.name !== name);
+      selected = selected.filter((entry) => entry.name !== name);
       total -= value;
     } else {
       item.classList.add("selected");
@@ -47,16 +50,20 @@ items.forEach(item => {
     }
 
     update();
-  };
+  });
 });
 
 function update() {
   if (!selected.length) {
     offerBox.innerHTML = "Click items in your inventory";
+    offerBox.classList.add("empty");
   } else {
-    offerBox.innerHTML =
-      selected.map(i => `<span class="chip">${i.name}</span>`).join("") +
-      `<div class="value-line">Total Value: ${total}</div>`;
+    const chips = selected
+      .map((entry) => `<span class="chip collection">${entry.name}</span>`)
+      .join("");
+
+    offerBox.innerHTML = `${chips}<div class="value-line">Total Value: ${total}</div>`;
+    offerBox.classList.remove("empty");
   }
 
   let label = "No offer yet";
@@ -75,18 +82,19 @@ function update() {
     }
   }
 
-  fairnessBox.innerText = label;
-  fairnessBox.className = "fairness " + cls;
+  fairnessBox.textContent = label;
+  fairnessBox.className = `fairness ${cls}`;
 }
 
 function reset() {
   total = 0;
   selected = [];
 
-  items.forEach(i => i.classList.remove("selected"));
+  items.forEach((item) => item.classList.remove("selected"));
 
   offerBox.innerHTML = "Click items in your inventory";
+  offerBox.classList.add("empty");
 
-  fairnessBox.innerText = "No offer yet";
+  fairnessBox.textContent = "No offer yet";
   fairnessBox.className = "fairness neutral";
 }
