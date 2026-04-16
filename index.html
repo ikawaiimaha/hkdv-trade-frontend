@@ -10,39 +10,56 @@
 
 <div class="app-shell">
 
-  <header class="top-nav">
-    <div class="nav-left">
-      <div class="brand">HKDV</div>
-      <nav class="nav-links">
-        <a class="active">Dashboard</a>
-        <a>Inventory</a>
-        <a>Duplicates</a>
-        <a>Wishlist</a>
-        <a>Listings</a>
-      </nav>
-    </div>
-    <button class="primary-btn small-btn">+ List</button>
-  </header>
+<header class="top-nav">
+  <div class="nav-left">
+    <div class="brand">HKDV</div>
+    <nav class="nav-links">
+      <a class="active">Dashboard</a>
+      <a>Inventory</a>
+      <a>Duplicates</a>
+      <a>Wishlist</a>
+      <a>Listings</a>
+    </nav>
+  </div>
+  <button class="primary-btn small-btn">+ List</button>
+</header>
 
-  <main class="page-shell">
+<main class="page-shell">
 
-    <h1>Dashboard</h1>
-    <p class="subtitle">Inventory Preview</p>
+<h1>Dashboard</h1>
+<p class="subtitle">Inventory Preview</p>
 
-    <div class="item-grid">
+<!-- 🔥 REAL INVENTORY ON DASHBOARD -->
+<div class="item-grid">
 
-      <!-- TARGET -->
-      <article class="item-card target-card">
-        <div class="item-image"></div>
-        <h3>HK Lamp</h3>
-        <p>SR • Petite • Medium Demand</p>
-        <button class="primary-btn" id="open-offer">Make Offer</button>
-      </article>
+  <article class="item-card target-card">
+    <div class="item-image"></div>
+    <h3>HK Lamp</h3>
+    <p>SR • Petite • Medium Demand</p>
+    <button class="primary-btn" id="open-offer">Make Offer</button>
+  </article>
 
-    </div>
+  <article class="item-card">
+    <div class="item-image"></div>
+    <h3>HK Plush</h3>
+    <p>SSR • Sweet • High Demand</p>
+  </article>
 
-  </main>
+  <article class="item-card">
+    <div class="item-image"></div>
+    <h3>HK Lamp</h3>
+    <p>SR • Petite • Medium Demand</p>
+  </article>
 
+  <article class="item-card">
+    <div class="item-image"></div>
+    <h3>HK Chair</h3>
+    <p>R • Lucky • Low Demand</p>
+  </article>
+
+</div>
+
+</main>
 </div>
 
 <!-- MODAL -->
@@ -68,28 +85,25 @@
       </div>
     </div>
 
-    <!-- 🔥 INVENTORY INSIDE MODAL -->
+    <!-- 🔥 INTERACTIVE INVENTORY -->
     <div class="modal-section">
-      <h4>Your Inventory</h4>
+      <h4>Select Items</h4>
 
       <div class="item-grid">
 
         <article class="item-card selectable" data-name="HK Plush" data-value="100">
           <div class="item-image"></div>
           <h3>HK Plush</h3>
-          <p>SSR • Sweet • High</p>
         </article>
 
         <article class="item-card selectable" data-name="HK Lamp" data-value="60">
           <div class="item-image"></div>
           <h3>HK Lamp</h3>
-          <p>SR • Petite • Medium</p>
         </article>
 
         <article class="item-card selectable" data-name="HK Chair" data-value="30">
           <div class="item-image"></div>
           <h3>HK Chair</h3>
-          <p>R • Lucky • Low</p>
         </article>
 
       </div>
