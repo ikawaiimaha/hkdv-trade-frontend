@@ -10,35 +10,42 @@
 
 <div class="app-shell">
 
+  <!-- NAV -->
   <header class="top-nav">
     <div class="brand">HKDV</div>
   </header>
 
+  <!-- PAGE -->
   <main class="page-shell">
 
-    <h1>Inventory</h1>
+    <h1>Dashboard</h1>
+    <p class="subtitle">Inventory Preview</p>
 
     <div class="item-grid">
 
       <!-- TARGET ITEM -->
       <article class="item-card target-card">
+        <div class="item-image">Item</div>
         <h3>HK Lamp</h3>
-        <p>SR • Petite • Medium Demand</p>
+        <p>SR • Petite • Medium</p>
         <button class="primary-btn" id="open-offer-builder">Make Offer</button>
       </article>
 
-      <!-- USER INVENTORY -->
+      <!-- INVENTORY -->
       <article class="item-card selectable" data-value="100">
+        <div class="item-image">Item</div>
         <h3>HK Plush</h3>
         <p>SSR • Sweet • High</p>
       </article>
 
       <article class="item-card selectable" data-value="60">
+        <div class="item-image">Item</div>
         <h3>HK Lamp</h3>
         <p>SR • Petite • Medium</p>
       </article>
 
       <article class="item-card selectable" data-value="30">
+        <div class="item-image">Item</div>
         <h3>HK Chair</h3>
         <p>R • Lucky • Low</p>
       </article>
@@ -59,21 +66,21 @@
     </div>
 
     <div class="offer-section">
-      <h3>You Want</h3>
-      <div class="offer-box target-box">
+      <h4>You Want</h4>
+      <div class="offer-box">
         HK Lamp (SR • Petite)
       </div>
     </div>
 
     <div class="offer-section">
-      <h3>You Offer</h3>
+      <h4>You Offer</h4>
       <div id="offer-items" class="offer-box empty">
         Select items below
       </div>
     </div>
 
     <div class="offer-section">
-      <h3>Fairness</h3>
+      <h4>Fairness</h4>
       <div id="fairness-indicator" class="fairness neutral">
         No offer yet
       </div>
