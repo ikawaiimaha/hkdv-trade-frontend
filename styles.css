@@ -183,3 +183,32 @@ body {
   display: flex;
   gap: 10px;
 }
+/* SELECT MODE VISUAL */
+
+body.select-mode .selectable {
+  border: 2px dashed #aaa;
+}
+
+body.select-mode .selectable:hover {
+  border-color: #3a35a0;
+}
+
+/* CHIPS */
+
+.chip {
+  display: inline-block;
+  background: #ecebff;
+  color: #3a35a0;
+  padding: 6px 10px;
+  border-radius: 20px;
+  margin: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* PLACEHOLDER */
+
+.placeholder {
+  color: #888;
+  font-size: 14px;
+}
