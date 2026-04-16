@@ -16,11 +16,13 @@ let modalOpen = false;
 openBtn.onclick = () => {
   modal.classList.remove("hidden");
   modalOpen = true;
+  document.body.classList.add("select-mode");
 };
 
 function closeModal() {
   modal.classList.add("hidden");
   modalOpen = false;
+  document.body.classList.remove("select-mode");
   reset();
 }
 
@@ -49,9 +51,13 @@ items.forEach(item => {
 });
 
 function update() {
-  offerBox.innerText = selected.length
-    ? selected.map(i => i.name).join(", ")
-    : "Select items below";
+  if (!selected.length) {
+    offerBox.innerHTML = "<span class='placeholder'>Click items in your inventory</span>";
+  } else {
+    offerBox.innerHTML = selected
+      .map(i => `<span class="chip">${i.name}</span>`)
+      .join("");
+  }
 
   let label = "No offer yet";
   let cls = "neutral";
@@ -79,7 +85,8 @@ function reset() {
 
   items.forEach(i => i.classList.remove("selected"));
 
-  offerBox.innerText = "Select items below";
+  offerBox.innerHTML = "<span class='placeholder'>Click items in your inventory</span>";
+
   fairnessBox.innerText = "No offer yet";
   fairnessBox.className = "fairness neutral";
 }
