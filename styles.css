@@ -10,7 +10,7 @@ body {
 
 .top-nav {
   background: white;
-  padding: 12px 20px;
+  padding: 16px;
   border-bottom: 1px solid #ddd;
 }
 
@@ -22,24 +22,35 @@ body {
   padding: 20px;
 }
 
+.subtitle {
+  color: #666;
+  margin-bottom: 20px;
+}
+
 .item-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  flex-wrap: wrap;
 }
 
 .item-card {
   background: white;
   border: 1px solid #ddd;
+  border-radius: 16px;
   padding: 16px;
-  border-radius: 12px;
-  width: 200px;
-  cursor: pointer;
   transition: 0.2s;
+  cursor: pointer;
 }
 
 .item-card:hover {
   border-color: #3a35a0;
+}
+
+.item-image {
+  height: 120px;
+  background: #eee;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .target-card {
@@ -56,16 +67,16 @@ body {
   background: #3a35a0;
   color: white;
   border: none;
-  padding: 8px;
-  border-radius: 8px;
+  padding: 10px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
 .secondary-btn {
   background: #eee;
   border: none;
-  padding: 8px;
-  border-radius: 8px;
+  padding: 10px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
@@ -86,23 +97,23 @@ body {
 
 .modal-card {
   background: white;
-  padding: 20px;
-  border-radius: 16px;
+  padding: 24px;
+  border-radius: 20px;
   width: 420px;
 }
 
 .modal-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .modal-close {
   border: none;
   background: #eee;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   cursor: pointer;
 }
 
@@ -112,7 +123,7 @@ body {
 
 .offer-box {
   border: 1px dashed #ccc;
-  padding: 10px;
+  padding: 12px;
   border-radius: 10px;
   min-height: 40px;
 }
@@ -122,27 +133,16 @@ body {
 }
 
 .fairness {
-  padding: 10px;
+  padding: 12px;
   border-radius: 10px;
   text-align: center;
   font-weight: bold;
 }
 
-.fairness.fair {
-  background: #d4ffd8;
-}
-
-.fairness.over {
-  background: #fff3c4;
-}
-
-.fairness.under {
-  background: #ffd4d4;
-}
-
-.fairness.neutral {
-  background: #eee;
-}
+.fairness.fair { background: #d4ffd8; }
+.fairness.over { background: #fff3c4; }
+.fairness.under { background: #ffd4d4; }
+.fairness.neutral { background: #eee; }
 
 .modal-footer {
   display: flex;
