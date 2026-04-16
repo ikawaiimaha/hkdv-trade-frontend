@@ -10,7 +10,6 @@ const fairnessBox = document.getElementById("fairness-indicator");
 let selectedItems = [];
 let totalValue = 0;
 
-// fake baseline for now
 const targetValue = 80;
 
 openBtn.onclick = () => {
