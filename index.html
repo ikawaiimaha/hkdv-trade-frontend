@@ -80,7 +80,7 @@
               </div>
               <div class="item-actions">
                 <button class="secondary-btn">View</button>
-                <button class="primary-btn">List</button>
+                <button class="primary-btn" id="open-list-modal-btn">List</button>
               </div>
             </article>
 
@@ -168,6 +168,57 @@
         </div>
       </section>
     </main>
+  </div>
+
+  <!-- QUICK LIST MODAL -->
+  <div class="modal-overlay hidden" id="list-modal-overlay">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="list-modal-title">
+      <div class="modal-header">
+        <h2 id="list-modal-title">List Item</h2>
+        <button class="modal-close-btn" id="close-list-modal-btn" aria-label="Close modal">×</button>
+      </div>
+
+      <div class="modal-item-preview">
+        <div class="modal-item-thumb">Item</div>
+        <div>
+          <h3>HK Lamp</h3>
+          <p>Tier: SR • You own: 3</p>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <label class="modal-label" for="quantity">Quantity to list</label>
+        <input class="modal-input" id="quantity" type="number" value="1" min="1" max="3" />
+      </div>
+
+      <div class="modal-section">
+        <label class="modal-label" for="price">Price per item</label>
+        <input class="modal-input" id="price" type="number" value="400" min="1" />
+      </div>
+
+      <div class="modal-section">
+        <span class="modal-label">Duration</span>
+        <div class="duration-options">
+          <label class="duration-option">
+            <input type="radio" name="duration" checked />
+            <span>24h</span>
+          </label>
+          <label class="duration-option">
+            <input type="radio" name="duration" />
+            <span>48h</span>
+          </label>
+          <label class="duration-option">
+            <input type="radio" name="duration" />
+            <span>7d</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="secondary-btn" id="cancel-list-modal-btn">Cancel</button>
+        <button class="primary-btn">List Item</button>
+      </div>
+    </div>
   </div>
 
   <script src="app.js"></script>
