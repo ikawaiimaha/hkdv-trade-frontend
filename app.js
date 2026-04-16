@@ -52,11 +52,11 @@ items.forEach(item => {
 
 function update() {
   if (!selected.length) {
-    offerBox.innerHTML = "<span class='placeholder'>Click items in your inventory</span>";
+    offerBox.innerHTML = "Click items in your inventory";
   } else {
-    offerBox.innerHTML = selected
-      .map(i => `<span class="chip">${i.name}</span>`)
-      .join("");
+    offerBox.innerHTML =
+      selected.map(i => `<span class="chip">${i.name}</span>`).join("") +
+      `<div class="value-line">Total Value: ${total}</div>`;
   }
 
   let label = "No offer yet";
@@ -64,13 +64,13 @@ function update() {
 
   if (total > 0) {
     if (total < target * 0.8) {
-      label = "Underpay";
+      label = `Underpay (${total} vs ${target})`;
       cls = "under";
     } else if (total > target * 1.2) {
-      label = "Overpay";
+      label = `Overpay (${total} vs ${target})`;
       cls = "over";
     } else {
-      label = "Fair";
+      label = `Fair (${total} vs ${target})`;
       cls = "fair";
     }
   }
@@ -85,7 +85,7 @@ function reset() {
 
   items.forEach(i => i.classList.remove("selected"));
 
-  offerBox.innerHTML = "<span class='placeholder'>Click items in your inventory</span>";
+  offerBox.innerHTML = "Click items in your inventory";
 
   fairnessBox.innerText = "No offer yet";
   fairnessBox.className = "fairness neutral";
