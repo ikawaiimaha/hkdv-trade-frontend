@@ -513,58 +513,6 @@ body {
   background: #ffffff;
 }
 
-.duration-options {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.duration-option {
-  position: relative;
-}
-
-.duration-option input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.duration-option span {
-  display: inline-block;
-  padding: 10px 14px;
-  border-radius: 12px;
-  background: #f3f2fb;
-  color: #3a35a0;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.modal-total-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px;
-  background: #faf9ff;
-  border: 1px solid #ecebff;
-  border-radius: 16px;
-  margin-top: 6px;
-}
-
-.modal-total-row span {
-  color: #66667a;
-  font-size: 14px;
-}
-
-.modal-total-row strong {
-  font-size: 20px;
-  color: #1f1f2b;
-}
-
-.modal-footer {
-  display: flex;
-  gap: 12px;
-  margin-top: 24px;
-}
 .option-row {
   display: flex;
   gap: 10px;
@@ -584,4 +532,10 @@ body {
 .option-btn.active {
   background: #3a35a0;
   color: white;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
 }
