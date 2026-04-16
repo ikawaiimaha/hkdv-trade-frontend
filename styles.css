@@ -1,25 +1,44 @@
 body {
   font-family: Arial;
-  background: #f7f7fb;
   margin: 0;
+  background: #f7f7fb;
 }
 
-.app-shell {
-  padding: 20px;
-}
+/* NAV */
 
 .top-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 24px;
   background: white;
-  padding: 16px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #eee;
+}
+
+.nav-left {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-links a {
+  margin-right: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.nav-links .active {
+  color: #3a35a0;
+  font-weight: bold;
 }
 
 .brand {
   font-weight: bold;
 }
 
+/* PAGE */
+
 .page-shell {
-  padding: 20px;
+  padding: 30px;
 }
 
 .subtitle {
@@ -27,15 +46,19 @@ body {
   margin-bottom: 20px;
 }
 
+.section-title {
+  margin-top: 40px;
+}
+
 /* GRID */
 
 .item-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 18px;
 }
 
-/* CARD BASE */
+/* CARD */
 
 .item-card {
   background: white;
@@ -45,7 +68,9 @@ body {
   transition: 0.2s;
 }
 
-/* IMAGE */
+.item-card:hover {
+  border-color: #3a35a0;
+}
 
 .item-image {
   height: 120px;
@@ -54,19 +79,13 @@ body {
   margin-bottom: 10px;
 }
 
-/* TARGET ITEM */
-
 .target-card {
   border: 2px solid #3a35a0;
 }
 
-/* SELECTABLE ITEMS */
-
 .selectable {
   cursor: pointer;
 }
-
-/* ONLY show selection clearly */
 
 .selectable.selected {
   border: 2px solid #3a35a0;
@@ -83,6 +102,10 @@ body {
   padding: 10px;
   border-radius: 10px;
   cursor: pointer;
+}
+
+.primary-btn.small {
+  padding: 6px 10px;
 }
 
 .secondary-btn {
@@ -127,7 +150,6 @@ body {
   border-radius: 50%;
   width: 32px;
   height: 32px;
-  cursor: pointer;
 }
 
 .offer-section {
