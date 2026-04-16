@@ -445,6 +445,35 @@ body {
   outline: none;
 }
 
+.quantity-stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stepper-btn {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 12px;
+  background: #f3f2fb;
+  color: #3a35a0;
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.stepper-value {
+  min-width: 80px;
+  text-align: center;
+  padding: 12px 14px;
+  border: 1px solid #d9d8e8;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  background: #ffffff;
+}
+
 .duration-options {
   display: flex;
   gap: 10px;
@@ -469,6 +498,27 @@ body {
   color: #3a35a0;
   font-weight: 600;
   cursor: pointer;
+}
+
+.modal-total-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: #faf9ff;
+  border: 1px solid #ecebff;
+  border-radius: 16px;
+  margin-top: 6px;
+}
+
+.modal-total-row span {
+  color: #66667a;
+  font-size: 14px;
+}
+
+.modal-total-row strong {
+  font-size: 20px;
+  color: #1f1f2b;
 }
 
 .modal-footer {
