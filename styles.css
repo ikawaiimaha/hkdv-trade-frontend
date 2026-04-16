@@ -14,6 +14,8 @@ body {
   min-height: 100vh;
 }
 
+/* NAV */
+
 .top-nav {
   display: flex;
   align-items: center;
@@ -83,6 +85,8 @@ body {
   font-weight: 700;
 }
 
+/* PAGE */
+
 .page-shell {
   max-width: 1200px;
   margin: 0 auto;
@@ -101,6 +105,36 @@ body {
 .page-header p {
   color: #66667a;
 }
+
+/* STATS GRID */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: #ffffff;
+  border: 1px solid #e7e7ef;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #66667a;
+  margin-bottom: 10px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f1f2b;
+}
+
+/* CONTENT PANEL */
 
 .content-panel {
   background: #ffffff;
