@@ -27,11 +27,15 @@ body {
   margin-bottom: 20px;
 }
 
+/* GRID */
+
 .item-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
+
+/* CARD BASE */
 
 .item-card {
   background: white;
@@ -39,12 +43,9 @@ body {
   border-radius: 16px;
   padding: 16px;
   transition: 0.2s;
-  cursor: pointer;
 }
 
-.item-card:hover {
-  border-color: #3a35a0;
-}
+/* IMAGE */
 
 .item-image {
   height: 120px;
@@ -53,14 +54,26 @@ body {
   margin-bottom: 10px;
 }
 
+/* TARGET ITEM */
+
 .target-card {
   border: 2px solid #3a35a0;
 }
 
-.selectable.selected {
-  background: #ecebff;
-  border-color: #3a35a0;
+/* SELECTABLE ITEMS */
+
+.selectable {
+  cursor: pointer;
 }
+
+/* ONLY show selection clearly */
+
+.selectable.selected {
+  border: 2px solid #3a35a0;
+  box-shadow: 0 0 0 3px rgba(58,53,160,0.15);
+}
+
+/* BUTTONS */
 
 .primary-btn {
   margin-top: 10px;
