@@ -12,9 +12,7 @@ let totalValue = 0;
 
 const targetValue = 80;
 
-openBtn.onclick = () => {
-  modal.classList.remove("hidden");
-};
+openBtn.onclick = () => modal.classList.remove("hidden");
 
 function closeModal() {
   modal.classList.add("hidden");
@@ -43,11 +41,11 @@ selectableItems.forEach(item => {
       totalValue += value;
     }
 
-    updateOfferUI();
+    updateUI();
   });
 });
 
-function updateOfferUI() {
+function updateUI() {
   if (selectedItems.length === 0) {
     offerBox.innerText = "Select items below";
     offerBox.classList.add("empty");
@@ -56,38 +54,35 @@ function updateOfferUI() {
     offerBox.classList.remove("empty");
   }
 
-  evaluateFairness();
+  evaluate();
 }
 
-function evaluateFairness() {
-  let result = "";
-  let className = "";
+function evaluate() {
+  let text = "No offer yet";
+  let cls = "neutral";
 
-  if (totalValue === 0) {
-    result = "No offer yet";
-    className = "neutral";
-  } else if (totalValue < targetValue * 0.8) {
-    result = "Underpay";
-    className = "under";
-  } else if (totalValue > targetValue * 1.2) {
-    result = "Overpay";
-    className = "over";
-  } else {
-    result = "Fair";
-    className = "fair";
+  if (totalValue > 0) {
+    if (totalValue < targetValue * 0.8) {
+      text = "Underpay";
+      cls = "under";
+    } else if (totalValue > targetValue * 1.2) {
+      text = "Overpay";
+      cls = "over";
+    } else {
+      text = "Fair";
+      cls = "fair";
+    }
   }
 
-  fairnessBox.innerText = result;
-  fairnessBox.className = "fairness " + className;
+  fairnessBox.innerText = text;
+  fairnessBox.className = "fairness " + cls;
 }
 
 function resetOffer() {
   selectedItems = [];
   totalValue = 0;
 
-  selectableItems.forEach(item => {
-    item.classList.remove("selected");
-  });
+  selectableItems.forEach(i => i.classList.remove("selected"));
 
   offerBox.innerText = "Select items below";
   offerBox.classList.add("empty");
