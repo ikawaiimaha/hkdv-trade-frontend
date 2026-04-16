@@ -11,11 +11,16 @@ let selectedItems = [];
 let totalValue = 0;
 
 const targetValue = 80;
+let modalOpen = false;
 
-openBtn.onclick = () => modal.classList.remove("hidden");
+openBtn.onclick = () => {
+  modal.classList.remove("hidden");
+  modalOpen = true;
+};
 
 function closeModal() {
   modal.classList.add("hidden");
+  modalOpen = false;
   resetOffer();
 }
 
@@ -28,6 +33,10 @@ modal.addEventListener("click", (e) => {
 
 selectableItems.forEach(item => {
   item.addEventListener("click", () => {
+
+    // 🚨 KEY FIX: ignore clicks unless modal is open
+    if (!modalOpen) return;
+
     const value = Number(item.dataset.value);
     const name = item.querySelector("h3").innerText;
 
