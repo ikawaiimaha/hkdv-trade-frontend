@@ -7,194 +7,111 @@
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-  <div class="app-shell">
-    <header class="top-nav">
-      <div class="nav-left">
-        <div class="brand">HKDV</div>
-        <nav class="nav-links">
-          <a href="#" class="active">Dashboard</a>
-          <a href="#">Inventory</a>
-          <a href="#">Duplicates</a>
-          <a href="#">Wishlist</a>
-          <a href="#">Listings</a>
-        </nav>
-      </div>
-      <button class="primary-btn small-btn">+ List</button>
-    </header>
 
-    <main class="page-shell">
-      <section class="page-header">
-        <h1>Dashboard</h1>
-        <p>Welcome back, Trader</p>
-      </section>
+<div class="app-shell">
 
-      <section class="stats-grid">
-        <article class="stat-card">
-          <div class="stat-label">Inventory</div>
-          <div class="stat-value">124</div>
-        </article>
-        <article class="stat-card">
-          <div class="stat-label">Duplicates</div>
-          <div class="stat-value">18</div>
-        </article>
-        <article class="stat-card">
-          <div class="stat-label">Wishlist</div>
-          <div class="stat-value">32</div>
-        </article>
-        <article class="stat-card">
-          <div class="stat-label">Active Listings</div>
-          <div class="stat-value">6</div>
-        </article>
-      </section>
+  <header class="top-nav">
+    <div class="nav-left">
+      <div class="brand">HKDV</div>
+      <nav class="nav-links">
+        <a class="active">Dashboard</a>
+        <a>Inventory</a>
+        <a>Duplicates</a>
+        <a>Wishlist</a>
+        <a>Listings</a>
+      </nav>
+    </div>
+    <button class="primary-btn small-btn">+ List</button>
+  </header>
 
-      <section class="panel">
-        <div class="section-heading">
-          <div>
-            <h2>Inventory Preview</h2>
-            <p>Your recently managed items</p>
-          </div>
-        </div>
+  <main class="page-shell">
 
-        <div class="item-grid">
-          <article class="item-card target-card">
-            <div class="item-image">Item Image</div>
-            <div class="item-content">
-              <div class="item-top">
-                <h3>HK Lamp</h3>
-                <span class="tier-badge sr">SR</span>
-              </div>
-              <div class="signal-row">
-                <span class="chip collection">Petite Collection</span>
-                <span class="chip demand medium">Medium Demand</span>
-              </div>
-              <p class="item-meta">Decor • Qty: 3</p>
-              <button class="primary-btn" id="open-offer">Make Offer</button>
-            </div>
-          </article>
+    <h1>Dashboard</h1>
+    <p class="subtitle">Inventory Preview</p>
 
-          <article class="item-card selectable" data-name="HK Plush" data-value="100">
-            <div class="item-image">Item Image</div>
-            <div class="item-content">
-              <div class="item-top">
-                <h3>HK Plush</h3>
-                <span class="tier-badge ssr">SSR</span>
-              </div>
-              <div class="signal-row">
-                <span class="chip collection">Sweet Collection</span>
-                <span class="chip demand high">High Demand</span>
-              </div>
-              <p class="item-meta">Plush • Qty: 5</p>
-            </div>
-          </article>
+    <div class="item-grid">
 
-          <article class="item-card selectable" data-name="HK Lamp" data-value="60">
-            <div class="item-image">Item Image</div>
-            <div class="item-content">
-              <div class="item-top">
-                <h3>HK Lamp</h3>
-                <span class="tier-badge sr">SR</span>
-              </div>
-              <div class="signal-row">
-                <span class="chip collection">Petite Collection</span>
-                <span class="chip demand medium">Medium Demand</span>
-              </div>
-              <p class="item-meta">Decor • Qty: 3</p>
-            </div>
-          </article>
+      <!-- TARGET -->
+      <article class="item-card target-card">
+        <div class="item-image"></div>
+        <h3>HK Lamp</h3>
+        <p>SR • Petite • Medium Demand</p>
+        <button class="primary-btn" id="open-offer">Make Offer</button>
+      </article>
 
-          <article class="item-card selectable" data-name="HK Chair" data-value="30">
-            <div class="item-image">Item Image</div>
-            <div class="item-content">
-              <div class="item-top">
-                <h3>HK Chair</h3>
-                <span class="tier-badge r">R</span>
-              </div>
-              <div class="signal-row">
-                <span class="chip collection">Lucky Bag</span>
-                <span class="chip demand low">Low Demand</span>
-              </div>
-              <p class="item-meta">Furniture • Qty: 1</p>
-            </div>
-          </article>
-        </div>
-      </section>
+    </div>
 
-      <section class="panel">
-        <div class="section-heading">
-          <div>
-            <h2>Duplicates Preview</h2>
-            <p>Items you can list quickly right now</p>
-          </div>
-        </div>
+  </main>
 
-        <div class="duplicate-grid">
-          <article class="duplicate-card">
-            <div class="item-image">Duplicate Item</div>
-            <div class="item-content">
-              <div class="item-top">
-                <h3>HK Plush</h3>
-                <span class="tier-badge ssr">SSR</span>
-              </div>
-              <div class="signal-row">
-                <span class="chip collection">Sweet Collection</span>
-                <span class="chip demand high">High Demand</span>
-              </div>
-              <p class="item-meta">Qty Available: 5</p>
-            </div>
-          </article>
+</div>
 
-          <article class="duplicate-card">
-            <div class="item-image">Duplicate Item</div>
-            <div class="item-content">
-              <div class="item-top">
-                <h3>HK Lamp</h3>
-                <span class="tier-badge sr">SR</span>
-              </div>
-              <div class="signal-row">
-                <span class="chip collection">Petite Collection</span>
-                <span class="chip demand medium">Medium Demand</span>
-              </div>
-              <p class="item-meta">Qty Available: 3</p>
-            </div>
-          </article>
-        </div>
-      </section>
-    </main>
-  </div>
+<!-- MODAL -->
+<div class="modal-overlay hidden" id="offer-modal">
+  <div class="modal-card">
 
-  <div class="modal-overlay hidden" id="offer-modal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h2>Make Offer</h2>
-        <button class="icon-btn" id="close-offer" aria-label="Close">×</button>
-      </div>
+    <div class="modal-header">
+      <h2>Make Offer</h2>
+      <button id="close-offer" class="icon-btn">×</button>
+    </div>
 
-      <div class="modal-section">
-        <h4>You Want</h4>
-        <div class="offer-box">
-          HK Lamp <span class="muted">(SR • Petite Collection)</span>
-        </div>
-      </div>
-
-      <div class="modal-section">
-        <h4>You Offer</h4>
-        <div id="offer-items" class="offer-box empty">
-          Click items in your inventory
-        </div>
-      </div>
-
-      <div class="modal-section">
-        <h4>Fairness</h4>
-        <div id="fairness" class="fairness neutral">No offer yet</div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="secondary-btn" id="cancel-offer">Cancel</button>
-        <button class="primary-btn">Send Offer</button>
+    <div class="modal-section">
+      <h4>You Want</h4>
+      <div class="offer-box">
+        HK Lamp (SR • Petite)
       </div>
     </div>
-  </div>
 
-  <script src="app.js"></script>
+    <div class="modal-section">
+      <h4>You Offer</h4>
+      <div id="offer-items" class="offer-box empty">
+        Select items below
+      </div>
+    </div>
+
+    <!-- 🔥 INVENTORY INSIDE MODAL -->
+    <div class="modal-section">
+      <h4>Your Inventory</h4>
+
+      <div class="item-grid">
+
+        <article class="item-card selectable" data-name="HK Plush" data-value="100">
+          <div class="item-image"></div>
+          <h3>HK Plush</h3>
+          <p>SSR • Sweet • High</p>
+        </article>
+
+        <article class="item-card selectable" data-name="HK Lamp" data-value="60">
+          <div class="item-image"></div>
+          <h3>HK Lamp</h3>
+          <p>SR • Petite • Medium</p>
+        </article>
+
+        <article class="item-card selectable" data-name="HK Chair" data-value="30">
+          <div class="item-image"></div>
+          <h3>HK Chair</h3>
+          <p>R • Lucky • Low</p>
+        </article>
+
+      </div>
+
+    </div>
+
+    <div class="modal-section">
+      <h4>Fairness</h4>
+      <div id="fairness" class="fairness neutral">
+        No offer yet
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="secondary-btn" id="cancel-offer">Cancel</button>
+      <button class="primary-btn">Send Offer</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+
 </body>
 </html>
