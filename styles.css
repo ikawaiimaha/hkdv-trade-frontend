@@ -143,6 +143,10 @@ body {
   padding: 32px;
 }
 
+.panel-section + .panel-section {
+  margin-top: 36px;
+}
+
 .panel-header {
   margin-bottom: 20px;
 }
@@ -225,6 +229,73 @@ body {
   gap: 10px;
   padding: 0 18px 18px;
 }
+
+/* DUPLICATES */
+
+.duplicate-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.duplicate-card {
+  border: 1px solid #e7e7ef;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.duplicate-image {
+  height: 140px;
+  background: #f8eef6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8d6f85;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.duplicate-body {
+  padding: 18px;
+}
+
+.duplicate-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.duplicate-top h3 {
+  font-size: 18px;
+}
+
+.demand-badge {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #ffe8cc;
+  color: #a35a00;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.duplicate-meta {
+  color: #55556a;
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.duplicate-actions {
+  display: flex;
+  gap: 10px;
+  padding: 0 18px 18px;
+}
+
+/* BUTTONS */
 
 .primary-btn,
 .secondary-btn {
