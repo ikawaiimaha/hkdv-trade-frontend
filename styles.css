@@ -565,3 +565,23 @@ body {
   gap: 12px;
   margin-top: 24px;
 }
+.option-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.option-btn {
+  border: none;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #f3f2fb;
+  color: #3a35a0;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.option-btn.active {
+  background: #3a35a0;
+  color: white;
+}
