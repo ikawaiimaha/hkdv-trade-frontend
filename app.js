@@ -8,8 +8,6 @@ const cancelListModalBtn = document.getElementById("cancel-list-modal-btn");
 const decreaseQtyBtn = document.getElementById("decrease-qty-btn");
 const increaseQtyBtn = document.getElementById("increase-qty-btn");
 const quantityDisplay = document.getElementById("quantity-display");
-const priceInput = document.getElementById("price");
-const estimatedTotal = document.getElementById("estimated-total");
 
 let quantity = 1;
 const maxQuantity = 3;
@@ -22,24 +20,21 @@ function closeListModal() {
   listModalOverlay.classList.add("hidden");
 }
 
-function updateEstimatedTotal() {
-  const price = Number(priceInput.value) || 0;
-  const total = quantity * price;
+function updateQuantityDisplay() {
   quantityDisplay.textContent = quantity;
-  estimatedTotal.textContent = total;
 }
 
 function increaseQuantity() {
   if (quantity < maxQuantity) {
     quantity += 1;
-    updateEstimatedTotal();
+    updateQuantityDisplay();
   }
 }
 
 function decreaseQuantity() {
   if (quantity > 1) {
     quantity -= 1;
-    updateEstimatedTotal();
+    updateQuantityDisplay();
   }
 }
 
@@ -55,12 +50,21 @@ listModalOverlay.addEventListener("click", function (event) {
 
 increaseQtyBtn.addEventListener("click", increaseQuantity);
 decreaseQtyBtn.addEventListener("click", decreaseQuantity);
-priceInput.addEventListener("input", updateEstimatedTotal);
 
-updateEstimatedTotal();
-// toggle selection UI (no logic yet)
-document.querySelectorAll(".option-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    btn.classList.toggle("active");
+document.querySelectorAll(".option-row").forEach((row) => {
+  const buttons = row.querySelectorAll(".option-btn");
+  const groupName = row.dataset.group;
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (groupName === "listing-type") {
+        buttons.forEach((btn) => btn.classList.remove("active"));
+        button.classList.add("active");
+      } else {
+        button.classList.toggle("active");
+      }
+    });
   });
 });
+
+updateQuantityDisplay();
