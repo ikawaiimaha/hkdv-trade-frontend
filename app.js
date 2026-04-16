@@ -1,70 +1,69 @@
-console.log("HKDV Trader OS shell loaded");
+const modal = document.getElementById("offer-modal");
+const openBtn = document.getElementById("open-offer-builder");
+const closeBtn = document.getElementById("close-offer");
 
-const openListModalBtn = document.getElementById("open-list-modal-btn");
-const listModalOverlay = document.getElementById("list-modal-overlay");
-const closeListModalBtn = document.getElementById("close-list-modal-btn");
-const cancelListModalBtn = document.getElementById("cancel-list-modal-btn");
+const selectableItems = document.querySelectorAll(".selectable");
+const offerBox = document.getElementById("offer-items");
+const fairnessBox = document.getElementById("fairness-indicator");
 
-const decreaseQtyBtn = document.getElementById("decrease-qty-btn");
-const increaseQtyBtn = document.getElementById("increase-qty-btn");
-const quantityDisplay = document.getElementById("quantity-display");
+let selectedItems = [];
+let totalValue = 0;
 
-let quantity = 1;
-const maxQuantity = 3;
+// target item value (fake baseline)
+const targetValue = 80;
 
-function openListModal() {
-  listModalOverlay.classList.remove("hidden");
-}
+openBtn.onclick = () => {
+  modal.classList.remove("hidden");
+};
 
-function closeListModal() {
-  listModalOverlay.classList.add("hidden");
-}
+closeBtn.onclick = () => {
+  modal.classList.add("hidden");
+  resetOffer();
+};
 
-function updateQuantityDisplay() {
-  quantityDisplay.textContent = quantity;
-}
+selectableItems.forEach(item => {
+  item.addEventListener("click", () => {
+    const value = Number(item.dataset.value);
+    const name = item.querySelector("h3").innerText;
 
-function increaseQuantity() {
-  if (quantity < maxQuantity) {
-    quantity += 1;
-    updateQuantityDisplay();
-  }
-}
+    selectedItems.push({ name, value });
+    totalValue += value;
 
-function decreaseQuantity() {
-  if (quantity > 1) {
-    quantity -= 1;
-    updateQuantityDisplay();
-  }
-}
-
-openListModalBtn.addEventListener("click", openListModal);
-closeListModalBtn.addEventListener("click", closeListModal);
-cancelListModalBtn.addEventListener("click", closeListModal);
-
-listModalOverlay.addEventListener("click", function (event) {
-  if (event.target === listModalOverlay) {
-    closeListModal();
-  }
-});
-
-increaseQtyBtn.addEventListener("click", increaseQuantity);
-decreaseQtyBtn.addEventListener("click", decreaseQuantity);
-
-document.querySelectorAll(".option-row").forEach((row) => {
-  const buttons = row.querySelectorAll(".option-btn");
-  const groupName = row.dataset.group;
-
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      if (groupName === "listing-type") {
-        buttons.forEach((btn) => btn.classList.remove("active"));
-        button.classList.add("active");
-      } else {
-        button.classList.toggle("active");
-      }
-    });
+    updateOfferUI();
   });
 });
 
-updateQuantityDisplay();
+function updateOfferUI() {
+  offerBox.innerHTML = selectedItems.map(i => i.name).join(", ");
+  evaluateFairness();
+}
+
+function evaluateFairness() {
+  let result = "";
+  let className = "";
+
+  if (totalValue === 0) {
+    result = "No offer yet";
+    className = "neutral";
+  } else if (totalValue < targetValue * 0.8) {
+    result = "Underpay";
+    className = "under";
+  } else if (totalValue > targetValue * 1.2) {
+    result = "Overpay";
+    className = "over";
+  } else {
+    result = "Fair";
+    className = "fair";
+  }
+
+  fairnessBox.innerText = result;
+  fairnessBox.className = "fairness " + className;
+}
+
+function resetOffer() {
+  selectedItems = [];
+  totalValue = 0;
+  offerBox.innerText = "Select items below";
+  fairnessBox.innerText = "No offer yet";
+  fairnessBox.className = "fairness neutral";
+}
