@@ -75,8 +75,14 @@
                   <h3>HK Lamp</h3>
                   <span class="item-badge item-badge-sr">SR</span>
                 </div>
+
+                <div class="item-signal-row">
+                  <span class="collection-chip">Petite Collection</span>
+                  <span class="demand-chip demand-medium">Medium Demand</span>
+                </div>
+
                 <p class="item-meta">Decor • Qty: 3</p>
-                <p class="item-value">Market Tier: SR</p>
+                <p class="item-value">Value Signal: SR • Petite • Medium</p>
               </div>
               <div class="item-actions">
                 <button class="secondary-btn">View</button>
@@ -91,8 +97,14 @@
                   <h3>HK Plush</h3>
                   <span class="item-badge item-badge-ssr">SSR</span>
                 </div>
+
+                <div class="item-signal-row">
+                  <span class="collection-chip">Sweet Collection</span>
+                  <span class="demand-chip demand-high">High Demand</span>
+                </div>
+
                 <p class="item-meta">Plush • Qty: 5</p>
-                <p class="item-value">Market Tier: SSR</p>
+                <p class="item-value">Value Signal: SSR • Sweet • High</p>
               </div>
               <div class="item-actions">
                 <button class="secondary-btn">View</button>
@@ -107,8 +119,14 @@
                   <h3>HK Chair</h3>
                   <span class="item-badge item-badge-r">R</span>
                 </div>
+
+                <div class="item-signal-row">
+                  <span class="collection-chip">Lucky Bag</span>
+                  <span class="demand-chip demand-low">Low Demand</span>
+                </div>
+
                 <p class="item-meta">Furniture • Qty: 1</p>
-                <p class="item-value">Market Tier: R</p>
+                <p class="item-value">Value Signal: R • Lucky Bag • Low</p>
               </div>
               <div class="item-actions">
                 <button class="secondary-btn">View</button>
@@ -133,12 +151,12 @@
                 <div class="duplicate-top">
                   <div>
                     <h3>HK Plush</h3>
-                    <p class="duplicate-tier">Tier: SSR</p>
+                    <p class="duplicate-tier">SSR • Sweet Collection</p>
                   </div>
-                  <span class="demand-badge">High Demand</span>
+                  <span class="demand-chip demand-high">High Demand</span>
                 </div>
                 <p class="duplicate-meta">Qty Available: 5</p>
-                <p class="duplicate-meta">Market Tier: SSR</p>
+                <p class="duplicate-meta">Trade Signal: premium wishlist target</p>
               </div>
               <div class="duplicate-actions">
                 <button class="secondary-btn">List 1</button>
@@ -152,12 +170,12 @@
                 <div class="duplicate-top">
                   <div>
                     <h3>HK Lamp</h3>
-                    <p class="duplicate-tier">Tier: SR</p>
+                    <p class="duplicate-tier">SR • Petite Collection</p>
                   </div>
-                  <span class="demand-badge">Medium Demand</span>
+                  <span class="demand-chip demand-medium">Medium Demand</span>
                 </div>
                 <p class="duplicate-meta">Qty Available: 3</p>
-                <p class="duplicate-meta">Market Tier: SR</p>
+                <p class="duplicate-meta">Trade Signal: solid filler or 1:1 SR swap</p>
               </div>
               <div class="duplicate-actions">
                 <button class="secondary-btn">List 1</button>
@@ -179,9 +197,16 @@
 
       <div class="modal-item-preview">
         <div class="modal-item-thumb">Item</div>
-        <div>
+        <div class="modal-item-info">
           <h3>HK Lamp</h3>
-          <p>Tier: SR • You own: 3</p>
+
+          <div class="modal-signal-row">
+            <span class="item-badge item-badge-sr">SR</span>
+            <span class="collection-chip">Petite Collection</span>
+            <span class="demand-chip demand-medium">Medium Demand</span>
+          </div>
+
+          <p>You own: 3</p>
         </div>
       </div>
 
@@ -195,7 +220,7 @@
       </div>
 
       <div class="modal-section">
-        <label class="modal-label" for="price">Price per item</label>
+        <label class="modal-label" for="price">Offer guidance</label>
         <input class="modal-input" id="price" type="number" value="400" min="1" />
       </div>
 
@@ -218,7 +243,7 @@
       </div>
 
       <div class="modal-total-row">
-        <span>Estimated total</span>
+        <span>Estimated offer signal</span>
         <strong id="estimated-total">400</strong>
       </div>
 
