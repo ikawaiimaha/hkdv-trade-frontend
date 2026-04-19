@@ -10,122 +10,394 @@
 
 <div class="app-shell">
 
+<!-- ===================== TOP NAV ===================== -->
 <header class="top-nav">
   <div class="nav-left">
-    <div class="brand">HKDV</div>
+    <div class="brand">
+      <span class="brand-hk">HK</span><span class="brand-dv">DV</span>
+    </div>
     <nav class="nav-links">
-      <a class="active">Dashboard</a>
-      <a>Inventory</a>
-      <a>Duplicates</a>
-      <a>Wishlist</a>
-      <a>Listings</a>
+      <a class="active" data-page="dashboard">Dashboard</a>
+      <a data-page="inventory">Inventory</a>
+      <a data-page="duplicates">Duplicates</a>
+      <a data-page="wishlist">Wishlist</a>
+      <a data-page="listings">Listings</a>
+      <a data-page="about">About</a>
+      <a data-page="how-to">How To Use</a>
     </nav>
   </div>
-  <button class="primary-btn small-btn">+ List</button>
+  <div class="nav-right">
+    <button class="icon-btn profile-btn" id="open-profile" title="My Profile">👤</button>
+    <button class="primary-btn small-btn">+ List</button>
+  </div>
 </header>
 
-<main class="page-shell">
+<!-- ===================== DASHBOARD PAGE ===================== -->
+<main class="page-shell" id="page-dashboard">
 
-<h1>Dashboard</h1>
-<p class="subtitle">Inventory Preview</p>
+  <!-- FEATURED BAGS SECTION -->
+  <section class="featured-section">
+    <div class="featured-header">
+      <div>
+        <h2 class="featured-title">✨ Featured Bags</h2>
+        <p class="featured-subtitle">Most wanted items on the market right now</p>
+      </div>
+    </div>
+    <div class="featured-grid" id="featured-grid">
+      <!-- Populated by JS -->
+      <div class="featured-card skeleton-card"></div>
+      <div class="featured-card skeleton-card"></div>
+      <div class="featured-card skeleton-card"></div>
+    </div>
+  </section>
 
-<!-- 🔥 REAL INVENTORY ON DASHBOARD -->
-<div class="item-grid">
+  <h1>Dashboard</h1>
+  <p class="subtitle">Inventory Preview</p>
 
-  <article class="item-card target-card">
-    <div class="item-image"></div>
-    <h3>HK Lamp</h3>
-    <p>SR • Petite • Medium Demand</p>
-    <button class="primary-btn" id="open-offer">Make Offer</button>
-  </article>
+  <div class="item-grid">
 
-  <article class="item-card">
-    <div class="item-image"></div>
-    <h3>HK Plush</h3>
-    <p>SSR • Sweet • High Demand</p>
-  </article>
+    <article class="item-card target-card" data-item-id="demo-1"
+      data-name="HK Lamp" data-tier="SR" data-rarity="Super Rare"
+      data-demand="Medium" data-value="80" data-collection="Petite"
+      data-image="" data-wiki="">
+      <div class="item-image clickable-thumb" title="Click for details"></div>
+      <div class="item-content">
+        <div class="item-top">
+          <h3>HK Lamp</h3>
+          <span class="tier-badge sr">SR</span>
+        </div>
+        <div class="signal-row">
+          <span class="chip collection">Petite</span>
+          <span class="chip demand medium">Medium Demand</span>
+        </div>
+        <button class="primary-btn" data-open-offer="demo-1">Make Offer</button>
+      </div>
+    </article>
 
-  <article class="item-card">
-    <div class="item-image"></div>
-    <h3>HK Lamp</h3>
-    <p>SR • Petite • Medium Demand</p>
-  </article>
+    <article class="item-card" data-item-id="demo-2"
+      data-name="HK Plush" data-tier="SSR" data-rarity="Super Super Rare"
+      data-demand="High" data-value="120" data-collection="Sweet"
+      data-image="" data-wiki="">
+      <div class="item-image clickable-thumb" title="Click for details"></div>
+      <div class="item-content">
+        <div class="item-top">
+          <h3>HK Plush</h3>
+          <span class="tier-badge ssr">SSR</span>
+        </div>
+        <div class="signal-row">
+          <span class="chip collection">Sweet</span>
+          <span class="chip demand high">High Demand</span>
+        </div>
+      </div>
+    </article>
 
-  <article class="item-card">
-    <div class="item-image"></div>
-    <h3>HK Chair</h3>
-    <p>R • Lucky • Low Demand</p>
-  </article>
+    <article class="item-card" data-item-id="demo-3"
+      data-name="HK Chair" data-tier="R" data-rarity="Rare"
+      data-demand="Low" data-value="30" data-collection="Lucky"
+      data-image="" data-wiki="">
+      <div class="item-image clickable-thumb" title="Click for details"></div>
+      <div class="item-content">
+        <div class="item-top">
+          <h3>HK Chair</h3>
+          <span class="tier-badge r">R</span>
+        </div>
+        <div class="signal-row">
+          <span class="chip collection">Lucky</span>
+          <span class="chip demand low">Low Demand</span>
+        </div>
+      </div>
+    </article>
 
-</div>
-
+  </div>
 </main>
-</div>
 
-<!-- MODAL -->
+<!-- ===================== ABOUT PAGE ===================== -->
+<main class="page-shell hidden" id="page-about">
+  <div class="cute-page">
+    <div class="cute-hero">
+      <div class="cute-icon-big">🎀</div>
+      <h1 class="cute-title">What is HKDV?</h1>
+      <p class="cute-lead">A cosy trading desk for Hello Kitty Dream Village collectors — built with love for the community.</p>
+    </div>
+
+    <div class="about-cards">
+      <div class="about-card">
+        <div class="about-card-icon">🛍️</div>
+        <h3>Trade Your Bags</h3>
+        <p>List your duplicate items and make offers on the ones you want. Every trade is tracked and fair-valued automatically.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">⭐</div>
+        <h3>Build Reputation</h3>
+        <p>Every completed trade adds to your Trader Score. The community can see your track record before accepting offers.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🔍</div>
+        <h3>Wiki-Powered Values</h3>
+        <p>Item values are calculated from real HKDV wiki data — rarity, source, demand, and release timing all factor in.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🌸</div>
+        <h3>Community First</h3>
+        <p>No fees, no bots — just traders who love the game. Disputes are handled by trusted admins, always fairly.</p>
+      </div>
+    </div>
+
+    <div class="about-mission">
+      <h2>Our Mission</h2>
+      <p>HKDV Trader OS was built because the trading community deserved a real home — somewhere that respects the value of every bag, every trade, and every player. Whether you're a brand-new collector or a seasoned SSR hunter, you belong here. 💖</p>
+    </div>
+  </div>
+</main>
+
+<!-- ===================== HOW TO USE PAGE ===================== -->
+<main class="page-shell hidden" id="page-how-to">
+  <div class="cute-page">
+    <div class="cute-hero">
+      <div class="cute-icon-big">📖</div>
+      <h1 class="cute-title">How To Use</h1>
+      <p class="cute-lead">Your step-by-step guide to trading like a pro. It's easier than it looks, promise!</p>
+    </div>
+
+    <div class="steps-list">
+
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-body">
+          <h3>Set Up Your Profile 🐱</h3>
+          <p>Click the <strong>👤</strong> icon in the top right. Add your display name, buddy, title, and any social links so other traders can find you. Your profile code lets people look you up quickly.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-body">
+          <h3>Add Items to Your Inventory 🎒</h3>
+          <p>Head to <strong>Inventory</strong> and add the bags you own. Mark any duplicates — those are your trading currency! The platform tracks quantity and availability automatically.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-body">
+          <h3>Build Your Wishlist 💫</h3>
+          <p>Go to <strong>Wishlist</strong> and add items you're hunting for. Set a priority (1 = must have!) and desired quantity. The platform will help match you with traders who have them listed.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <div class="step-body">
+          <h3>Create a Listing 📋</h3>
+          <p>Click <strong>+ List</strong> to put an item up for trade. You can specify what you want in return, or leave it open. Choose your trade mode: direct swap, open offer, or collection match.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">5</div>
+        <div class="step-body">
+          <h3>Make or Receive Offers 🤝</h3>
+          <p>Browse <strong>Listings</strong> and make offers by selecting items from your inventory. The <strong>Fairness Meter</strong> tells you if your offer is underpaying, fair, or generous — based on wiki values.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">6</div>
+        <div class="step-body">
+          <h3>Complete the Trade ✅</h3>
+          <p>Once both traders confirm, the trade is marked complete and your reputation score updates. If something goes wrong, you can open a <strong>dispute</strong> and an admin will review.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="howto-tip">
+      <span class="tip-icon">💡</span>
+      <p><strong>Pro tip:</strong> Click any item thumbnail anywhere on the site to see its full details — tier, rarity, demand, wiki value, and a link to the wiki page.</p>
+    </div>
+
+  </div>
+</main>
+
+<!-- ===================== PLACEHOLDER PAGES ===================== -->
+<main class="page-shell hidden" id="page-inventory">
+  <h1>Inventory</h1><p class="subtitle">Your item holdings.</p>
+</main>
+<main class="page-shell hidden" id="page-duplicates">
+  <h1>Duplicates</h1><p class="subtitle">Items you own more than once — ready to trade.</p>
+</main>
+<main class="page-shell hidden" id="page-wishlist">
+  <h1>Wishlist</h1><p class="subtitle">Items you're hunting for.</p>
+</main>
+<main class="page-shell hidden" id="page-listings">
+  <h1>Listings</h1><p class="subtitle">Active market listings.</p>
+</main>
+
+</div><!-- end app-shell -->
+
+<!-- ===================== OFFER MODAL ===================== -->
 <div class="modal-overlay hidden" id="offer-modal">
   <div class="modal-card">
-
     <div class="modal-header">
       <h2>Make Offer</h2>
       <button id="close-offer" class="icon-btn">×</button>
     </div>
-
     <div class="modal-section">
       <h4>You Want</h4>
-      <div class="offer-box">
-        HK Lamp (SR • Petite)
-      </div>
+      <div class="offer-box" id="offer-target">—</div>
     </div>
-
     <div class="modal-section">
       <h4>You Offer</h4>
-      <div id="offer-items" class="offer-box empty">
-        Select items below
-      </div>
+      <div id="offer-items" class="offer-box empty">Select items below</div>
     </div>
-
-    <!-- 🔥 INTERACTIVE INVENTORY -->
     <div class="modal-section">
-      <h4>Select Items</h4>
-
+      <h4>Select from Inventory</h4>
       <div class="item-grid">
-
         <article class="item-card selectable" data-name="HK Plush" data-value="100">
           <div class="item-image"></div>
-          <h3>HK Plush</h3>
+          <div class="item-content"><h3>HK Plush</h3></div>
         </article>
-
         <article class="item-card selectable" data-name="HK Lamp" data-value="60">
           <div class="item-image"></div>
-          <h3>HK Lamp</h3>
+          <div class="item-content"><h3>HK Lamp</h3></div>
         </article>
-
         <article class="item-card selectable" data-name="HK Chair" data-value="30">
           <div class="item-image"></div>
-          <h3>HK Chair</h3>
+          <div class="item-content"><h3>HK Chair</h3></div>
         </article>
-
       </div>
-
     </div>
-
     <div class="modal-section">
       <h4>Fairness</h4>
-      <div id="fairness" class="fairness neutral">
-        No offer yet
-      </div>
+      <div id="fairness" class="fairness neutral">No offer yet</div>
     </div>
-
     <div class="modal-footer">
       <button class="secondary-btn" id="cancel-offer">Cancel</button>
       <button class="primary-btn">Send Offer</button>
     </div>
-
   </div>
 </div>
 
-<script src="app.js"></script>
+<!-- ===================== ITEM DETAIL MODAL ===================== -->
+<div class="modal-overlay hidden" id="item-modal">
+  <div class="modal-card item-detail-card">
+    <div class="modal-header">
+      <h2 id="item-modal-name">Item Name</h2>
+      <button id="close-item-modal" class="icon-btn">×</button>
+    </div>
+    <div class="item-detail-image" id="item-modal-image">
+      <span class="item-image-placeholder">🎀</span>
+    </div>
+    <div class="item-detail-badges" id="item-modal-badges"></div>
+    <div class="item-detail-grid">
+      <div class="item-detail-row">
+        <span class="detail-label">Tier</span>
+        <span class="detail-value" id="item-modal-tier">—</span>
+      </div>
+      <div class="item-detail-row">
+        <span class="detail-label">Rarity</span>
+        <span class="detail-value" id="item-modal-rarity">—</span>
+      </div>
+      <div class="item-detail-row">
+        <span class="detail-label">Demand</span>
+        <span class="detail-value" id="item-modal-demand">—</span>
+      </div>
+      <div class="item-detail-row">
+        <span class="detail-label">Collection</span>
+        <span class="detail-value" id="item-modal-collection">—</span>
+      </div>
+      <div class="item-detail-row">
+        <span class="detail-label">Value</span>
+        <span class="detail-value item-detail-value-num" id="item-modal-value">—</span>
+      </div>
+    </div>
+    <div class="modal-footer" style="margin-top:16px;">
+      <a id="item-modal-wiki-link" class="secondary-btn" href="#" target="_blank" rel="noopener" style="display:none;text-decoration:none;text-align:center;">View on Wiki ↗</a>
+      <button class="primary-btn" id="item-modal-offer-btn">Make Offer</button>
+    </div>
+  </div>
+</div>
 
+<!-- ===================== PROFILE MODAL ===================== -->
+<div class="modal-overlay hidden" id="profile-modal">
+  <div class="modal-card profile-card">
+    <div class="modal-header">
+      <h2>My Profile</h2>
+      <button id="close-profile-modal" class="icon-btn">×</button>
+    </div>
+
+    <div class="profile-avatar-row">
+      <div class="profile-avatar-circle" id="profile-avatar-preview">🐱</div>
+    </div>
+
+    <div class="profile-form">
+      <label class="form-label">Display Name
+        <input class="form-input" id="pf-display-name" type="text" placeholder="Kitty Collector" />
+      </label>
+      <label class="form-label">Bio
+        <textarea class="form-input form-textarea" id="pf-bio" placeholder="Tell traders a bit about you..."></textarea>
+      </label>
+      <label class="form-label">Buddy
+        <input class="form-input" id="pf-buddy" type="text" placeholder="Hello Kitty" />
+      </label>
+      <label class="form-label">Title
+        <input class="form-input" id="pf-title" type="text" placeholder="SSR Hunter" />
+      </label>
+
+      <div class="form-divider">
+        <span>Social Links</span>
+      </div>
+
+      <label class="form-label social-label">
+        <span class="social-icon">💬</span> Discord
+        <input class="form-input" id="pf-discord" type="text" placeholder="yourname#0000" />
+      </label>
+      <label class="form-label social-label">
+        <span class="social-icon">🐦</span> Twitter / X
+        <input class="form-input" id="pf-twitter" type="text" placeholder="@yourhandle" />
+      </label>
+      <label class="form-label social-label">
+        <span class="social-icon">📸</span> Instagram
+        <input class="form-input" id="pf-instagram" type="text" placeholder="@yourhandle" />
+      </label>
+      <label class="form-label social-label">
+        <span class="social-icon">▶️</span> YouTube
+        <input class="form-input" id="pf-youtube" type="text" placeholder="youtube.com/c/yourchannel" />
+      </label>
+      <label class="form-label social-label">
+        <span class="social-icon">🎵</span> TikTok
+        <input class="form-input" id="pf-tiktok" type="text" placeholder="@yourhandle" />
+      </label>
+    </div>
+
+    <div class="modal-footer" style="margin-top:20px;">
+      <button class="secondary-btn" id="cancel-profile">Cancel</button>
+      <button class="primary-btn" id="save-profile">Save Profile</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PAYPAL SUPPORT WIDGET ===================== -->
+<div class="support-fab" id="support-fab" title="Support HKDV">
+  <span class="support-fab-icon">☕</span>
+  <span class="support-fab-label">Support</span>
+</div>
+
+<div class="support-popup hidden" id="support-popup">
+  <div class="support-popup-header">
+    <span>Support HKDV 💖</span>
+    <button class="icon-btn" id="close-support">×</button>
+  </div>
+  <p class="support-popup-body">This platform is free and community-run. If it's helped your trading, consider buying us a coffee to keep the server lights on!</p>
+  <a class="paypal-btn" href="https://paypal.me/HKDVOS" target="_blank" rel="noopener">
+    <svg class="paypal-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M7.076 21.337H2.47a.641.641 0 01-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 00-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 00-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 00.554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 01.923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z" fill="#009cde"/>
+    </svg>
+    Donate via PayPal
+  </a>
+  <p class="support-popup-note">Every contribution helps! Thank you 🌸</p>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
