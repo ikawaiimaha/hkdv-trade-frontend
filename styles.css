@@ -592,3 +592,149 @@ h1 { margin: 0 0 6px; font-size: 40px; font-weight: 800; }
   .support-fab  { bottom: 16px; right: 16px; }
   .support-popup { right: 16px; width: calc(100vw - 32px); }
 }
+
+/* ── Auth Modal ─────────────────────────────────────────────── */
+.auth-card { max-width: 420px; }
+
+.auth-tabs {
+  display: flex;
+  gap: 4px;
+  background: #f1efff;
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 20px;
+}
+.auth-tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  border-radius: 9px;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #66667a;
+  transition: background 0.15s, color 0.15s;
+  font-family: inherit;
+}
+.auth-tab.active {
+  background: #ffffff;
+  color: #3a35a0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.auth-hero { text-align: center; margin-bottom: 16px; }
+.auth-intro {
+  font-size: 13px;
+  color: #66667a;
+  line-height: 1.6;
+  margin: 0;
+  background: #f8f6ff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 1px solid #e8e4ff;
+}
+
+.form-hint { font-weight: 400; color: #999; font-size: 12px; }
+
+.full-btn { width: 100%; }
+
+.auth-error {
+  background: #ffd4d4;
+  color: #8a1c1c;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* ── Fullscreen Gate Screens ────────────────────────────────── */
+.fullscreen-gate {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #fdf5ff 0%, #fff0f5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 1000;
+}
+
+.gate-card {
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 48px 40px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 80px rgba(58,53,160,0.12);
+}
+
+.gate-icon  { font-size: 56px; margin-bottom: 16px; }
+.gate-title { margin: 0 0 14px; font-size: 28px; font-weight: 800; color: #2a2550; }
+.gate-body  { margin: 0; font-size: 15px; color: #66667a; line-height: 1.6; }
+
+.gate-note {
+  margin-top: 20px;
+  background: #fff8e8;
+  border: 1px solid #ffe7b8;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #7a5a00;
+}
+
+/* ── Admin Queue Panel ──────────────────────────────────────── */
+.admin-card   { max-width: 560px; }
+.admin-subtitle { margin: -12px 0 18px; font-size: 14px; color: #66667a; }
+
+.queue-empty {
+  text-align: center;
+  padding: 32px;
+  color: #99997a;
+  font-size: 14px;
+}
+
+.queue-card {
+  border: 1.5px solid #e7e7ef;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: border-color 0.15s;
+}
+.queue-card:last-child { margin-bottom: 0; }
+.queue-card:hover { border-color: #c8c4f0; }
+
+.queue-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.queue-name  { font-weight: 800; font-size: 15px; color: #1f1f2b; margin-bottom: 2px; }
+.queue-email { font-size: 13px; color: #66667a; margin-bottom: 2px; }
+.queue-date  { font-size: 12px; color: #aaa; }
+
+.queue-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+.approve-btn { background: #3a35a0 !important; }
+.reject-btn  { background: #efeff5 !important; color: #e8416c !important; }
+
+.queue-note {
+  font-size: 13px;
+  color: #4a4a5e;
+  background: #f8f6ff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  line-height: 1.6;
+  font-style: italic;
+}
+.queue-note.muted { color: #bbb; font-style: normal; }
+
+.queue-card-done { opacity: 0.5; pointer-events: none; }
+.queue-done-msg  { text-align: center; padding: 12px; font-weight: 700; font-size: 14px; color: #3a35a0; }
+
+.muted { color: #66667a; }

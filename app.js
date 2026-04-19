@@ -1,31 +1,307 @@
 // ============================================================
 // HKDV Trader OS — app.js
-// Features: SPA nav, item detail modal, offer modal,
-//           profile + socials modal, PayPal support widget,
-//           featured bags section
 // ============================================================
 
-// ── SPA Navigation ──────────────────────────────────────────
-const pages = document.querySelectorAll('.page-shell');
+// ── Supabase client (swap URL + key for production) ──────────
+// import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+// const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+//
+// For now: stub object so the UI wires up without a live connection.
+// Replace with the real createClient call when connecting auth.
+const supabase = {
+  auth: {
+    signUp:    async (opts) => ({ data: null, error: { message: 'Supabase not connected yet — wire up createClient()' } }),
+    signInWithPassword: async (opts) => ({ data: null, error: { message: 'Supabase not connected yet — wire up createClient()' } }),
+    signOut:   async () => {},
+    getSession: async () => ({ data: { session: null } }),
+  },
+  rpc: async (fn, args) => ({ data: null, error: null }),
+};
+
+// ── Auth state ───────────────────────────────────────────────
+let currentSession  = null;
+let currentTrader   = null;  // { id, display_name, is_admin, is_approved, ... }
+let appStatus       = 'loading'; // loading | unauthenticated | pending | rejected | approved
+
+async function bootAuth() {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    setAppStatus('unauthenticated');
+    return;
+  }
+  currentSession = session;
+  await resolveTraderStatus();
+}
+
+async function resolveTraderStatus() {
+  const { data, error } = await supabase.rpc('get_my_application_status');
+  if (error || !data) { setAppStatus('unauthenticated'); return; }
+
+  switch (data.status) {
+    case 'approved':
+      currentTrader = data;
+      setAppStatus('approved');
+      break;
+    case 'pending':
+      setAppStatus('pending');
+      break;
+    case 'rejected':
+      setAppStatus('rejected');
+      break;
+    default:
+      setAppStatus('unauthenticated');
+  }
+}
+
+function setAppStatus(status) {
+  appStatus = status;
+
+  const appShell     = document.querySelector('.app-shell');
+  const pendingScr   = document.getElementById('pending-screen');
+  const rejectedScr  = document.getElementById('rejected-screen');
+  const joinBtn      = document.getElementById('nav-join-btn');
+  const profileBtn   = document.getElementById('open-profile');
+  const listBtn      = document.getElementById('nav-list-btn');
+  const adminBtn     = document.getElementById('open-admin-queue');
+
+  // hide all gates first
+  appShell.classList.remove('hidden');
+  pendingScr.classList.add('hidden');
+  rejectedScr.classList.add('hidden');
+
+  if (status === 'unauthenticated') {
+    joinBtn.classList.remove('hidden');
+    profileBtn.classList.add('hidden');
+    listBtn.classList.add('hidden');
+    adminBtn.classList.add('hidden');
+    showPage('dashboard');
+  } else if (status === 'pending') {
+    appShell.classList.add('hidden');
+    pendingScr.classList.remove('hidden');
+  } else if (status === 'rejected') {
+    appShell.classList.add('hidden');
+    rejectedScr.classList.remove('hidden');
+  } else if (status === 'approved') {
+    joinBtn.classList.add('hidden');
+    profileBtn.classList.remove('hidden');
+    listBtn.classList.remove('hidden');
+    if (currentTrader && currentTrader.is_admin) adminBtn.classList.remove('hidden');
+    showPage('dashboard');
+  }
+}
+
+// ── SPA Navigation ───────────────────────────────────────────
+const pages    = document.querySelectorAll('.page-shell');
 const navLinks = document.querySelectorAll('.nav-links a');
 
 function showPage(id) {
   pages.forEach(p => p.classList.add('hidden'));
   const target = document.getElementById('page-' + id);
   if (target) target.classList.remove('hidden');
-  navLinks.forEach(a => {
-    a.classList.toggle('active', a.dataset.page === id);
-  });
+  navLinks.forEach(a => a.classList.toggle('active', a.dataset.page === id));
   if (id === 'dashboard') loadFeatured();
 }
 
-navLinks.forEach(a => {
-  a.addEventListener('click', () => showPage(a.dataset.page));
+navLinks.forEach(a => a.addEventListener('click', () => showPage(a.dataset.page)));
+
+// ── Auth Modal ───────────────────────────────────────────────
+const authModal = document.getElementById('auth-modal');
+
+document.getElementById('nav-join-btn').addEventListener('click', () => {
+  authModal.classList.remove('hidden');
+});
+document.getElementById('close-auth-modal').addEventListener('click', () => {
+  authModal.classList.add('hidden');
+});
+authModal.addEventListener('click', e => {
+  if (e.target === authModal) authModal.classList.add('hidden');
+});
+
+// Tab switcher
+document.querySelectorAll('.auth-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const isSignup = tab.dataset.tab === 'signup';
+    document.getElementById('auth-signup-form').classList.toggle('hidden', !isSignup);
+    document.getElementById('auth-login-form').classList.toggle('hidden', isSignup);
+    document.getElementById('auth-modal-title').textContent = isSignup ? 'Join HKDV' : 'Welcome Back';
+  });
+});
+
+// Sign Up
+document.getElementById('btn-signup').addEventListener('click', async () => {
+  const displayName = document.getElementById('su-display-name').value.trim();
+  const email       = document.getElementById('su-email').value.trim();
+  const password    = document.getElementById('su-password').value;
+  const note        = document.getElementById('su-note').value.trim();
+  const errBox      = document.getElementById('auth-error');
+
+  errBox.classList.add('hidden');
+
+  if (!displayName || !email || !password || !note) {
+    showAuthError(errBox, 'Please fill in all fields.');
+    return;
+  }
+  if (password.length < 8) {
+    showAuthError(errBox, 'Password must be at least 8 characters.');
+    return;
+  }
+
+  const btn = document.getElementById('btn-signup');
+  btn.textContent = 'Submitting…';
+  btn.disabled = true;
+
+  const { data, error } = await supabase.auth.signUp({
+    email, password,
+    options: {
+      data: { display_name: displayName, application_note: note }
+    }
+  });
+
+  btn.textContent = 'Apply for Access';
+  btn.disabled = false;
+
+  if (error) { showAuthError(errBox, error.message); return; }
+
+  authModal.classList.add('hidden');
+  // Trigger will have created the trader row as pending
+  await resolveTraderStatus();
+});
+
+// Log In
+document.getElementById('btn-login').addEventListener('click', async () => {
+  const email    = document.getElementById('li-email').value.trim();
+  const password = document.getElementById('li-password').value;
+  const errBox   = document.getElementById('login-error');
+
+  errBox.classList.add('hidden');
+
+  const btn = document.getElementById('btn-login');
+  btn.textContent = 'Logging in…';
+  btn.disabled = true;
+
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+  btn.textContent = 'Log In';
+  btn.disabled = false;
+
+  if (error) { showAuthError(errBox, error.message); return; }
+
+  currentSession = data.session;
+  authModal.classList.add('hidden');
+  await resolveTraderStatus();
+});
+
+function showAuthError(box, msg) {
+  box.textContent = msg;
+  box.classList.remove('hidden');
+}
+
+// Pending / Rejected logout
+document.getElementById('pending-logout').addEventListener('click', async () => {
+  await supabase.auth.signOut();
+  currentSession = null;
+  currentTrader  = null;
+  setAppStatus('unauthenticated');
+});
+document.getElementById('rejected-logout').addEventListener('click', async () => {
+  await supabase.auth.signOut();
+  currentSession = null;
+  currentTrader  = null;
+  setAppStatus('unauthenticated');
+});
+
+// ── Admin Queue Panel ─────────────────────────────────────────
+const adminModal = document.getElementById('admin-modal');
+
+document.getElementById('open-admin-queue').addEventListener('click', async () => {
+  adminModal.classList.remove('hidden');
+  await loadPendingQueue();
+});
+document.getElementById('close-admin-modal').addEventListener('click', () => {
+  adminModal.classList.add('hidden');
+});
+adminModal.addEventListener('click', e => {
+  if (e.target === adminModal) adminModal.classList.add('hidden');
+});
+
+async function loadPendingQueue() {
+  const list = document.getElementById('admin-queue-list');
+  list.innerHTML = '<div class="queue-empty">Loading…</div>';
+
+  const { data, error } = await supabase.rpc('get_pending_traders');
+
+  if (error) {
+    list.innerHTML = `<div class="queue-empty">Error: ${error.message}</div>`;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    list.innerHTML = '<div class="queue-empty">🎉 No pending applications.</div>';
+    return;
+  }
+
+  list.innerHTML = '';
+  data.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'queue-card';
+    card.dataset.id = t.trader_id;
+    card.innerHTML = `
+      <div class="queue-card-top">
+        <div>
+          <div class="queue-name">${escHtml(t.display_name)}</div>
+          <div class="queue-email">${escHtml(t.email)}</div>
+          <div class="queue-date">Applied ${formatDate(t.applied_at)}</div>
+        </div>
+        <div class="queue-actions">
+          <button class="approve-btn primary-btn small-btn" data-id="${t.trader_id}">Approve</button>
+          <button class="reject-btn secondary-btn small-btn" data-id="${t.trader_id}">Reject</button>
+        </div>
+      </div>
+      ${t.application_note
+        ? `<div class="queue-note">"${escHtml(t.application_note)}"</div>`
+        : '<div class="queue-note muted">No application note provided.</div>'}
+    `;
+    list.appendChild(card);
+  });
+}
+
+// Approve / Reject delegation
+document.getElementById('admin-queue-list').addEventListener('click', async e => {
+  const approveBtn = e.target.closest('.approve-btn');
+  const rejectBtn  = e.target.closest('.reject-btn');
+
+  if (!approveBtn && !rejectBtn) return;
+
+  const traderId = (approveBtn || rejectBtn).dataset.id;
+  const rpcName  = approveBtn ? 'admin_approve_trader' : 'admin_reject_trader';
+  const btn      = approveBtn || rejectBtn;
+
+  btn.disabled = true;
+  btn.textContent = '…';
+
+  const { error } = await supabase.rpc(rpcName, { p_trader_id: traderId });
+
+  if (error) {
+    showToast(`Error: ${error.message}`);
+    btn.disabled = false;
+    btn.textContent = approveBtn ? 'Approve' : 'Reject';
+    return;
+  }
+
+  // Remove the card from queue
+  const card = document.querySelector(`.queue-card[data-id="${traderId}"]`);
+  if (card) {
+    card.classList.add('queue-card-done');
+    card.innerHTML = `<div class="queue-done-msg">${approveBtn ? '✅ Approved' : '❌ Rejected'}</div>`;
+    setTimeout(() => card.remove(), 1800);
+  }
+
+  showToast(approveBtn ? 'Trader approved! 🎉' : 'Application rejected.');
 });
 
 // ── Featured Bags ────────────────────────────────────────────
-// In production: call supabase.rpc('get_featured_items')
-// Here: placeholder data matching the RPC shape
 const DEMO_FEATURED = [
   { item_name: 'HK Starlight Lamp',  item_tier: 'SSR', wiki_rarity: 'Super Super Rare', demand: 'high',   value: 220, description: 'The rarest lamp in Dream Village — everyone wants one!', listing_count: 14, image_url: '' },
   { item_name: 'Melody Plush Pouch', item_tier: 'SR',  wiki_rarity: 'Super Rare',       demand: 'high',   value: 95,  description: 'Consistently the most-traded item this season.',    listing_count: 11, image_url: '' },
@@ -36,7 +312,7 @@ function renderFeatured(items) {
   const grid = document.getElementById('featured-grid');
   grid.innerHTML = '';
   items.forEach(item => {
-    const tierClass = (item.item_tier || '').toLowerCase();
+    const tierClass   = (item.item_tier || '').toLowerCase();
     const demandClass = (item.demand || '').toLowerCase();
     const card = document.createElement('div');
     card.className = 'featured-card';
@@ -64,41 +340,38 @@ function renderFeatured(items) {
 }
 
 function loadFeatured() {
-  // TODO: replace with: supabase.rpc('get_featured_items').then(({ data }) => renderFeatured(data))
+  // TODO: replace with supabase.rpc('get_featured_items').then(({ data }) => renderFeatured(data))
   renderFeatured(DEMO_FEATURED);
 }
 
 // ── Item Detail Modal ────────────────────────────────────────
-const itemModal        = document.getElementById('item-modal');
-const itemModalName    = document.getElementById('item-modal-name');
-const itemModalImage   = document.getElementById('item-modal-image');
-const itemModalTier    = document.getElementById('item-modal-tier');
-const itemModalRarity  = document.getElementById('item-modal-rarity');
-const itemModalDemand  = document.getElementById('item-modal-demand');
-const itemModalColl    = document.getElementById('item-modal-collection');
-const itemModalValue   = document.getElementById('item-modal-value');
-const itemModalBadges  = document.getElementById('item-modal-badges');
-const itemModalWiki    = document.getElementById('item-modal-wiki-link');
-const itemModalOffer   = document.getElementById('item-modal-offer-btn');
-let   activeItemData   = null;
+const itemModal       = document.getElementById('item-modal');
+const itemModalName   = document.getElementById('item-modal-name');
+const itemModalImage  = document.getElementById('item-modal-image');
+const itemModalTier   = document.getElementById('item-modal-tier');
+const itemModalRarity = document.getElementById('item-modal-rarity');
+const itemModalDemand = document.getElementById('item-modal-demand');
+const itemModalColl   = document.getElementById('item-modal-collection');
+const itemModalValue  = document.getElementById('item-modal-value');
+const itemModalBadges = document.getElementById('item-modal-badges');
+const itemModalWiki   = document.getElementById('item-modal-wiki-link');
+const itemModalOffer  = document.getElementById('item-modal-offer-btn');
+let activeItemData    = null;
 
 function openItemDetail(card) {
   const d = card.dataset;
   activeItemData = d;
+  itemModalName.textContent   = d.name || '—';
+  itemModalTier.textContent   = d.tier || '—';
+  itemModalRarity.textContent = d.rarity || '—';
+  itemModalDemand.textContent = d.demand ? d.demand + ' Demand' : '—';
+  itemModalColl.textContent   = d.collection || '—';
+  itemModalValue.textContent  = d.value ? `${d.value} pts` : '—';
 
-  itemModalName.textContent  = d.name || '—';
-  itemModalTier.textContent  = d.tier || '—';
-  itemModalRarity.textContent= d.rarity || '—';
-  itemModalDemand.textContent= d.demand ? d.demand + ' Demand' : '—';
-  itemModalColl.textContent  = d.collection || '—';
-  itemModalValue.textContent = d.value ? `${d.value} pts` : '—';
-
-  // image
   itemModalImage.innerHTML = d.image
     ? `<img src="${d.image}" alt="${d.name}" class="item-detail-img" />`
     : `<span class="item-image-placeholder">🎀</span>`;
 
-  // badges
   const tierClass = (d.tier || '').toLowerCase();
   const demClass  = (d.demand || '').toLowerCase();
   itemModalBadges.innerHTML = `
@@ -107,38 +380,22 @@ function openItemDetail(card) {
     ${d.collection ? `<span class="chip collection">${d.collection}</span>` : ''}
   `;
 
-  // wiki link
-  if (d.wiki) {
-    itemModalWiki.href = d.wiki;
-    itemModalWiki.style.display = 'block';
-  } else {
-    itemModalWiki.style.display = 'none';
-  }
+  if (d.wiki) { itemModalWiki.href = d.wiki; itemModalWiki.style.display = 'block'; }
+  else          { itemModalWiki.style.display = 'none'; }
 
   itemModal.classList.remove('hidden');
 }
 
-document.getElementById('close-item-modal').addEventListener('click', () => {
-  itemModal.classList.add('hidden');
-});
-
-itemModal.addEventListener('click', e => {
-  if (e.target === itemModal) itemModal.classList.add('hidden');
-});
-
-// "Make Offer" from detail modal → hand off to offer modal
+document.getElementById('close-item-modal').addEventListener('click', () => itemModal.classList.add('hidden'));
+itemModal.addEventListener('click', e => { if (e.target === itemModal) itemModal.classList.add('hidden'); });
 itemModalOffer.addEventListener('click', () => {
   itemModal.classList.add('hidden');
   if (activeItemData) openOfferModal(activeItemData);
 });
 
-// Delegate click on .clickable-thumb → open item detail
 document.addEventListener('click', e => {
   const thumb = e.target.closest('.clickable-thumb');
-  if (thumb) {
-    const card = thumb.closest('[data-item-id]');
-    if (card) openItemDetail(card);
-  }
+  if (thumb) { const card = thumb.closest('[data-item-id]'); if (card) openItemDetail(card); }
 });
 
 // ── Offer Modal ──────────────────────────────────────────────
@@ -167,26 +424,15 @@ document.addEventListener('click', e => {
   }
 });
 
-document.getElementById('close-offer').addEventListener('click', () => {
-  offerModal.classList.add('hidden');
-  resetOffer();
-});
-document.getElementById('cancel-offer').addEventListener('click', () => {
-  offerModal.classList.add('hidden');
-  resetOffer();
-});
-offerModal.addEventListener('click', e => {
-  if (e.target === offerModal) { offerModal.classList.add('hidden'); resetOffer(); }
-});
+document.getElementById('close-offer').addEventListener('click', () => { offerModal.classList.add('hidden'); resetOffer(); });
+document.getElementById('cancel-offer').addEventListener('click', () => { offerModal.classList.add('hidden'); resetOffer(); });
+offerModal.addEventListener('click', e => { if (e.target === offerModal) { offerModal.classList.add('hidden'); resetOffer(); } });
 
-// selectable items inside offer modal
 document.addEventListener('click', e => {
   const item = e.target.closest('.selectable');
   if (!item || offerModal.classList.contains('hidden')) return;
-
   const value = Number(item.dataset.value);
   const name  = item.dataset.name;
-
   if (item.classList.contains('selected')) {
     item.classList.remove('selected');
     offerSelected = offerSelected.filter(i => i.name !== name);
@@ -209,20 +455,18 @@ function updateOfferUI() {
       offerSelected.map(i => `<span class="chip collection">${i.name}</span>`).join('') +
       `<div class="value-line">Total Value: ${offerTotal}</div>`;
   }
-
   let label = 'No offer yet', cls = 'neutral';
   if (offerTotal > 0) {
-    if      (offerTotal < offerTargetVal * 0.8)  { label = `Underpay (${offerTotal} vs ${offerTargetVal})`;  cls = 'under'; }
-    else if (offerTotal > offerTargetVal * 1.2)  { label = `Overpay (${offerTotal} vs ${offerTargetVal})`;   cls = 'over';  }
-    else                                          { label = `Fair (${offerTotal} vs ${offerTargetVal})`;      cls = 'fair';  }
+    if      (offerTotal < offerTargetVal * 0.8) { label = `Underpay (${offerTotal} vs ${offerTargetVal})`;  cls = 'under'; }
+    else if (offerTotal > offerTargetVal * 1.2) { label = `Overpay (${offerTotal} vs ${offerTargetVal})`;   cls = 'over';  }
+    else                                         { label = `Fair (${offerTotal} vs ${offerTargetVal})`;      cls = 'fair';  }
   }
   fairnessBox.textContent = label;
   fairnessBox.className   = 'fairness ' + cls;
 }
 
 function resetOffer() {
-  offerTotal    = 0;
-  offerSelected = [];
+  offerTotal = 0; offerSelected = [];
   document.querySelectorAll('.selectable').forEach(i => i.classList.remove('selected'));
   offerBox.innerHTML = 'Click items below';
   offerBox.classList.add('empty');
@@ -233,20 +477,12 @@ function resetOffer() {
 // ── Profile Modal ────────────────────────────────────────────
 const profileModal = document.getElementById('profile-modal');
 
-document.getElementById('open-profile').addEventListener('click', () => {
-  profileModal.classList.remove('hidden');
-});
-document.getElementById('close-profile-modal').addEventListener('click', () => {
-  profileModal.classList.add('hidden');
-});
-document.getElementById('cancel-profile').addEventListener('click', () => {
-  profileModal.classList.add('hidden');
-});
-profileModal.addEventListener('click', e => {
-  if (e.target === profileModal) profileModal.classList.add('hidden');
-});
+document.getElementById('open-profile').addEventListener('click', () => profileModal.classList.remove('hidden'));
+document.getElementById('close-profile-modal').addEventListener('click', () => profileModal.classList.add('hidden'));
+document.getElementById('cancel-profile').addEventListener('click', () => profileModal.classList.add('hidden'));
+profileModal.addEventListener('click', e => { if (e.target === profileModal) profileModal.classList.add('hidden'); });
 
-document.getElementById('save-profile').addEventListener('click', () => {
+document.getElementById('save-profile').addEventListener('click', async () => {
   const profile = {
     display_name: document.getElementById('pf-display-name').value.trim() || null,
     bio:          document.getElementById('pf-bio').value.trim()          || null,
@@ -260,8 +496,7 @@ document.getElementById('save-profile').addEventListener('click', () => {
       tiktok:    document.getElementById('pf-tiktok').value.trim()    || null,
     },
   };
-  // TODO: supabase.rpc('upsert_my_trader_profile', profile)
-  console.log('[profile] saving', profile);
+  // TODO: await supabase.rpc('upsert_my_trader_profile', profile)
   profileModal.classList.add('hidden');
   showToast('Profile saved! 🌸');
 });
@@ -269,16 +504,10 @@ document.getElementById('save-profile').addEventListener('click', () => {
 // ── PayPal Support Widget ─────────────────────────────────────
 const supportFab   = document.getElementById('support-fab');
 const supportPopup = document.getElementById('support-popup');
+supportFab.addEventListener('click', () => supportPopup.classList.toggle('hidden'));
+document.getElementById('close-support').addEventListener('click', e => { e.stopPropagation(); supportPopup.classList.add('hidden'); });
 
-supportFab.addEventListener('click', () => {
-  supportPopup.classList.toggle('hidden');
-});
-document.getElementById('close-support').addEventListener('click', e => {
-  e.stopPropagation();
-  supportPopup.classList.add('hidden');
-});
-
-// ── Toast ─────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────
 function showToast(msg) {
   let toast = document.getElementById('hkdv-toast');
   if (!toast) {
@@ -292,11 +521,19 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('visible'), 3000);
 }
 
-// ── Helpers ───────────────────────────────────────────────────
 function cap(s) {
   if (!s) return '';
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 }
 
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function formatDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+}
+
 // ── Boot ──────────────────────────────────────────────────────
-showPage('dashboard');
+bootAuth();

@@ -27,8 +27,10 @@
     </nav>
   </div>
   <div class="nav-right">
-    <button class="icon-btn profile-btn" id="open-profile" title="My Profile">👤</button>
-    <button class="primary-btn small-btn">+ List</button>
+    <button class="icon-btn hidden" id="open-admin-queue" title="Approval Queue">🛡️</button>
+    <button class="icon-btn hidden profile-btn" id="open-profile" title="My Profile">👤</button>
+    <button class="primary-btn small-btn hidden" id="nav-list-btn">+ List</button>
+    <button class="primary-btn small-btn" id="nav-join-btn">Join / Log In</button>
   </div>
 </header>
 
@@ -399,5 +401,98 @@
 </div>
 
 <script src="app.js"></script>
+
+<!-- ===================== AUTH MODAL (Sign Up / Log In) ===================== -->
+<div class="modal-overlay hidden" id="auth-modal">
+  <div class="modal-card auth-card">
+    <div class="modal-header">
+      <h2 id="auth-modal-title">Join HKDV</h2>
+      <button class="icon-btn" id="close-auth-modal">×</button>
+    </div>
+
+    <!-- Tab switcher -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="signup">Sign Up</button>
+      <button class="auth-tab" data-tab="login">Log In</button>
+    </div>
+
+    <!-- Sign Up form -->
+    <div id="auth-signup-form">
+      <div class="auth-hero">
+        <div class="cute-icon-big" style="font-size:36px;margin-bottom:8px;">🌸</div>
+        <p class="auth-intro">HKDV is an invite-reviewed community. Tell us a little about yourself and an admin will approve your access.</p>
+      </div>
+      <div class="profile-form" style="gap:10px;">
+        <label class="form-label">Display Name
+          <input class="form-input" id="su-display-name" type="text" placeholder="How you'll appear to other traders" />
+        </label>
+        <label class="form-label">Email
+          <input class="form-input" id="su-email" type="email" placeholder="your@email.com" />
+        </label>
+        <label class="form-label">Password
+          <input class="form-input" id="su-password" type="password" placeholder="At least 8 characters" />
+        </label>
+        <label class="form-label">
+          Why do you want to join? <span class="form-hint">(your HKDV username, how you heard about us, etc.)</span>
+          <textarea class="form-input form-textarea" id="su-note" placeholder="e.g. I'm KittyCollector88 in HKDV, heard about this from the Discord server..."></textarea>
+        </label>
+      </div>
+      <div id="auth-error" class="auth-error hidden"></div>
+      <button class="primary-btn full-btn" id="btn-signup" style="margin-top:16px;">Apply for Access</button>
+    </div>
+
+    <!-- Log In form -->
+    <div id="auth-login-form" class="hidden">
+      <div class="profile-form" style="gap:10px;margin-top:8px;">
+        <label class="form-label">Email
+          <input class="form-input" id="li-email" type="email" placeholder="your@email.com" />
+        </label>
+        <label class="form-label">Password
+          <input class="form-input" id="li-password" type="password" placeholder="Your password" />
+        </label>
+      </div>
+      <div id="login-error" class="auth-error hidden"></div>
+      <button class="primary-btn full-btn" id="btn-login" style="margin-top:16px;">Log In</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== PENDING APPROVAL SCREEN ===================== -->
+<div class="fullscreen-gate hidden" id="pending-screen">
+  <div class="gate-card">
+    <div class="gate-icon">⏳</div>
+    <h2 class="gate-title">Application Received!</h2>
+    <p class="gate-body">Thanks for applying to HKDV Trader OS. An admin will review your application and approve your access shortly.</p>
+    <p class="gate-body" style="margin-top:8px;">You'll be able to log back in anytime to check your status.</p>
+    <div class="gate-note">💡 Make sure to check the email you signed up with for updates.</div>
+    <button class="secondary-btn" id="pending-logout" style="margin-top:20px;">Log Out</button>
+  </div>
+</div>
+
+<!-- ===================== REJECTED SCREEN ===================== -->
+<div class="fullscreen-gate hidden" id="rejected-screen">
+  <div class="gate-card">
+    <div class="gate-icon">💌</div>
+    <h2 class="gate-title">Application Not Approved</h2>
+    <p class="gate-body">Unfortunately your application wasn't approved at this time. If you think this is a mistake, reach out to the community directly.</p>
+    <button class="secondary-btn" id="rejected-logout" style="margin-top:20px;">Log Out</button>
+  </div>
+</div>
+
+<!-- ===================== ADMIN QUEUE PANEL ===================== -->
+<div class="modal-overlay hidden" id="admin-modal">
+  <div class="modal-card admin-card">
+    <div class="modal-header">
+      <h2>Approval Queue</h2>
+      <button class="icon-btn" id="close-admin-modal">×</button>
+    </div>
+    <p class="admin-subtitle">Review and approve or reject trader applications.</p>
+    <div id="admin-queue-list">
+      <div class="queue-empty">Loading applications...</div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
