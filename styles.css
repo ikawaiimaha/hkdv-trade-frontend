@@ -136,9 +136,10 @@ h1 { margin: 0 0 6px; font-size: 40px; font-weight: 800; }
   height: 170px;
   background: linear-gradient(135deg, #f1efff 0%, #ffe7f0 100%);
   display: flex; align-items: center; justify-content: center;
-  font-size: 40px;
+  font-size: 52px;
   color: #b8aee8;
   transition: opacity 0.15s;
+  user-select: none;
 }
 
 .clickable-thumb {
