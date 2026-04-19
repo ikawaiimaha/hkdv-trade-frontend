@@ -739,3 +739,12 @@ h1 { margin: 0 0 6px; font-size: 40px; font-weight: 800; }
 .queue-done-msg  { text-align: center; padding: 12px; font-weight: 700; font-size: 14px; color: #3a35a0; }
 
 .muted { color: #66667a; }
+
+/* ── Live item thumbnail images ─────────────────────────────── */
+.item-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+}
+.item-img-fallback { font-size: 52px; }
