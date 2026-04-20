@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HKDV Trader OS</title>
+  <title>HKDV Trade — Hello Kitty Dream Village Marketplace</title>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
@@ -17,13 +17,16 @@
       <span class="brand-hk">HK</span><span class="brand-dv">DV</span>
     </div>
     <nav class="nav-links">
-      <a class="active" data-page="dashboard">Dashboard</a>
-      <a data-page="inventory">Inventory</a>
-      <a data-page="duplicates">Duplicates</a>
-      <a data-page="wishlist">Wishlist</a>
+      <!-- Always visible (public) -->
+      <a class="active" data-page="marketplace">Marketplace</a>
       <a data-page="listings">Listings</a>
       <a data-page="about">About</a>
       <a data-page="how-to">How To Use</a>
+      <!-- Trader-only (hidden until approved) -->
+      <a data-page="dashboard" class="trader-only hidden">Dashboard</a>
+      <a data-page="inventory" class="trader-only hidden">Inventory</a>
+      <a data-page="duplicates" class="trader-only hidden">Duplicates</a>
+      <a data-page="wishlist" class="trader-only hidden">Wishlist</a>
     </nav>
   </div>
   <div class="nav-right">
@@ -34,8 +37,16 @@
   </div>
 </header>
 
-<!-- ===================== DASHBOARD PAGE ===================== -->
-<main class="page-shell" id="page-dashboard">
+<!-- ===================== PUBLIC MARKETPLACE PAGE ===================== -->
+<main class="page-shell" id="page-marketplace">
+
+  <!-- HERO -->
+  <section class="marketplace-hero">
+    <div class="marketplace-hero-inner">
+      <h1 class="marketplace-hero-title">🎀 HKDV Trade</h1>
+      <p class="marketplace-hero-sub">The community marketplace for Hello Kitty Dream Village collectors. Browse items, see what's trading, and join the exchange.</p>
+    </div>
+  </section>
 
   <!-- FEATURED BAGS SECTION -->
   <section class="featured-section">
@@ -46,59 +57,30 @@
       </div>
     </div>
     <div class="featured-grid" id="featured-grid">
-      <div class="featured-card">
-        <div class="featured-card-image"><span class="featured-img-placeholder">🎀</span></div>
-        <div class="featured-card-body">
-          <div class="featured-card-top">
-            <span class="tier-badge ssr">SSR</span>
-            <span class="chip demand high">High Demand</span>
-          </div>
-          <h3 class="featured-card-name">HK Starlight Lamp</h3>
-          <p class="featured-card-desc">The rarest lamp in Dream Village — everyone wants one!</p>
-          <div class="featured-card-footer">
-            <span class="featured-listings">14 listings</span>
-            <span class="featured-value">Value: 220</span>
-          </div>
-        </div>
-      </div>
-      <div class="featured-card">
-        <div class="featured-card-image"><span class="featured-img-placeholder">🌸</span></div>
-        <div class="featured-card-body">
-          <div class="featured-card-top">
-            <span class="tier-badge sr">SR</span>
-            <span class="chip demand high">High Demand</span>
-          </div>
-          <h3 class="featured-card-name">Melody Plush Pouch</h3>
-          <p class="featured-card-desc">Consistently the most-traded item this season.</p>
-          <div class="featured-card-footer">
-            <span class="featured-listings">11 listings</span>
-            <span class="featured-value">Value: 95</span>
-          </div>
-        </div>
-      </div>
-      <div class="featured-card">
-        <div class="featured-card-image"><span class="featured-img-placeholder">✨</span></div>
-        <div class="featured-card-body">
-          <div class="featured-card-top">
-            <span class="tier-badge sr">SR</span>
-            <span class="chip demand medium">Medium Demand</span>
-          </div>
-          <h3 class="featured-card-name">Cinnamoroll Chair</h3>
-          <p class="featured-card-desc">A fan favourite — always in high rotation on the market.</p>
-          <div class="featured-card-footer">
-            <span class="featured-listings">8 listings</span>
-            <span class="featured-value">Value: 72</span>
-          </div>
-        </div>
-      </div>
+      <!-- Loaded from DB via get_featured_items() -->
+      <div class="featured-loading">Loading featured items…</div>
     </div>
   </section>
 
-  <h1>Dashboard</h1>
-  <p class="subtitle">Inventory Preview</p>
+  <!-- BROWSE ALL ITEMS -->
+  <section class="browse-section">
+    <div class="browse-header">
+      <h2 class="browse-title">Browse Items</h2>
+      <input class="browse-search" id="browse-search" type="search" placeholder="Search by name or collection…" />
+    </div>
+    <div class="item-grid" id="marketplace-item-grid"></div>
+    <div class="browse-load-more">
+      <button class="secondary-btn" id="browse-load-more-btn">Load More</button>
+    </div>
+  </section>
 
-  <div class="item-grid" id="dashboard-item-grid">
-  </div>
+</main>
+
+<!-- ===================== TRADER DASHBOARD PAGE ===================== -->
+<main class="page-shell hidden" id="page-dashboard">
+  <h1>Dashboard</h1>
+  <p class="subtitle">Your trading home.</p>
+  <div class="item-grid" id="dashboard-item-grid"></div>
 </main>
 
 <!-- ===================== ABOUT PAGE ===================== -->
@@ -222,6 +204,7 @@
 <main class="page-shell hidden" id="page-listings">
   <h1>Listings</h1><p class="subtitle">Active market listings.</p>
 </main>
+<main class="page-shell hidden" id="page-about-placeholder"></main>
 
 </div><!-- end app-shell -->
 

@@ -21,6 +21,13 @@ async function bootAuth() {
   await resolveTraderStatus();
 }
 
+// Listen for auth changes (e.g. login/logout)
+supabase.auth.onAuthStateChange(async (_event, session) => {
+  currentSession = session;
+  if (!session) { setAppStatus('unauthenticated'); }
+  else { await resolveTraderStatus(); }
+})
+
 async function resolveTraderStatus() {
   const { data, error } = await supabase.rpc('get_my_application_status');
   if (error || !data) { setAppStatus('unauthenticated'); return; }
@@ -41,6 +48,7 @@ function setAppStatus(status) {
   const profileBtn  = document.getElementById('open-profile');
   const listBtn     = document.getElementById('nav-list-btn');
   const adminBtn    = document.getElementById('open-admin-queue');
+  const traderNavLinks = document.querySelectorAll('.nav-links .trader-only');
 
   appShell.classList.remove('hidden');
   pendingScr.classList.add('hidden');
@@ -51,7 +59,8 @@ function setAppStatus(status) {
     profileBtn.classList.add('hidden');
     listBtn.classList.add('hidden');
     adminBtn.classList.add('hidden');
-    showPage('dashboard');
+    traderNavLinks.forEach(a => a.classList.add('hidden'));
+    showPage('marketplace');
   } else if (status === 'pending') {
     appShell.classList.add('hidden');
     pendingScr.classList.remove('hidden');
@@ -62,8 +71,9 @@ function setAppStatus(status) {
     joinBtn.classList.add('hidden');
     profileBtn.classList.remove('hidden');
     listBtn.classList.remove('hidden');
+    traderNavLinks.forEach(a => a.classList.remove('hidden'));
     if (currentTrader && currentTrader.is_admin) adminBtn.classList.remove('hidden');
-    showPage('dashboard');
+    showPage('marketplace');
   }
 }
 
@@ -76,30 +86,70 @@ function showPage(id) {
   const target = document.getElementById('page-' + id);
   if (target) target.classList.remove('hidden');
   navLinks.forEach(a => a.classList.toggle('active', a.dataset.page === id));
-  if (id === 'dashboard') { loadFeatured(); loadDashboardItems(); }
+  if (id === 'marketplace') { loadFeatured(); loadMarketplaceItems(); }
+  if (id === 'dashboard')   { loadDashboardItems(); }
 }
 
 navLinks.forEach(a => a.addEventListener('click', () => showPage(a.dataset.page)));
 
-// ── Dashboard Items — live from DB ───────────────────────────
+// ── Marketplace Items — public browsable grid ────────────────
+let marketplaceOffset = 0;
+const MARKET_PAGE = 24;
+let marketplaceSearchTerm = '';
+
+async function loadMarketplaceItems(reset = false) {
+  const grid = document.getElementById('marketplace-item-grid');
+  if (!grid) return;
+  if (reset) { marketplaceOffset = 0; grid.innerHTML = ''; }
+
+  grid.insertAdjacentHTML('beforeend', Array(MARKET_PAGE).fill('<div class="item-card skeleton-card" style="min-height:220px;"></div>').join(''));
+
+  let query = supabase
+    .from('items')
+    .select('id, name, tier, wiki_rarity, collection_name, demand_level, image_url, wiki_page_url, projected_value, community_value')
+    .range(marketplaceOffset, marketplaceOffset + MARKET_PAGE - 1)
+    .order('name', { ascending: true });
+
+  if (marketplaceSearchTerm) {
+    query = query.or(`name.ilike.%${marketplaceSearchTerm}%,collection_name.ilike.%${marketplaceSearchTerm}%`);
+  }
+
+  const { data, error } = await query;
+
+  // Remove skeletons
+  grid.querySelectorAll('.skeleton-card').forEach(s => s.remove());
+
+  if (error || !data || !data.length) {
+    if (marketplaceOffset === 0) grid.innerHTML = '<p class="muted">No items found.</p>';
+    document.getElementById('browse-load-more-btn').style.display = 'none';
+    return;
+  }
+
+  data.forEach(item => renderItemCard(grid, item));
+  marketplaceOffset += data.length;
+  document.getElementById('browse-load-more-btn').style.display = data.length < MARKET_PAGE ? 'none' : '';
+}
+
+document.getElementById('browse-load-more-btn').addEventListener('click', () => loadMarketplaceItems());
+
+let searchDebounce;
+document.getElementById('browse-search').addEventListener('input', e => {
+  clearTimeout(searchDebounce);
+  marketplaceSearchTerm = e.target.value.trim();
+  searchDebounce = setTimeout(() => loadMarketplaceItems(true), 300);
+});
+
+// ── Dashboard Items (trader view) ────────────────────────────
 async function loadDashboardItems() {
   const grid = document.getElementById('dashboard-item-grid');
   if (!grid) return;
-
-  // Show skeletons while loading
-  grid.innerHTML = Array(6).fill('<div class="item-card skeleton-card" style="min-height:260px;"></div>').join('');
-
+  grid.innerHTML = Array(6).fill('<div class="item-card skeleton-card" style="min-height:220px;"></div>').join('');
   const { data, error } = await supabase
     .from('items')
     .select('id, name, tier, wiki_rarity, collection_name, demand_level, image_url, wiki_page_url, projected_value, community_value')
     .limit(6);
-
-  if (error || !data || !data.length) {
-    grid.innerHTML = '<p class="muted">Could not load items.</p>';
-    return;
-  }
-
   grid.innerHTML = '';
+  if (error || !data || !data.length) { grid.innerHTML = '<p class="muted">Could not load items.</p>'; return; }
   data.forEach(item => renderItemCard(grid, item));
 }
 
