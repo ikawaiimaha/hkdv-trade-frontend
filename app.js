@@ -54,12 +54,15 @@ function setAppStatus(status) {
   pendingScr.classList.add('hidden');
   rejectedScr.classList.add('hidden');
 
+  const guestHero = document.getElementById('guest-hero');
+
   if (status === 'unauthenticated') {
     joinBtn.classList.remove('hidden');
     profileBtn.classList.add('hidden');
     listBtn.classList.add('hidden');
     adminBtn.classList.add('hidden');
     traderNavLinks.forEach(a => a.classList.add('hidden'));
+    if (guestHero) guestHero.classList.remove('hidden');
     showPage('marketplace');
   } else if (status === 'pending') {
     appShell.classList.add('hidden');
@@ -73,6 +76,7 @@ function setAppStatus(status) {
     listBtn.classList.remove('hidden');
     traderNavLinks.forEach(a => a.classList.remove('hidden'));
     if (currentTrader && currentTrader.is_admin) adminBtn.classList.remove('hidden');
+    if (guestHero) guestHero.classList.add('hidden');
     showPage('marketplace');
   }
 }
