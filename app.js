@@ -107,7 +107,6 @@ const dashboardWishlistMatches  = document.getElementById('dashboard-wishlist-ma
 const itemModalListings      = document.getElementById('item-modal-listings');
 const offerInventoryChoices  = document.getElementById('offer-inventory-choices');
 const offerMessage           = document.getElementById('offer-message');
-const offerMessageEl         = offerMessage; // alias
 const submitOfferBtn         = document.getElementById('submit-offer');
 
 function showPage(id) {
@@ -198,36 +197,7 @@ async function loadDashboardItems() {
   data.forEach(item => renderItemCard(grid, item));
 }
 
-function renderInventoryCard(container, row) {
-  const tierClass = (row.tier || '').toLowerCase().replace(/[^a-z]/g, '');
-  const demandRaw = (row.demand_level || '').toLowerCase();
-  const demandClass = demandRaw.includes('high') ? 'high' : demandRaw.includes('low') ? 'low' : 'medium';
 
-  const card = document.createElement('article');
-  card.className = 'item-card';
-  card.innerHTML = `
-    <div class="item-image">
-      ${row.image_url
-        ? `<img src="${row.image_url}" alt="${escHtml(row.item_name)}" class="item-thumb-img" loading="lazy" onerror="this.style.display='none'" />`
-        : `<span class="item-img-fallback">🎀</span>`}
-    </div>
-    <div class="item-content">
-      <div class="item-top">
-        <h3>${escHtml(row.item_name)}</h3>
-        <span class="tier-badge ${tierClass}">${row.tier || ''}</span>
-      </div>
-      <div class="signal-row">
-        <span class="chip demand ${demandClass}">${cap(row.demand_level)} Demand</span>
-      </div>
-      <div class="value-line">Owned: ${row.quantity ?? 0} · Available: ${row.available_quantity ?? 0}</div>
-      <div class="queue-actions" style="margin-top:10px;">
-        <button class="primary-btn small-btn" data-list-from-inventory="${row.inventory_id}">List</button>
-        <button class="secondary-btn small-btn" data-remove-inventory="${row.inventory_id}">Remove</button>
-      </div>
-    </div>
-  `;
-  container.appendChild(card);
-}
 
 function renderWishlistCard(container, row) {
   const tierClass = (row.tier || '').toLowerCase().replace(/[^a-z]/g, '');
@@ -279,48 +249,7 @@ function renderListingCard(container, row) {
   container.appendChild(card);
 }
 
-function renderSentOffers(container, rows) {
-  if (!rows.length) {
-    container.innerHTML = '<p class="muted">No sent offers.</p>';
-    return;
-  }
-  container.innerHTML = rows.map(r => `
-    <div class="mini-card">
-      <strong>${escHtml(r.target_item_name || 'Offer')}</strong>
-      <div class="muted">${escHtml(r.status || '—')} · ${escHtml(r.fairness_band || '—')}</div>
-    </div>
-  `).join('');
-}
 
-function renderReceivedOffers(container, rows) {
-  if (!rows.length) {
-    container.innerHTML = '<p class="muted">No received offers.</p>';
-    return;
-  }
-  container.innerHTML = rows.map(r => `
-    <div class="mini-card">
-      <strong>${escHtml(r.target_item_name || 'Offer')}</strong>
-      <div class="muted">${escHtml(r.status || '—')} · ${escHtml(r.fairness_band || '—')}</div>
-      <div class="queue-actions" style="margin-top:8px;">
-        <button class="primary-btn small-btn" data-accept-offer="${r.id}">Accept</button>
-        <button class="secondary-btn small-btn" data-decline-offer="${r.id}">Decline</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-function renderCompletedTrades(container, rows) {
-  if (!rows.length) {
-    container.innerHTML = '<p class="muted">No completed trades yet.</p>';
-    return;
-  }
-  container.innerHTML = rows.map(r => `
-    <div class="mini-card">
-      <strong>${escHtml(r.target_item_name || 'Completed trade')}</strong>
-      <div class="muted">${escHtml(r.fairness_band || '—')} · ${r.completed_at ? formatDate(r.completed_at) : '—'}</div>
-    </div>
-  `).join('');
-}
 
 function renderItemCard(container, item) {
   const tierClass   = (item.tier || '').toLowerCase().replace(/[^a-z]/g, '');
@@ -1180,13 +1109,7 @@ function isReceivedOffer(row) {
   return false;
 }
 
-function isSentOffer(row) {
-  if (typeof row?.is_incoming === 'boolean') return row.is_incoming === false;
-  if (row?.is_sent === true) return true;
-  if (row?.sent === true) return true;
-  if (row?.role === 'sent' || row?.direction === 'sent' || row?.bucket === 'sent') return true;
-  return false;
-}
+
 
 async function loadOffersPage() {
   if (appStatus !== 'approved') return;
