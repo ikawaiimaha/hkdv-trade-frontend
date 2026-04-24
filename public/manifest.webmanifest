@@ -1,0 +1,53 @@
+{
+  "id": "/",
+  "name": "HKDV Trader OS",
+  "short_name": "Trader OS",
+  "description": "Invite-only HKDV trading desk for inventory, listings, offers, and trade history.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff2f8",
+  "theme_color": "#ff5f93",
+  "categories": ["shopping", "social", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Open the main trading desk overview.",
+      "url": "/#dashboard"
+    },
+    {
+      "name": "Offers",
+      "short_name": "Offers",
+      "description": "Review incoming and outgoing offers.",
+      "url": "/#offers"
+    },
+    {
+      "name": "Inventory",
+      "short_name": "Inventory",
+      "description": "Open the owned item ledger.",
+      "url": "/#inventory"
+    }
+  ]
+}

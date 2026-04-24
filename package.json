@@ -1,0 +1,28 @@
+{
+  "name": "hkdv-trader-os",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "generate:profile-assets": "node ./scripts/generate-profile-assets.mjs",
+    "export:wiki-images": "powershell -ExecutionPolicy Bypass -File .\\scripts\\export-hkdv-item-images.ps1",
+    "build:wiki-derived": "node ./scripts/build-wiki-derived-assets.mjs",
+    "refresh:wiki-data": "npm run export:wiki-images && npm run build:wiki-derived"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.103.3",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.1",
+    "sharp": "^0.34.5",
+    "vite": "^8.0.8"
+  }
+}

@@ -1,0 +1,265 @@
+{
+  "badges": {
+    "charm_trader": {
+      "label": "Charm Trader",
+      "svg": "/assets/badges/rank/rank_charm_trader.svg",
+      "png": "/assets/badges/rank/rank_charm_trader.png",
+      "thumbnails": {
+        "32": "/assets/thumbnails/badges_32/rank_charm_trader.png",
+        "64": "/assets/thumbnails/badges_64/rank_charm_trader.png",
+        "128": "/assets/thumbnails/badges_128/rank_charm_trader.png",
+        "256": "/assets/thumbnails/badges_256/rank_charm_trader.png"
+      }
+    },
+    "treasure_keeper": {
+      "label": "Treasure Keeper",
+      "svg": "/assets/badges/rank/rank_treasure_keeper.svg",
+      "png": "/assets/badges/rank/rank_treasure_keeper.png",
+      "thumbnails": {
+        "32": "/assets/thumbnails/badges_32/rank_treasure_keeper.png",
+        "64": "/assets/thumbnails/badges_64/rank_treasure_keeper.png",
+        "128": "/assets/thumbnails/badges_128/rank_treasure_keeper.png",
+        "256": "/assets/thumbnails/badges_256/rank_treasure_keeper.png"
+      }
+    },
+    "dream_collector": {
+      "label": "Dream Collector",
+      "svg": "/assets/badges/rank/rank_dream_collector.svg",
+      "png": "/assets/badges/rank/rank_dream_collector.png",
+      "thumbnails": {
+        "32": "/assets/thumbnails/badges_32/rank_dream_collector.png",
+        "64": "/assets/thumbnails/badges_64/rank_dream_collector.png",
+        "128": "/assets/thumbnails/badges_128/rank_dream_collector.png",
+        "256": "/assets/thumbnails/badges_256/rank_dream_collector.png"
+      }
+    },
+    "legendary": {
+      "label": "Legendary",
+      "svg": "/assets/badges/rank/rank_legendary.svg",
+      "png": "/assets/badges/rank/rank_legendary.png",
+      "thumbnails": {
+        "32": "/assets/thumbnails/badges_32/rank_legendary.png",
+        "64": "/assets/thumbnails/badges_64/rank_legendary.png",
+        "128": "/assets/thumbnails/badges_128/rank_legendary.png",
+        "256": "/assets/thumbnails/badges_256/rank_legendary.png"
+      }
+    }
+  },
+  "frames": {
+    "treasure_gem_ring": {
+      "label": "Treasure Gem Ring",
+      "svg": "/assets/frames/frame_treasure_gem_ring.svg",
+      "png": "/assets/frames/frame_treasure_gem_ring.png",
+      "thumbnails": {
+        "32": "/assets/thumbnails/frames_32/frame_treasure_gem_ring.png",
+        "64": "/assets/thumbnails/frames_64/frame_treasure_gem_ring.png",
+        "128": "/assets/thumbnails/frames_128/frame_treasure_gem_ring.png",
+        "256": "/assets/thumbnails/frames_256/frame_treasure_gem_ring.png"
+      }
+    },
+    "dream_glow_ring": {
+      "label": "Dream Glow Ring",
+      "svg": "/assets/frames/frame_dream_glow_ring.svg",
+      "png": "/assets/frames/frame_dream_glow_ring.png",
+      "thumbnails": {
+        "32": "/assets/thumbnails/frames_32/frame_dream_glow_ring.png",
+        "64": "/assets/thumbnails/frames_64/frame_dream_glow_ring.png",
+        "128": "/assets/thumbnails/frames_128/frame_dream_glow_ring.png",
+        "256": "/assets/thumbnails/frames_256/frame_dream_glow_ring.png"
+      }
+    },
+    "legendary_ornate_aura": {
+      "label": "Legendary Ornate Aura",
+      "svg": "/assets/frames/frame_legendary_ornate_aura.svg",
+      "png": "/assets/frames/frame_legendary_ornate_aura.png",
+      "thumbnails": {
+        "32": "/assets/thumbnails/frames_32/frame_legendary_ornate_aura.png",
+        "64": "/assets/thumbnails/frames_64/frame_legendary_ornate_aura.png",
+        "128": "/assets/thumbnails/frames_128/frame_legendary_ornate_aura.png",
+        "256": "/assets/thumbnails/frames_256/frame_legendary_ornate_aura.png"
+      }
+    }
+  },
+  "avatars": {
+    "base": {
+      "cat": {
+        "label": "Cat Buddy",
+        "svg": "/assets/avatars/base/avatar_base_cat.svg",
+        "png": "/assets/avatars/base/avatar_base_cat.png",
+        "thumbnails": {
+          "32": "/assets/thumbnails/avatars_32/avatar_base_cat.png",
+          "64": "/assets/thumbnails/avatars_64/avatar_base_cat.png",
+          "128": "/assets/thumbnails/avatars_128/avatar_base_cat.png",
+          "256": "/assets/thumbnails/avatars_256/avatar_base_cat.png"
+        }
+      },
+      "puppy": {
+        "label": "Puppy Buddy",
+        "svg": "/assets/avatars/base/avatar_base_puppy.svg",
+        "png": "/assets/avatars/base/avatar_base_puppy.png",
+        "thumbnails": {
+          "32": "/assets/thumbnails/avatars_32/avatar_base_puppy.png",
+          "64": "/assets/thumbnails/avatars_64/avatar_base_puppy.png",
+          "128": "/assets/thumbnails/avatars_128/avatar_base_puppy.png",
+          "256": "/assets/thumbnails/avatars_256/avatar_base_puppy.png"
+        }
+      },
+      "hooded": {
+        "label": "Hooded Buddy",
+        "svg": "/assets/avatars/base/avatar_base_hooded.svg",
+        "png": "/assets/avatars/base/avatar_base_hooded.png",
+        "thumbnails": {
+          "32": "/assets/thumbnails/avatars_32/avatar_base_hooded.png",
+          "64": "/assets/thumbnails/avatars_64/avatar_base_hooded.png",
+          "128": "/assets/thumbnails/avatars_128/avatar_base_hooded.png",
+          "256": "/assets/thumbnails/avatars_256/avatar_base_hooded.png"
+        }
+      }
+    },
+    "variants": {
+      "charm": {
+        "cat": {
+          "label": "Charm Trader Cat Buddy",
+          "svg": "/assets/avatars/buddy_variants/charm/avatar_charm_cat.svg",
+          "png": "/assets/avatars/buddy_variants/charm/avatar_charm_cat.png",
+          "thumbnails": {
+            "32": "/assets/thumbnails/avatars_32/avatar_charm_cat.png",
+            "64": "/assets/thumbnails/avatars_64/avatar_charm_cat.png",
+            "128": "/assets/thumbnails/avatars_128/avatar_charm_cat.png",
+            "256": "/assets/thumbnails/avatars_256/avatar_charm_cat.png"
+          }
+        },
+        "puppy": {
+          "label": "Charm Trader Puppy Buddy",
+          "svg": "/assets/avatars/buddy_variants/charm/avatar_charm_puppy.svg",
+          "png": "/assets/avatars/buddy_variants/charm/avatar_charm_puppy.png",
+          "thumbnails": {
+            "32": "/assets/thumbnails/avatars_32/avatar_charm_puppy.png",
+            "64": "/assets/thumbnails/avatars_64/avatar_charm_puppy.png",
+            "128": "/assets/thumbnails/avatars_128/avatar_charm_puppy.png",
+            "256": "/assets/thumbnails/avatars_256/avatar_charm_puppy.png"
+          }
+        },
+        "hooded": {
+          "label": "Charm Trader Hooded Buddy",
+          "svg": "/assets/avatars/buddy_variants/charm/avatar_charm_hooded.svg",
+          "png": "/assets/avatars/buddy_variants/charm/avatar_charm_hooded.png",
+          "thumbnails": {
+            "32": "/assets/thumbnails/avatars_32/avatar_charm_hooded.png",
+            "64": "/assets/thumbnails/avatars_64/avatar_charm_hooded.png",
+            "128": "/assets/thumbnails/avatars_128/avatar_charm_hooded.png",
+            "256": "/assets/thumbnails/avatars_256/avatar_charm_hooded.png"
+          }
+        }
+      },
+      "treasure": {
+        "cat": {
+          "label": "Treasure Keeper Cat Buddy",
+          "svg": "/assets/avatars/buddy_variants/treasure/avatar_treasure_cat.svg",
+          "png": "/assets/avatars/buddy_variants/treasure/avatar_treasure_cat.png",
+          "thumbnails": {
+            "32": "/assets/thumbnails/avatars_32/avatar_treasure_cat.png",
+            "64": "/assets/thumbnails/avatars_64/avatar_treasure_cat.png",
+            "128": "/assets/thumbnails/avatars_128/avatar_treasure_cat.png",
+            "256": "/assets/thumbnails/avatars_256/avatar_treasure_cat.png"
+          }
+        },
+        "puppy": {
+          "label": "Treasure Keeper Puppy Buddy",
+          "svg": "/assets/avatars/buddy_variants/treasure/avatar_treasure_puppy.svg",
+          "png": "/assets/avatars/buddy_variants/treasure/avatar_treasure_puppy.png",
+          "thumbnails": {
+            "32": "/assets/thumbnails/avatars_32/avatar_treasure_puppy.png",
+            "64": "/assets/thumbnails/avatars_64/avatar_treasure_puppy.png",
+            "128": "/assets/thumbnails/avatars_128/avatar_treasure_puppy.png",
+            "256": "/assets/thumbnails/avatars_256/avatar_treasure_puppy.png"
+          }
+        },
+        "hooded": {
+          "label": "Treasure Keeper Hooded Buddy",
+          "svg": "/assets/avatars/buddy_variants/treasure/avatar_treasure_hooded.svg",
+          "png": "/assets/avatars/buddy_variants/treasure/avatar_treasure_hooded.png",
+          "thumbnails": {
+            "32": "/assets/thumbnails/avatars_32/avatar_treasure_hooded.png",
+            "64": "/assets/thumbnails/avatars_64/avatar_treasure_hooded.png",
+            "128": "/assets/thumbnails/avatars_128/avatar_treasure_hooded.png",
+            "256": "/assets/thumbnails/avatars_256/avatar_treasure_hooded.png"
+          }
+        }
+      },
+      "dream": {
+        "cat": {
+          "label": "Dream Collector Cat Buddy",
+          "svg": "/assets/avatars/buddy_variants/dream/avatar_dream_cat.svg",
+          "png": "/assets/avatars/buddy_variants/dream/avatar_dream_cat.png",
+          "thumbnails": {
+            "32": "/assets/thumbnails/avatars_32/avatar_dream_cat.png",
+            "64": "/assets/thumbnails/avatars_64/avatar_dream_cat.png",
+            "128": "/assets/thumbnails/avatars_128/avatar_dream_cat.png",
+            "256": "/assets/thumbnails/avatars_256/avatar_dream_cat.png"
+          }
+        },
+        "puppy": {
+          "label": "Dream Collector Puppy Buddy",
+          "svg": "/assets/avatars/buddy_variants/dream/avatar_dream_puppy.svg",
+          "png": "/assets/avatars/buddy_variants/dream/avatar_dream_puppy.png",
+          "thumbnails": {
+            "32": "/assets/thumbnails/avatars_32/avatar_dream_puppy.png",
+            "64": "/assets/thumbnails/avatars_64/avatar_dream_puppy.png",
+            "128": "/assets/thumbnails/avatars_128/avatar_dream_puppy.png",
+            "256": "/assets/thumbnails/avatars_256/avatar_dream_puppy.png"
+          }
+        },
+        "hooded": {
+          "label": "Dream Collector Hooded Buddy",
+          "svg": "/assets/avatars/buddy_variants/dream/avatar_dream_hooded.svg",
+          "png": "/assets/avatars/buddy_variants/dream/avatar_dream_hooded.png",
+          "thumbnails": {
+            "32": "/assets/thumbnails/avatars_32/avatar_dream_hooded.png",
+            "64": "/assets/thumbnails/avatars_64/avatar_dream_hooded.png",
+            "128": "/assets/thumbnails/avatars_128/avatar_dream_hooded.png",
+            "256": "/assets/thumbnails/avatars_256/avatar_dream_hooded.png"
+          }
+        }
+      },
+      "legendary": {
+        "cat": {
+          "label": "Legendary Cat Buddy",
+          "svg": "/assets/avatars/buddy_variants/legendary/avatar_legendary_cat.svg",
+          "png": "/assets/avatars/buddy_variants/legendary/avatar_legendary_cat.png",
+          "thumbnails": {
+            "32": "/assets/thumbnails/avatars_32/avatar_legendary_cat.png",
+            "64": "/assets/thumbnails/avatars_64/avatar_legendary_cat.png",
+            "128": "/assets/thumbnails/avatars_128/avatar_legendary_cat.png",
+            "256": "/assets/thumbnails/avatars_256/avatar_legendary_cat.png"
+          }
+        },
+        "puppy": {
+          "label": "Legendary Puppy Buddy",
+          "svg": "/assets/avatars/buddy_variants/legendary/avatar_legendary_puppy.svg",
+          "png": "/assets/avatars/buddy_variants/legendary/avatar_legendary_puppy.png",
+          "thumbnails": {
+            "32": "/assets/thumbnails/avatars_32/avatar_legendary_puppy.png",
+            "64": "/assets/thumbnails/avatars_64/avatar_legendary_puppy.png",
+            "128": "/assets/thumbnails/avatars_128/avatar_legendary_puppy.png",
+            "256": "/assets/thumbnails/avatars_256/avatar_legendary_puppy.png"
+          }
+        },
+        "hooded": {
+          "label": "Legendary Hooded Buddy",
+          "svg": "/assets/avatars/buddy_variants/legendary/avatar_legendary_hooded.svg",
+          "png": "/assets/avatars/buddy_variants/legendary/avatar_legendary_hooded.png",
+          "thumbnails": {
+            "32": "/assets/thumbnails/avatars_32/avatar_legendary_hooded.png",
+            "64": "/assets/thumbnails/avatars_64/avatar_legendary_hooded.png",
+            "128": "/assets/thumbnails/avatars_128/avatar_legendary_hooded.png",
+            "256": "/assets/thumbnails/avatars_256/avatar_legendary_hooded.png"
+          }
+        }
+      }
+    }
+  },
+  "review": {
+    "sheet": "/assets/profile-art-sheet.html"
+  }
+}

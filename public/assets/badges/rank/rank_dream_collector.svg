@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+
+<defs>
+  <linearGradient id="dream_collector-bg" x1="96" y1="72" x2="424" y2="440" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#e7fbff"/>
+    <stop offset="1" stop-color="#8fd3ff"/>
+  </linearGradient>
+  <linearGradient id="dream_collector-inner" x1="144" y1="120" x2="372" y2="390" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#fbfeff"/>
+    <stop offset="1" stop-color="#d4f3ff"/>
+  </linearGradient>
+  <linearGradient id="dream_collector-ring" x1="112" y1="80" x2="400" y2="432" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#ffffff"/>
+    <stop offset="1" stop-color="#c2f1ff"/>
+  </linearGradient>
+  <filter id="dream_collector-shadow" x="90" y="100" width="332" height="316" color-interpolation-filters="sRGB">
+    <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="rgba(80, 40, 60, 0.18)"/>
+  </filter>
+</defs>
+<circle cx="256" cy="256" r="222" fill="url(#dream_collector-bg)"/>
+<circle cx="256" cy="256" r="204" stroke="url(#dream_collector-ring)" stroke-width="22"/>
+<circle cx="256" cy="256" r="160" fill="url(#dream_collector-inner)"/>
+<path d="M118 146c48-72 136-102 216-84 34 8 66 22 94 44-52-14-104-16-154-7-56 10-108 34-156 70Z" fill="rgba(255,255,255,0.46)"/>
+<g filter="url(#dream_collector-shadow)">
+  
+<path d="M218 166c-39 10-66 45-66 86 0 49 40 88 88 88 35 0 66-21 80-52-17 12-38 19-60 19-56 0-100-49-90-105 3-14 8-27 15-36 9-12 21-21 33-28Z" fill="#5caaf5"/>
+<path d="m330 162 13 26 28 4-20 19 5 28-26-14-25 14 5-28-20-19 28-4 12-26Z" fill="#dff8ff"/>
+<path d="m356 260 8 16 18 3-13 12 3 18-16-9-15 9 3-18-13-12 18-3 7-16Z" fill="#dff8ff"/>
+<path d="m178 288 8 16 18 3-13 12 3 18-16-9-15 9 3-18-13-12 18-3 7-16Z" fill="#dff8ff"/>
+<path d="m246 228 8 16 18 3-13 12 3 18-16-9-15 9 3-18-13-12 18-3 7-16Z" fill="#ffffff"/>
+
+</g>
+
+</svg>
