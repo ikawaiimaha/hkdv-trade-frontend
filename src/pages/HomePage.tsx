@@ -1,4 +1,4 @@
-import { Sparkles, Star } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import HeroBanner from '../components/HeroBanner';
 import CollectionCard from '../components/CollectionCard';
 import FilterBar from '../components/FilterBar';
@@ -11,86 +11,65 @@ export default function HomePage() {
   const { collections, loading, error } = useCollections();
 
   return (
-    <div className="pt-14 pb-20">
-      {/* Hero Banner */}
+    <div className="pt-[60px] pb-20">
       <div className="mt-4">
-        <HeroBanner
-          title="HKDV Trade"
-          subtitle="The community marketplace for Hello Kitty Dream Village collectors. Browse items, discover values, and join the exchange."
-          ctaText="Join the Community"
-        />
+        <HeroBanner title="MomoMint" subtitle="The community marketplace for Hello Kitty Dream Village collectors." ctaText="Join the Community" />
       </div>
 
-      <div className="max-w-content mx-auto px-4 mt-8">
-        {/* Trade Matching Section - New! */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-10">
+      <div className="max-w-content mx-auto px-4 mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-8">
           <TradeMatchCard />
           <DailyOpportunities />
         </div>
-
-        {/* Score Guide - New! */}
-        <div className="mb-10">
+        <div className="mb-8">
           <ScoreGuide />
         </div>
       </div>
 
-      {/* New Releases Section */}
       <section className="max-w-content mx-auto px-4">
-        <div className="text-center mb-6">
-          <h2 className="text-xl font-bold text-hkdv-pink flex items-center justify-center gap-2 mb-2">
-            <Sparkles size={20} className="text-hkdv-yellow" />
+        <div className="text-center mb-5">
+          <h2 className="text-h1 flex items-center justify-center gap-2 mb-1.5">
+            <Sparkles size={16} style={{ color: '#FF8CC6' }} />
             New Releases
           </h2>
-          <p className="text-sm text-hkdv-text-secondary">
-            {loading ? 'Loading collections...' : `${collections.length} collections available`}
+          <p className="text-caption" style={{ color: '#B08AA0' }}>
+            {loading ? 'Loading...' : `${collections.length} collections`}
           </p>
         </div>
 
         {error && (
-          <div className="text-center py-8 bg-white rounded-2xl shadow-card border border-pink-100/30 mb-4">
-            <img src="/mascot-idle.png" alt="" className="w-12 h-12 mx-auto mb-2 opacity-50" />
-            <p className="text-sm text-hkdv-text-muted">Couldn&apos;t load collections</p>
-            <p className="text-xs text-hkdv-text-muted mt-1">{error}</p>
+          <div className="text-center py-8 rounded-[24px] border" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
+            <img src="/momo-idle.png" alt="" className="w-12 h-12 mx-auto mb-2 opacity-50" />
+            <p className="text-body" style={{ color: '#B08AA0' }}>Couldn&apos;t load collections</p>
           </div>
         )}
 
-        {/* Collection Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {loading
             ? Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="bg-white rounded-2xl shadow-card border border-pink-100/30 animate-pulse">
-                  <div className="h-44 bg-pink-100/30 rounded-t-2xl" />
-                  <div className="p-4 space-y-3">
-                    <div className="h-4 bg-pink-100/30 rounded w-1/4" />
-                    <div className="h-4 bg-pink-100/30 rounded w-3/4" />
-                    <div className="h-3 bg-pink-100/30 rounded w-full" />
-                    <div className="h-3 bg-pink-100/30 rounded w-2/3" />
+                <div key={i} className="rounded-[24px] border animate-pulse overflow-hidden" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
+                  <div className="h-40" style={{ backgroundColor: '#FFE3F1' }} />
+                  <div className="p-3 space-y-2">
+                    <div className="h-3 rounded w-1/4" style={{ backgroundColor: '#FFE3F1' }} />
+                    <div className="h-4 rounded w-3/4" style={{ backgroundColor: '#FFE3F1' }} />
+                    <div className="h-3 rounded w-full" style={{ backgroundColor: '#FFE3F1' }} />
                   </div>
                 </div>
               ))
-            : collections.map((collection, index) => (
-                <CollectionCard key={collection.id} collection={collection} index={index} />
-              ))}
+            : collections.map((c, i) => <CollectionCard key={c.id} collection={c} index={i} />)}
         </div>
       </section>
 
-      {/* Browse Items Section */}
-      <section className="max-w-content mx-auto px-4 mt-12">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-hkdv-pink flex items-center gap-2">
-            <Star size={18} className="text-hkdv-pink" />
-            Browse Items
-            <Star size={18} className="text-hkdv-pink" />
-          </h2>
-        </div>
-
+      <section className="max-w-content mx-auto px-4 mt-10">
+        <h2 className="text-h1 flex items-center justify-center gap-2 mb-4">
+          <Sparkles size={16} style={{ color: '#FF8CC6' }} />
+          Browse Items
+          <Sparkles size={16} style={{ color: '#FF8CC6' }} />
+        </h2>
         <FilterBar />
-
-        {/* Empty state */}
-        <div className="mt-8 text-center py-12 bg-white rounded-2xl shadow-card border border-pink-100/30">
-          <img src="/mascot-idle.png" alt="" className="w-16 h-16 mx-auto mb-3 opacity-50" />
-          <p className="text-sm text-hkdv-text-muted">No items match your filters.</p>
-          <p className="text-xs text-hkdv-text-muted mt-1">Try adjusting your search or filters</p>
+        <div className="mt-6 text-center py-12 rounded-[24px] border" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
+          <img src="/momo-idle.png" alt="" className="w-14 h-14 mx-auto mb-3 opacity-40" />
+          <p className="text-body" style={{ color: '#B08AA0' }}>No items match your filters.</p>
         </div>
       </section>
     </div>

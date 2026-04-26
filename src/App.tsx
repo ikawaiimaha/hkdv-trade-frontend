@@ -21,75 +21,19 @@ export default function App() {
   return (
     <ToastProvider>
       <AuthProvider>
-        <div className="min-h-screen" style={{ backgroundColor: '#FEEAF2' }}>
+        <div className="min-h-screen bg-momo-bg" style={{ color: '#4A1838' }}>
           <Navbar />
 
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
-              <Route
-                path="/"
-                element={
-                  <PageWrapper>
-                    <HomePage />
-                  </PageWrapper>
-                }
-              />
-              <Route
-                path="/events"
-                element={
-                  <PageWrapper>
-                    <EventsPage />
-                  </PageWrapper>
-                }
-              />
-              <Route
-                path="/about"
-                element={
-                  <PageWrapper>
-                    <AboutPage />
-                  </PageWrapper>
-                }
-              />
-              <Route
-                path="/how-to-use"
-                element={
-                  <PageWrapper>
-                    <HowToUsePage />
-                  </PageWrapper>
-                }
-              />
-              <Route
-                path="/faq"
-                element={
-                  <PageWrapper>
-                    <FAQPage />
-                  </PageWrapper>
-                }
-              />
-              <Route
-                path="/login"
-                element={
-                  <PageWrapper>
-                    <LoginPage />
-                  </PageWrapper>
-                }
-              />
-              <Route
-                path="/signup"
-                element={
-                  <PageWrapper>
-                    <SignupPage />
-                  </PageWrapper>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <PageWrapper>
-                    <ProfilePage />
-                  </PageWrapper>
-                }
-              />
+              <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
+              <Route path="/events" element={<PageWrapper><EventsPage /></PageWrapper>} />
+              <Route path="/about" element={<PageWrapper><AboutPage /></PageWrapper>} />
+              <Route path="/how-to-use" element={<PageWrapper><HowToUsePage /></PageWrapper>} />
+              <Route path="/faq" element={<PageWrapper><FAQPage /></PageWrapper>} />
+              <Route path="/login" element={<PageWrapper><LoginPage /></PageWrapper>} />
+              <Route path="/signup" element={<PageWrapper><SignupPage /></PageWrapper>} />
+              <Route path="/profile" element={<PageWrapper><ProfilePage /></PageWrapper>} />
             </Routes>
           </AnimatePresence>
 

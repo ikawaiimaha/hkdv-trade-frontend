@@ -7,13 +7,13 @@ export default function SupportFAB() {
 
   return (
     <motion.button
-      whileHover={{ scale: 1.08 }}
+      whileHover={{ scale: 1.06 }}
       whileTap={{ scale: 0.95 }}
-      onClick={() => showToast('Support & donations coming soon! ☕', 'info')}
-      className="fixed bottom-4 right-4 z-40 flex items-center gap-2 px-5 py-3 rounded-full text-white text-sm font-semibold shadow-float animate-glow-pulse hover:shadow-xl transition-shadow border border-white/20"
-      style={{ background: 'linear-gradient(135deg, #F04E7C 0%, #FB88A3 50%, #C084FC 100%)' }}
+      onClick={() => showToast('Support coming soon!', 'info')}
+      className="fixed bottom-4 right-4 z-40 flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-[12px] font-bold shadow-soft hover:shadow-soft-hover transition-shadow border border-white/20"
+      style={{ background: 'linear-gradient(135deg, #FF8CC6, #BFA2FF)' }}
     >
-      <Coffee size={16} />
+      <Coffee size={14} />
       <span>Support</span>
     </motion.button>
   );

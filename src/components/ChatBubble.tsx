@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from './ToastProvider';
 
 const messages = [
-  { text: 'Welcome back! Ready to trade?', mood: 'happy' },
-  { text: "You're trading like a pro!", mood: 'celebration' },
-  { text: 'Wishlist match found! 72% compatible', mood: 'excited' },
-  { text: 'New collector joined nearby!', mood: 'happy' },
+  'Welcome back! Ready to trade?',
+  "You're trading like a pro!",
+  'Wishlist match found! 72% compatible',
+  'New collector joined nearby!',
 ];
 
 export default function ChatBubble() {
@@ -27,21 +27,15 @@ export default function ChatBubble() {
 
   return (
     <div className="fixed bottom-4 left-4 z-40 flex items-end gap-2">
-      {/* Character */}
       <motion.div
-        animate={{ y: [0, -8, 0] }}
+        animate={{ y: [0, -6, 0] }}
         transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
         className="relative cursor-pointer"
-        onClick={() => showToast('Mascot says hi! 👋', 'info')}
+        onClick={() => showToast('Momo says hi!', 'info')}
       >
-        <img
-          src="/mascot-idle.png"
-          alt="HKDV Mascot"
-          className="w-14 h-14 object-contain drop-shadow-md"
-        />
+        <img src="/momo-idle.png" alt="Momo" className="w-12 h-12 object-contain drop-shadow-sm" />
       </motion.div>
 
-      {/* Speech bubble */}
       <AnimatePresence mode="wait">
         {isVisible && (
           <motion.div
@@ -50,19 +44,12 @@ export default function ChatBubble() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -5, scale: 0.9 }}
             transition={{ duration: 0.25 }}
-            className="bg-white rounded-2xl rounded-bl-sm px-4 py-3 shadow-card-lg max-w-[220px] border border-pink-100/50"
+            className="rounded-[18px] rounded-bl-sm px-3.5 py-2.5 shadow-soft max-w-[200px] border"
+            style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}
           >
-            <p className="text-xs text-hkdv-text font-medium leading-relaxed">
-              {messages[messageIndex].text}
+            <p className="text-[12px] font-medium leading-relaxed" style={{ color: '#4A1838' }}>
+              {messages[messageIndex]}
             </p>
-            {messageIndex === 2 && (
-              <button
-                onClick={() => showToast('Viewing match details soon! 💕', 'info')}
-                className="mt-1.5 text-xs font-bold text-hkdv-pink hover:text-hkdv-pink-dark transition-colors flex items-center gap-1"
-              >
-                View match &#x279C;
-              </button>
-            )}
           </motion.div>
         )}
       </AnimatePresence>

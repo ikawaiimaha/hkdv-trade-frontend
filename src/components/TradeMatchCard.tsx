@@ -3,121 +3,95 @@ import { ArrowRight, Heart, RefreshCw, Zap } from 'lucide-react';
 import RarityBadge from './RarityBadge';
 import { useToast } from './ToastProvider';
 
-interface TradeMatchCardProps {
-  index?: number;
-}
-
-export default function TradeMatchCard({ index = 0 }: TradeMatchCardProps) {
+export default function TradeMatchCard({ index = 0 }: { index?: number }) {
   const { showToast } = useToast();
   const score = 72;
-  const scoreColor = score >= 80 ? 'text-pink-500' : score >= 60 ? 'text-purple-500' : score >= 30 ? 'text-orange-400' : 'text-gray-400';
-  const scoreBg = score >= 80 ? 'bg-pink-100' : score >= 60 ? 'bg-purple-100' : score >= 30 ? 'bg-orange-100' : 'bg-gray-100';
-  const ringColor = score >= 80 ? '#FB88A3' : score >= 60 ? '#C084FC' : score >= 30 ? '#FF8C42' : '#B8A0A8';
+  const ringColor = '#FF8CC6';
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="bg-white rounded-2xl p-5 shadow-card-md border border-pink-100/50"
+      className="rounded-[24px] p-5 border shadow-soft"
+      style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <img src="/mascot-idle.png" alt="" className="w-8 h-8 object-contain" />
+          <img src="/momo-idle.png" alt="" className="w-7 h-7 object-contain" />
           <RarityBadge tier="epic" />
         </div>
-        <span className="text-xs text-hkdv-text-muted font-medium">SSR Hunter</span>
+        <span className="text-caption" style={{ color: '#B08AA0' }}>SSR Hunter</span>
       </div>
 
-      {/* Profile */}
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-200 to-purple-200 flex items-center justify-center text-lg">
-          &#x1F3AE;
+        <div className="w-10 h-10 rounded-full flex items-center justify-center text-base" style={{ background: 'linear-gradient(135deg, #FF8CC6, #BFA2FF)' }}>
+          🎮
         </div>
         <div>
-          <h3 className="font-bold text-hkdv-text text-sm">KuromiLuvr</h3>
-          <p className="text-xs text-hkdv-text-muted">@kuromiluvr</p>
+          <h3 className="text-h2 text-[14px]">KuromiLuvr</h3>
+          <p className="text-caption" style={{ color: '#B08AA0' }}>@kuromiluvr</p>
         </div>
       </div>
 
-      {/* Match Score */}
       <div className="flex items-center gap-4 mb-4">
-        <div className="relative w-20 h-20 flex-shrink-0">
-          <svg className="w-20 h-20 -rotate-90" viewBox="0 0 80 80">
-            <circle cx="40" cy="40" r="34" fill="none" stroke="#FEEAF2" strokeWidth="6" />
-            <circle
-              cx="40"
-              cy="40"
-              r="34"
-              fill="none"
-              stroke={ringColor}
-              strokeWidth="6"
-              strokeLinecap="round"
-              strokeDasharray={`${(score / 100) * 213.6} 213.6`}
-            />
+        <div className="relative w-16 h-16 flex-shrink-0">
+          <svg className="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
+            <circle cx="32" cy="32" r="27" fill="none" stroke="#FFEAF3" strokeWidth="5" />
+            <circle cx="32" cy="32" r="27" fill="none" stroke={ringColor} strokeWidth="5" strokeLinecap="round"
+              strokeDasharray={`${(score / 100) * 169.6} 169.6`} />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className={`text-lg font-extrabold ${scoreColor}`}>{score}%</span>
-            <span className="text-[9px] text-hkdv-text-muted font-medium">Match</span>
+            <span className="text-[14px] font-extrabold" style={{ color: '#FF3B93' }}>{score}%</span>
+            <span className="text-[9px] font-bold" style={{ color: '#B08AA0' }}>Match</span>
           </div>
         </div>
 
-        <div className="flex-1 space-y-2">
+        <div className="flex-1 space-y-1.5">
           <div className="flex items-center gap-2">
-            <Heart size={14} className="text-pink-400" />
-            <span className="text-xs text-hkdv-text-secondary">They have items you want</span>
-            <span className="ml-auto text-xs font-bold text-hkdv-pink">6</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <RefreshCw size={14} className="text-blue-400" />
-            <span className="text-xs text-hkdv-text-secondary">You have items they want</span>
-            <span className="ml-auto text-xs font-bold text-blue-400">3</span>
+            <Heart size={12} style={{ color: '#FF8CC6' }} />
+            <span className="text-[11px]" style={{ color: '#7A4A68' }}>They have items you want</span>
+            <span className="ml-auto text-[11px] font-bold" style={{ color: '#FF3B93' }}>6</span>
           </div>
           <div className="flex items-center gap-2">
-            <Zap size={14} className="text-amber-400" />
-            <span className="text-xs text-hkdv-text-secondary">Possible trades</span>
-            <span className="ml-auto text-xs font-bold text-amber-500">3</span>
+            <RefreshCw size={12} style={{ color: '#BFA2FF' }} />
+            <span className="text-[11px]" style={{ color: '#7A4A68' }}>You have items they want</span>
+            <span className="ml-auto text-[11px] font-bold" style={{ color: '#BFA2FF' }}>3</span>
           </div>
-        </div>
-      </div>
-
-      {/* Trade preview */}
-      <div className={`rounded-xl p-3 mb-4 ${scoreBg} bg-opacity-40`}>
-        <p className={`text-xs font-bold mb-2 ${scoreColor}`}>
-          Strong Trade Match! &#x2764;&#xFE0F;
-        </p>
-        <p className="text-xs text-hkdv-text-secondary mb-3">
-          Great potential for a balanced trade.
-        </p>
-        <div className="flex items-center gap-3">
-          <div className="flex-1 bg-white rounded-lg p-2 text-center">
-            <p className="text-[10px] text-hkdv-text-muted mb-1">You give</p>
-            <p className="text-xs font-bold text-hkdv-text">Kuromi Spooky Chair</p>
-            <RarityBadge tier="rare" size="sm" />
-          </div>
-          <ArrowRight size={16} className="text-hkdv-text-muted flex-shrink-0" />
-          <div className="flex-1 bg-white rounded-lg p-2 text-center">
-            <p className="text-[10px] text-hkdv-text-muted mb-1">You get</p>
-            <p className="text-xs font-bold text-hkdv-text">Cinnamoroll Cloud Bed</p>
-            <RarityBadge tier="mythic" size="sm" />
+          <div className="flex items-center gap-2">
+            <Zap size={12} style={{ color: '#FFC8A2' }} />
+            <span className="text-[11px]" style={{ color: '#7A4A68' }}>Possible trades</span>
+            <span className="ml-auto text-[11px] font-bold" style={{ color: '#D97A4E' }}>3</span>
           </div>
         </div>
       </div>
 
-      {/* Actions */}
-      <div className="flex gap-3">
-        <button
-          onClick={() => showToast('Trade offer sent to KuromiLuvr! 💝', 'success')}
-          className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-hkdv-pink to-hkdv-pink-dark text-white py-2.5 rounded-xl text-sm font-bold shadow-float hover:shadow-lg transition-shadow"
-        >
-          <Heart size={14} />
-          Start Best Trade
+      <div className="rounded-[16px] p-3 mb-4" style={{ backgroundColor: '#FFEAF3' }}>
+        <p className="text-[11px] font-bold mb-2" style={{ color: '#FF3B93' }}>Strong Trade Match! 💖</p>
+        <div className="flex items-center gap-2">
+          <div className="flex-1 rounded-[12px] p-2 text-center border" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
+            <p className="text-[10px] font-bold" style={{ color: '#B08AA0' }}>You give</p>
+            <p className="text-[11px] font-bold" style={{ color: '#4A1838' }}>Kuromi Chair</p>
+            <RarityBadge tier="rare" />
+          </div>
+          <ArrowRight size={14} style={{ color: '#B08AA0' }} />
+          <div className="flex-1 rounded-[12px] p-2 text-center border" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
+            <p className="text-[10px] font-bold" style={{ color: '#B08AA0' }}>You get</p>
+            <p className="text-[11px] font-bold" style={{ color: '#4A1838' }}>Cinna Cloud Bed</p>
+            <RarityBadge tier="mythic" />
+          </div>
+        </div>
+      </div>
+
+      <div className="flex gap-2">
+        <button onClick={() => showToast('Trade offer sent to KuromiLuvr!', 'success')}
+          className="flex-1 flex items-center justify-center gap-2 h-9 rounded-full text-[12px] font-bold text-white shadow-soft hover:shadow-soft-hover transition-shadow"
+          style={{ background: 'linear-gradient(135deg, #FF8CC6, #BFA2FF)' }}>
+          <Heart size={12} /> Start Trade
         </button>
-        <button
-          onClick={() => showToast('Viewing trader profile coming soon! 👤', 'info')}
-          className="px-4 py-2.5 rounded-xl border-2 border-hkdv-pink/20 text-hkdv-text text-sm font-semibold hover:bg-hkdv-pink/5 transition-colors"
-        >
+        <button onClick={() => showToast('Viewing profile soon!', 'info')}
+          className="px-4 h-9 rounded-full text-[12px] font-bold border transition-colors hover:bg-[#FFE3F1]"
+          style={{ borderColor: '#FFD6EC', color: '#7A4A68' }}>
           View Profile
         </button>
       </div>

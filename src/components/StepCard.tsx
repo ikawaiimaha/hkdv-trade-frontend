@@ -15,24 +15,18 @@ export default function StepCard({ step, index }: StepCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.08 }}
-      onClick={() => showToast(`Step ${step.number}: ${step.title} — full guide coming soon! 📖`, 'info')}
-      className="bg-white rounded-2xl p-5 shadow-card hover:shadow-card-md transition-shadow duration-200 border border-pink-100/30 cursor-pointer"
+      onClick={() => showToast(`Step ${step.number}: ${step.title}`, 'info')}
+      className="rounded-[24px] p-5 shadow-soft hover:shadow-soft-hover transition-shadow duration-200 border cursor-pointer"
+      style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}
     >
       <div className="flex items-start gap-4">
-        {/* Step number */}
-        <div
-          className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md"
-          style={{ background: 'linear-gradient(135deg, #F04E7C, #FB88A3)' }}
-        >
+        <div className="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-[13px] shadow-sm"
+          style={{ background: 'linear-gradient(135deg, #FF8CC6, #BFA2FF)' }}>
           {step.number}
         </div>
-
-        {/* Content */}
         <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-hkdv-pink text-sm mb-1.5">{step.title}</h3>
-          <p className="text-sm text-hkdv-text-secondary leading-relaxed">
-            {step.description}
-          </p>
+          <h3 className="text-h2 mb-1" style={{ color: '#FF3B93' }}>{step.title}</h3>
+          <p className="text-body" style={{ color: '#7A4A68' }}>{step.description}</p>
         </div>
       </div>
     </motion.div>

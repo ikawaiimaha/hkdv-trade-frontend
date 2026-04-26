@@ -2,14 +2,35 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from '
 import { supabase } from '../lib/supabase';
 import type { Trader } from '../types/supabase';
 
+// Session helpers
+const STORAGE_KEY = 'hkdv_trader_id';
+
+function getSessionId(): string | null {
+  return sessionStorage.getItem(STORAGE_KEY) || localStorage.getItem(STORAGE_KEY);
+}
+
+function setSessionId(id: string, persist: boolean) {
+  if (persist) {
+    localStorage.setItem(STORAGE_KEY, id);
+  } else {
+    sessionStorage.setItem(STORAGE_KEY, id);
+  }
+}
+
+function clearSession() {
+  localStorage.removeItem(STORAGE_KEY);
+  sessionStorage.removeItem(STORAGE_KEY);
+}
+
 interface AuthContextValue {
   trader: Trader | null;
   isLoading: boolean;
   isLoggedIn: boolean;
-  login: (username: string, passcode: string) => Promise<{ error: string | null }>;
+  login: (username: string, passcode: string, persist?: boolean) => Promise<{ error: string | null }>;
   logout: () => Promise<void>;
   signup: (data: SignupData) => Promise<{ error: string | null }>;
   refreshTrader: () => Promise<void>;
+  updateTraderField: (field: Partial<Trader>) => void;
 }
 
 export interface SignupData {
@@ -27,10 +48,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [trader, setTrader] = useState<Trader | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load session from localStorage on mount
+  // Load session from storage on mount
   useEffect(() => {
     async function loadSession() {
-      const storedId = localStorage.getItem('hkdv_trader_id');
+      const storedId = getSessionId();
       if (storedId) {
         const { data, error } = await supabase
           .from('traders')
@@ -42,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!error && data) {
           setTrader(data as Trader);
         } else {
-          localStorage.removeItem('hkdv_trader_id');
+          clearSession();
         }
       }
       setIsLoading(false);
@@ -50,9 +71,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loadSession();
   }, []);
 
-  const login = async (username: string, passcode: string): Promise<{ error: string | null }> => {
-    // For demo: simple username + passcode_hash check
-    // In production, you'd use proper password hashing
+  const login = async (
+    username: string,
+    passcode: string,
+    persist: boolean = false
+  ): Promise<{ error: string | null }> => {
     const { data, error } = await supabase
       .from('traders')
       .select('*')
@@ -65,18 +88,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const traderData = data as Trader;
-    // Simple passcode check (in production, use bcrypt)
     if (traderData.passcode_hash !== passcode) {
       return { error: 'Invalid username or password' };
     }
 
-    localStorage.setItem('hkdv_trader_id', traderData.id);
+    setSessionId(traderData.id, persist);
     setTrader(traderData);
     return { error: null };
   };
 
   const signup = async (signupData: SignupData): Promise<{ error: string | null }> => {
-    // Check if username exists
     const { data: existing } = await supabase
       .from('traders')
       .select('id')
@@ -117,13 +138,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const newTrader = data as Trader;
-    localStorage.setItem('hkdv_trader_id', newTrader.id);
+    setSessionId(newTrader.id, true);
     setTrader(newTrader);
     return { error: null };
   };
 
   const logout = async () => {
-    localStorage.removeItem('hkdv_trader_id');
+    clearSession();
     setTrader(null);
   };
 
@@ -139,6 +160,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const updateTraderField = (field: Partial<Trader>) => {
+    if (!trader) return;
+    setTrader({ ...trader, ...field });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -149,6 +175,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         logout,
         signup,
         refreshTrader,
+        updateTraderField,
       }}
     >
       {children}

@@ -10,60 +10,41 @@ export default function FilterBar() {
   const [showMore, setShowMore] = useState(false);
   const { showToast } = useToast();
 
-  const handleTabClick = (tab: string) => {
+  const handleTab = (tab: string) => {
     setActiveTab(tab);
-    showToast(`Filtering by: ${tab} 🔍`, 'info');
-  };
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      showToast(`Searching for "${searchQuery}"... 🔎`, 'info');
-    }
+    showToast(`Filtering by: ${tab}`, 'info');
   };
 
   return (
-    <div className="space-y-4">
-      {/* Filter tabs and search */}
+    <div className="space-y-3">
       <div className="flex flex-wrap items-center gap-2">
         <div className="flex items-center gap-1.5 flex-wrap">
           {filterTabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => handleTabClick(tab)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 ${
-                activeTab === tab
-                  ? 'text-white'
-                  : 'bg-white text-hkdv-text-secondary hover:bg-hkdv-pink/10'
-              }`}
-              style={activeTab === tab ? { backgroundColor: '#FB88A3' } : {}}
-            >
+            <button key={tab} onClick={() => handleTab(tab)}
+              className="px-3.5 py-1.5 rounded-full text-chip font-bold transition-all duration-150"
+              style={{
+                backgroundColor: activeTab === tab ? '#FF8CC6' : '#FFF6FA',
+                color: activeTab === tab ? '#FFFFFF' : '#7A4A68',
+                border: activeTab === tab ? 'none' : '1px solid #FFD6EC',
+              }}>
               {tab}
             </button>
           ))}
-          <button
-            onClick={() => {
-              setShowMore(!showMore);
-              showToast('More filters coming soon! ✨', 'info');
-            }}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-white text-hkdv-text-secondary text-xs font-semibold hover:bg-hkdv-pink/10 transition-colors"
-          >
-            More
-            <ChevronDown size={12} className={`transition-transform ${showMore ? 'rotate-180' : ''}`} />
+          <button onClick={() => { setShowMore(!showMore); showToast('More filters coming soon!', 'info'); }}
+            className="flex items-center gap-1 px-3 py-1.5 rounded-full text-chip font-bold border transition-colors"
+            style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC', color: '#7A4A68' }}>
+            More <ChevronDown size={10} className={`transition-transform ${showMore ? 'rotate-180' : ''}`} />
           </button>
         </div>
 
-        {/* Search */}
-        <form onSubmit={handleSearch} className="flex-1 min-w-[200px] ml-auto">
+        <form onSubmit={(e) => { e.preventDefault(); searchQuery && showToast(`Searching "${searchQuery}"...`, 'info'); }}
+          className="flex-1 min-w-[180px] ml-auto">
           <div className="relative">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-hkdv-text-muted" />
-            <input
-              type="text"
-              placeholder="Search by name or collection..."
-              value={searchQuery}
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: '#B08AA0' }} />
+            <input type="text" placeholder="Search items..." value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-full bg-white text-sm text-hkdv-text placeholder:text-hkdv-text-muted border-none outline-none focus:ring-2 focus:ring-hkdv-pink/30 transition-shadow"
-            />
+              className="w-full pl-9 pr-4 py-2 rounded-full text-[13px] border-2 border-transparent focus:outline-none transition-colors"
+              style={{ backgroundColor: '#FFF6FA', color: '#4A1838', borderColor: '#FFD6EC' }} />
           </div>
         </form>
       </div>

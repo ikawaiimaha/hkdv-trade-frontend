@@ -8,59 +8,45 @@ export default function EventsPage() {
   const { showToast } = useToast();
 
   return (
-    <div className="pt-14 pb-20">
-      {/* Simple Header */}
-      <div className="max-w-content mx-auto px-4 pt-8 pb-2">
+    <div className="pt-[60px] pb-20">
+      <div className="max-w-content mx-auto px-4 pt-6 pb-2">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-hkdv-text mb-1">Event Calendar</h1>
-            <p className="text-sm text-hkdv-text-secondary">
-              Birthdays, campaigns, limited events, Happy Bags & more.
-            </p>
+            <h1 className="text-h1 mb-1">Event Calendar</h1>
+            <p className="text-body" style={{ color: '#7A4A68' }}>Birthdays, campaigns, limited events & more.</p>
           </div>
-          <button
-            onClick={() => showToast('Suggest Event feature coming soon! 📅', 'info')}
-            className="px-4 py-2 rounded-full bg-hkdv-pink text-white text-sm font-bold hover:bg-hkdv-pink-dark transition-colors shadow-sm"
-          >
-            + Suggest Event
+          <button onClick={() => showToast('Suggest Event coming soon!', 'info')}
+            className="px-4 py-2 rounded-full text-[12px] font-bold text-white" style={{ background: 'linear-gradient(135deg, #FF8CC6, #BFA2FF)' }}>
+            + Suggest
           </button>
         </div>
       </div>
 
-      <div className="max-w-content mx-auto px-4 mt-4 space-y-6">
-        {/* Calendar */}
+      <div className="max-w-content mx-auto px-4 mt-4 space-y-4">
         <EventCalendar />
-
-        {/* Upcoming Events */}
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <h2 className="text-base font-bold text-hkdv-text">Upcoming Events</h2>
-            <span className="text-sm text-hkdv-text-muted">
-              {loading ? '...' : `${events.length} events`}
-            </span>
+          <div className="flex items-center gap-2 mb-3">
+            <h2 className="text-h2">Upcoming</h2>
+            <span className="text-caption" style={{ color: '#B08AA0' }}>{loading ? '...' : `${events.length} events`}</span>
           </div>
-
           {error && (
-            <div className="text-center py-6 bg-white rounded-2xl shadow-card border border-pink-100/30">
-              <p className="text-sm text-hkdv-text-muted">Couldn&apos;t load events</p>
+            <div className="text-center py-6 rounded-[24px] border" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
+              <p className="text-body" style={{ color: '#B08AA0' }}>Couldn&apos;t load events</p>
             </div>
           )}
-
           <div className="space-y-3">
             {loading
               ? Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="bg-white rounded-2xl p-5 shadow-card border border-pink-100/30 animate-pulse">
-                    <div className="h-4 bg-pink-100/30 rounded w-1/3 mb-2" />
-                    <div className="h-3 bg-pink-100/30 rounded w-1/2 mb-3" />
+                  <div key={i} className="rounded-[24px] p-5 border animate-pulse" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
+                    <div className="h-4 rounded w-1/3 mb-2" style={{ backgroundColor: '#FFE3F1' }} />
+                    <div className="h-3 rounded w-1/2 mb-3" style={{ backgroundColor: '#FFE3F1' }} />
                     <div className="flex gap-2">
-                      <div className="h-6 bg-pink-100/30 rounded-full w-20" />
-                      <div className="h-6 bg-pink-100/30 rounded-full w-16" />
+                      <div className="h-5 rounded-full w-20" style={{ backgroundColor: '#FFE3F1' }} />
+                      <div className="h-5 rounded-full w-16" style={{ backgroundColor: '#FFE3F1' }} />
                     </div>
                   </div>
                 ))
-              : events.map((event, index) => (
-                  <EventCard key={event.id} event={event} index={index} />
-                ))}
+              : events.map((e, i) => <EventCard key={e.id} event={e} index={i} />)}
           </div>
         </div>
       </div>

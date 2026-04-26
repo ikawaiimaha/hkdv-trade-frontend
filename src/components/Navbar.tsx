@@ -1,9 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Menu, X, LogOut, User, Sparkles } from 'lucide-react';
+import { Menu, X, LogOut, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useToast } from '../components/ToastProvider';
+import { useToast } from './ToastProvider';
 
 const navItems = [
   { path: '/', label: 'Marketplace' },
@@ -22,9 +22,7 @@ export default function Navbar() {
   const { showToast } = useToast();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -36,34 +34,23 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await logout();
-    showToast('Logged out successfully. See you soon! 👋', 'success');
+    showToast('Logged out. See you soon! 👋', 'success');
   };
 
-  // Strawberry titles by rank
-  const getStrawberryTitle = (rank: number) => {
-    const titles = [
-      'Strawberry Syrup',
-      'Strawberry Cookie',
-      'Strawberry Macaron',
-      'Strawberry Milk',
-      'Strawberry Parfait',
-      'Strawberry Cake',
-    ];
-    return titles[Math.min(rank, titles.length - 1)] || 'Strawberry Syrup';
-  };
+  const rankTitles = ['Strawberry Syrup', 'Strawberry Cookie', 'Strawberry Macaron', 'Strawberry Milk', 'Strawberry Parfait', 'Strawberry Cake'];
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 h-14 transition-shadow duration-200 ${
-        scrolled ? 'shadow-lg shadow-pink-900/10' : ''
+      className={`fixed top-0 left-0 right-0 z-50 h-[60px] transition-shadow duration-200 ${
+        scrolled ? 'shadow-soft' : ''
       }`}
-      style={{ backgroundColor: '#FB88A3' }}
+      style={{ backgroundColor: '#FFF6FA' }}
     >
       <div className="max-w-content mx-auto h-full flex items-center justify-between px-4">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 text-white font-extrabold text-lg tracking-tight">
-          <img src="/mascot-idle.png" alt="HKDV" className="w-8 h-8 object-contain" />
-          <span className="hidden sm:inline">HKDV Trade</span>
+        <Link to="/" className="flex items-center gap-2 font-bold text-base tracking-tight" style={{ color: '#4A1838' }}>
+          <img src="/momo-idle.png" alt="Momo" className="w-8 h-8 object-contain" />
+          <span className="hidden sm:inline">MomoMint</span>
         </Link>
 
         {/* Desktop Nav */}
@@ -72,73 +59,56 @@ export default function Navbar() {
             <Link
               key={item.path}
               to={item.path}
-              className="relative px-3 py-1.5 rounded-full text-sm font-semibold text-white transition-colors duration-200 hover:bg-white/15"
+              className="relative px-3 py-1.5 rounded-full text-[13px] font-semibold transition-colors duration-200"
+              style={{
+                color: location.pathname === item.path ? '#FF3B93' : '#7A4A68',
+                backgroundColor: location.pathname === item.path ? '#FFE3F1' : 'transparent',
+              }}
             >
-              {location.pathname === item.path && (
-                <motion.div
-                  layoutId="nav-pill"
-                  className="absolute inset-0 rounded-full bg-white/20 border border-white/10"
-                  transition={{ type: 'spring', duration: 0.3, bounce: 0.15 }}
-                />
-              )}
-              <span className="relative z-10">{item.label}</span>
+              {item.label}
             </Link>
           ))}
         </div>
 
-        {/* Right side - Auth state */}
+        {/* Right side - Auth */}
         <div className="hidden md:flex items-center gap-2">
           {isLoggedIn && trader ? (
             <div className="relative">
               <button
                 onClick={() => setProfileOpen(!profileOpen)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors hover:bg-[#FFE3F1]"
               >
-                <div className="w-7 h-7 rounded-full bg-white/90 flex items-center justify-center text-sm overflow-hidden">
+                <div className="w-7 h-7 rounded-full overflow-hidden bg-gradient-to-br from-[#FF8CC6] to-[#BFA2FF]">
                   {trader.avatar_url ? (
                     <img src={trader.avatar_url} alt="" className="w-full h-full object-cover" />
                   ) : (
-                    <span>🎀</span>
+                    <div className="w-full h-full flex items-center justify-center text-white text-[10px] font-bold">
+                      {trader.display_name?.[0]?.toUpperCase() || 'M'}
+                    </div>
                   )}
                 </div>
-                <div className="text-left">
-                  <p className="text-xs font-bold text-white leading-tight">{trader.display_name}</p>
-                  <p className="text-[10px] text-white/70 leading-tight flex items-center gap-1">
-                    <Sparkles size={8} />
-                    {getStrawberryTitle(trader.strawberry_rank)}
-                  </p>
-                </div>
+                <span className="text-[12px] font-bold" style={{ color: '#4A1838' }}>{trader.display_name}</span>
               </button>
 
-              {/* Dropdown */}
               {profileOpen && (
                 <motion.div
                   initial={{ opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="absolute right-0 top-12 w-56 bg-white rounded-2xl shadow-card-lg border border-pink-100/50 py-2 z-50"
+                  className="absolute right-0 top-12 w-56 rounded-[20px] shadow-soft-lg border border-[#FFD6EC] py-2 z-50"
+                  style={{ backgroundColor: '#FFF6FA' }}
                 >
-                  <div className="px-4 py-3 border-b border-pink-100/30">
-                    <p className="text-sm font-bold text-hkdv-text">{trader.display_name}</p>
-                    <p className="text-xs text-hkdv-text-muted">@{trader.username}</p>
-                    <div className="flex items-center gap-1 mt-1">
-                      <span className="text-xs font-medium text-hkdv-pink">
-                        🍓 Rank {trader.strawberry_rank}
-                      </span>
-                    </div>
+                  <div className="px-4 py-3 border-b border-[#FFD6EC]">
+                    <p className="text-[13px] font-bold" style={{ color: '#4A1838' }}>{trader.display_name}</p>
+                    <p className="text-[11px] font-bold" style={{ color: '#7A4A68' }}>@{trader.username}</p>
+                    <p className="text-[11px] font-bold mt-1" style={{ color: '#FF3B93' }}>
+                      🍓 {rankTitles[Math.min(trader.strawberry_rank, 5)] || 'Strawberry Syrup'}
+                    </p>
                   </div>
-                  <Link
-                    to="/profile"
-                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-hkdv-text hover:bg-pink-50 transition-colors"
-                  >
-                    <User size={14} />
-                    My Profile
+                  <Link to="/profile" className="flex items-center gap-2 px-4 py-2.5 text-[13px] hover:bg-[#FFE3F1] transition-colors" style={{ color: '#4A1838' }}>
+                    <User size={14} /> My Profile
                   </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors"
-                  >
-                    <LogOut size={14} />
-                    Log Out
+                  <button onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2.5 text-[13px] hover:bg-red-50 transition-colors text-red-500">
+                    <LogOut size={14} /> Log Out
                   </button>
                 </motion.div>
               )}
@@ -147,13 +117,15 @@ export default function Navbar() {
             <div className="flex items-center gap-2">
               <Link
                 to="/login"
-                className="px-4 py-1.5 rounded-full border-2 border-white/70 text-white text-sm font-semibold hover:bg-white/15 transition-colors duration-200"
+                className="px-4 py-1.5 rounded-full text-[13px] font-semibold border transition-colors"
+                style={{ borderColor: '#FFD6EC', color: '#FF3B93' }}
               >
                 Log In
               </Link>
               <Link
                 to="/signup"
-                className="px-4 py-1.5 rounded-full bg-white text-hkdv-pink-dark text-sm font-bold hover:bg-white/90 transition-colors shadow-sm"
+                className="px-4 py-1.5 rounded-full text-[13px] font-bold text-white"
+                style={{ background: 'linear-gradient(135deg, #FF8CC6, #BFA2FF)' }}
               >
                 Sign Up
               </Link>
@@ -162,82 +134,53 @@ export default function Navbar() {
         </div>
 
         {/* Mobile menu button */}
-        <button
-          className="md:hidden text-white p-1"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
+        <button className="md:hidden p-1" onClick={() => setMobileOpen(!mobileOpen)} style={{ color: '#4A1838' }}>
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile Nav Drawer */}
+      {/* Mobile drawer */}
       {mobileOpen && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="md:hidden absolute top-14 left-0 right-0 shadow-xl"
-          style={{ backgroundColor: '#FB88A3' }}
+          className="md:hidden absolute top-[60px] left-0 right-0 shadow-soft-lg border-t border-[#FFD6EC]"
+          style={{ backgroundColor: '#FFF6FA' }}
         >
           <div className="flex flex-col p-3 gap-1">
-            {/* Mobile user info */}
             {isLoggedIn && trader && (
-              <div className="px-4 py-3 mb-2 border-b border-white/20">
-                <div className="flex items-center gap-2">
-                  <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-lg">
-                    {trader.avatar_url ? (
-                      <img src={trader.avatar_url} alt="" className="w-full h-full rounded-full object-cover" />
-                    ) : (
-                      <span>🎀</span>
-                    )}
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-white">{trader.display_name}</p>
-                    <p className="text-xs text-white/70">🍓 Rank {trader.strawberry_rank}</p>
-                  </div>
+              <div className="px-4 py-3 mb-2 border-b border-[#FFD6EC] flex items-center gap-2">
+                <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-[#FF8CC6] to-[#BFA2FF]">
+                  {trader.avatar_url ? (
+                    <img src={trader.avatar_url} alt="" className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-white font-bold">{trader.display_name[0]}</div>
+                  )}
+                </div>
+                <div>
+                  <p className="text-[13px] font-bold" style={{ color: '#4A1838' }}>{trader.display_name}</p>
+                  <p className="text-[11px]" style={{ color: '#FF3B93' }}>🍓 Rank {trader.strawberry_rank}</p>
                 </div>
               </div>
             )}
-
             {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`px-4 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors flex items-center gap-2 ${
-                  location.pathname === item.path ? 'bg-white/20' : 'hover:bg-white/15'
-                }`}
-              >
-                {location.pathname === item.path && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-white" />
-                )}
+              <Link key={item.path} to={item.path} className="px-4 py-2.5 rounded-[12px] text-[13px] font-semibold flex items-center gap-2 transition-colors"
+                style={{
+                  color: location.pathname === item.path ? '#FF3B93' : '#7A4A68',
+                  backgroundColor: location.pathname === item.path ? '#FFE3F1' : 'transparent',
+                }}>
                 {item.label}
               </Link>
             ))}
-
-            {/* Mobile auth buttons */}
-            <div className="mt-3 pt-3 border-t border-white/20 flex flex-col gap-2">
+            <div className="mt-3 pt-3 border-t border-[#FFD6EC] flex flex-col gap-2">
               {isLoggedIn ? (
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border-2 border-white/80 text-white text-sm font-semibold hover:bg-white/15 transition-colors"
-                >
-                  <LogOut size={16} />
-                  Log Out
+                <button onClick={handleLogout} className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border border-[#FFD6EC] text-[13px] font-semibold text-red-500">
+                  <LogOut size={16} /> Log Out
                 </button>
               ) : (
                 <>
-                  <Link
-                    to="/login"
-                    className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border-2 border-white/80 text-white text-sm font-semibold hover:bg-white/15 transition-colors"
-                  >
-                    Log In
-                  </Link>
-                  <Link
-                    to="/signup"
-                    className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-white text-hkdv-pink-dark text-sm font-bold hover:bg-white/90 transition-colors"
-                  >
-                    Sign Up
-                  </Link>
+                  <Link to="/login" className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border border-[#FFD6EC] text-[13px] font-semibold" style={{ color: '#FF3B93' }}>Log In</Link>
+                  <Link to="/signup" className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-[13px] font-bold text-white" style={{ background: 'linear-gradient(135deg, #FF8CC6, #BFA2FF)' }}>Sign Up</Link>
                 </>
               )}
             </div>
