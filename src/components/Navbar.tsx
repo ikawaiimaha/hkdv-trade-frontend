@@ -1,9 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Menu, X, LogOut, User } from 'lucide-react';
+import { Menu, X, LogOut, User, Bell } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from './ToastProvider';
+import { useNotifications } from '../hooks/useNotifications';
+import NotificationPanel from './NotificationPanel';
 
 const navItems = [
   { path: '/', label: 'Marketplace' },
@@ -19,8 +21,10 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [notifPanelOpen, setNotifPanelOpen] = useState(false);
   const { trader, isLoggedIn, logout } = useAuth();
   const { showToast } = useToast();
+  const { unreadCount } = useNotifications(trader?.id);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -74,11 +78,27 @@ export default function Navbar() {
         {/* Right side - Auth */}
         <div className="hidden md:flex items-center gap-2">
           {isLoggedIn && trader ? (
-            <div className="relative">
+            <>
+              {/* Notification Bell */}
               <button
-                onClick={() => setProfileOpen(!profileOpen)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors hover:bg-[#FFE3F1]"
+                onClick={() => setNotifPanelOpen(true)}
+                className="relative p-2 rounded-full transition-colors hover:bg-[#FFE3F1]"
+                style={{ color: '#4A1838' }}
               >
+                <Bell size={18} />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 min-w-[18px] flex items-center justify-center rounded-full text-[9px] font-bold text-white px-1"
+                    style={{ backgroundColor: '#FF3B93' }}>
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
+              </button>
+
+              <div className="relative">
+                <button
+                  onClick={() => setProfileOpen(!profileOpen)}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors hover:bg-[#FFE3F1]"
+                >
                 <div className="w-7 h-7 rounded-full overflow-hidden bg-gradient-to-br from-[#FF8CC6] to-[#BFA2FF]">
                   {trader.avatar_url ? (
                     <img src={trader.avatar_url} alt="" className="w-full h-full object-cover" />
@@ -113,7 +133,8 @@ export default function Navbar() {
                   </button>
                 </motion.div>
               )}
-            </div>
+              </div>
+            </>
           ) : (
             <div className="flex items-center gap-2">
               <Link
@@ -188,6 +209,9 @@ export default function Navbar() {
           </div>
         </motion.div>
       )}
+
+      {/* Notification Panel */}
+      <NotificationPanel isOpen={notifPanelOpen} onClose={() => setNotifPanelOpen(false)} />
     </nav>
   );
 }
