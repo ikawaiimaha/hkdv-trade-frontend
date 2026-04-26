@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Clock, ArrowRight, Star } from 'lucide-react';
+import { useToast } from './ToastProvider';
 
 interface Opportunity {
   type: 'match' | 'new' | 'wishlist';
@@ -38,6 +39,8 @@ const opportunities: Opportunity[] = [
 ];
 
 export default function DailyOpportunities({ index = 0 }: { index?: number }) {
+  const { showToast } = useToast();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -65,6 +68,7 @@ export default function DailyOpportunities({ index = 0 }: { index?: number }) {
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 + i * 0.1 }}
+            onClick={() => showToast(`${opp.title} — opening details soon! 🎀`, 'info')}
             className={`flex items-center gap-3 p-3 rounded-xl border ${opp.color} cursor-pointer hover:shadow-sm transition-shadow`}
           >
             <div className="w-10 h-10 rounded-full bg-white/80 flex items-center justify-center text-lg flex-shrink-0">
@@ -83,7 +87,10 @@ export default function DailyOpportunities({ index = 0 }: { index?: number }) {
       </div>
 
       {/* Footer */}
-      <button className="w-full mt-3 flex items-center justify-center gap-1 text-xs font-semibold text-hkdv-pink hover:text-hkdv-pink-dark transition-colors">
+      <button
+        onClick={() => showToast('All opportunities view coming soon! 🌟', 'info')}
+        className="w-full mt-3 flex items-center justify-center gap-1 text-xs font-semibold text-hkdv-pink hover:text-hkdv-pink-dark transition-colors"
+      >
         View All Opportunities
         <ArrowRight size={12} />
       </button>

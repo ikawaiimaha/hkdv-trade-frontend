@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useToast } from './ToastProvider';
 
 const messages = [
   { text: 'Welcome back! Ready to trade?', mood: 'happy' },
@@ -11,6 +12,7 @@ const messages = [
 export default function ChatBubble() {
   const [messageIndex, setMessageIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,7 +31,8 @@ export default function ChatBubble() {
       <motion.div
         animate={{ y: [0, -8, 0] }}
         transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-        className="relative"
+        className="relative cursor-pointer"
+        onClick={() => showToast('Mascot says hi! 👋', 'info')}
       >
         <img
           src="/mascot-idle.png"
@@ -53,7 +56,10 @@ export default function ChatBubble() {
               {messages[messageIndex].text}
             </p>
             {messageIndex === 2 && (
-              <button className="mt-1.5 text-xs font-bold text-hkdv-pink hover:text-hkdv-pink-dark transition-colors flex items-center gap-1">
+              <button
+                onClick={() => showToast('Viewing match details soon! 💕', 'info')}
+                className="mt-1.5 text-xs font-bold text-hkdv-pink hover:text-hkdv-pink-dark transition-colors flex items-center gap-1"
+              >
                 View match &#x279C;
               </button>
             )}

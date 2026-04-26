@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { useToast } from './ToastProvider';
 
 const navItems = [
   { path: '/', label: 'Marketplace' },
@@ -15,6 +16,7 @@ export default function Navbar() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { showToast } = useToast();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +65,10 @@ export default function Navbar() {
         </div>
 
         {/* Join / Log In button */}
-        <button className="hidden md:flex items-center gap-1.5 px-4 py-1.5 rounded-full border-2 border-white/70 text-white text-sm font-semibold hover:bg-white/15 transition-colors duration-200">
+        <button
+          onClick={() => showToast('Join / Log In coming soon! 🎀', 'info')}
+          className="hidden md:flex items-center gap-1.5 px-4 py-1.5 rounded-full border-2 border-white/70 text-white text-sm font-semibold hover:bg-white/15 transition-colors duration-200"
+        >
           <img src="/mascot-idle.png" alt="" className="w-5 h-5 object-contain" />
           Join / Log In
         </button>
@@ -101,7 +106,10 @@ export default function Navbar() {
                 {item.label}
               </Link>
             ))}
-            <button className="mt-2 flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border-2 border-white/80 text-white text-sm font-semibold hover:bg-white/15 transition-colors">
+            <button
+              onClick={() => showToast('Join / Log In coming soon! 🎀', 'info')}
+              className="mt-2 flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border-2 border-white/80 text-white text-sm font-semibold hover:bg-white/15 transition-colors"
+            >
               <img src="/mascot-idle.png" alt="" className="w-5 h-5 object-contain" />
               Join / Log In
             </button>

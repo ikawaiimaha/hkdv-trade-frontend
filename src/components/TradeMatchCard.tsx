@@ -1,12 +1,14 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Heart, RefreshCw, Zap } from 'lucide-react';
 import RarityBadge from './RarityBadge';
+import { useToast } from './ToastProvider';
 
 interface TradeMatchCardProps {
   index?: number;
 }
 
 export default function TradeMatchCard({ index = 0 }: TradeMatchCardProps) {
+  const { showToast } = useToast();
   const score = 72;
   const scoreColor = score >= 80 ? 'text-pink-500' : score >= 60 ? 'text-purple-500' : score >= 30 ? 'text-orange-400' : 'text-gray-400';
   const scoreBg = score >= 80 ? 'bg-pink-100' : score >= 60 ? 'bg-purple-100' : score >= 30 ? 'bg-orange-100' : 'bg-gray-100';
@@ -105,11 +107,17 @@ export default function TradeMatchCard({ index = 0 }: TradeMatchCardProps) {
 
       {/* Actions */}
       <div className="flex gap-3">
-        <button className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-hkdv-pink to-hkdv-pink-dark text-white py-2.5 rounded-xl text-sm font-bold shadow-float hover:shadow-lg transition-shadow">
+        <button
+          onClick={() => showToast('Trade offer sent to KuromiLuvr! 💝', 'success')}
+          className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-hkdv-pink to-hkdv-pink-dark text-white py-2.5 rounded-xl text-sm font-bold shadow-float hover:shadow-lg transition-shadow"
+        >
           <Heart size={14} />
           Start Best Trade
         </button>
-        <button className="px-4 py-2.5 rounded-xl border-2 border-hkdv-pink/20 text-hkdv-text text-sm font-semibold hover:bg-hkdv-pink/5 transition-colors">
+        <button
+          onClick={() => showToast('Viewing trader profile coming soon! 👤', 'info')}
+          className="px-4 py-2.5 rounded-xl border-2 border-hkdv-pink/20 text-hkdv-text text-sm font-semibold hover:bg-hkdv-pink/5 transition-colors"
+        >
           View Profile
         </button>
       </div>

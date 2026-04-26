@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import type { Step } from '../data/steps';
+import { useToast } from './ToastProvider';
 
 interface StepCardProps {
   step: Step;
@@ -7,12 +8,15 @@ interface StepCardProps {
 }
 
 export default function StepCard({ step, index }: StepCardProps) {
+  const { showToast } = useToast();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.08 }}
-      className="bg-white rounded-2xl p-5 shadow-card hover:shadow-card-md transition-shadow duration-200 border border-pink-100/30"
+      onClick={() => showToast(`Step ${step.number}: ${step.title} — full guide coming soon! 📖`, 'info')}
+      className="bg-white rounded-2xl p-5 shadow-card hover:shadow-card-md transition-shadow duration-200 border border-pink-100/30 cursor-pointer"
     >
       <div className="flex items-start gap-4">
         {/* Step number */}

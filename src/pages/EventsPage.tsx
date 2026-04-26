@@ -1,9 +1,11 @@
 import EventCalendar from '../components/EventCalendar';
 import EventCard from '../components/EventCard';
 import { useEvents } from '../hooks/useEvents';
+import { useToast } from '../components/ToastProvider';
 
 export default function EventsPage() {
   const { events, loading, error } = useEvents();
+  const { showToast } = useToast();
 
   return (
     <div className="pt-14 pb-20">
@@ -16,7 +18,10 @@ export default function EventsPage() {
               Birthdays, campaigns, limited events, Happy Bags & more.
             </p>
           </div>
-          <button className="px-4 py-2 rounded-full bg-hkdv-pink text-white text-sm font-bold hover:bg-hkdv-pink-dark transition-colors shadow-sm">
+          <button
+            onClick={() => showToast('Suggest Event feature coming soon! 📅', 'info')}
+            className="px-4 py-2 rounded-full bg-hkdv-pink text-white text-sm font-bold hover:bg-hkdv-pink-dark transition-colors shadow-sm"
+          >
             + Suggest Event
           </button>
         </div>

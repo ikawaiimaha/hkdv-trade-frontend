@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, Search } from 'lucide-react';
+import { useToast } from './ToastProvider';
 
 const filterTabs = ['All', 'SR', 'SSR', 'Tradable'];
 
@@ -7,6 +8,19 @@ export default function FilterBar() {
   const [activeTab, setActiveTab] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [showMore, setShowMore] = useState(false);
+  const { showToast } = useToast();
+
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+    showToast(`Filtering by: ${tab} 🔍`, 'info');
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      showToast(`Searching for "${searchQuery}"... 🔎`, 'info');
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -16,7 +30,7 @@ export default function FilterBar() {
           {filterTabs.map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => handleTabClick(tab)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 ${
                 activeTab === tab
                   ? 'text-white'
@@ -28,7 +42,10 @@ export default function FilterBar() {
             </button>
           ))}
           <button
-            onClick={() => setShowMore(!showMore)}
+            onClick={() => {
+              setShowMore(!showMore);
+              showToast('More filters coming soon! ✨', 'info');
+            }}
             className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-white text-hkdv-text-secondary text-xs font-semibold hover:bg-hkdv-pink/10 transition-colors"
           >
             More
@@ -37,7 +54,7 @@ export default function FilterBar() {
         </div>
 
         {/* Search */}
-        <div className="flex-1 min-w-[200px] ml-auto">
+        <form onSubmit={handleSearch} className="flex-1 min-w-[200px] ml-auto">
           <div className="relative">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-hkdv-text-muted" />
             <input
@@ -48,7 +65,7 @@ export default function FilterBar() {
               className="w-full pl-9 pr-4 py-2 rounded-full bg-white text-sm text-hkdv-text placeholder:text-hkdv-text-muted border-none outline-none focus:ring-2 focus:ring-hkdv-pink/30 transition-shadow"
             />
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

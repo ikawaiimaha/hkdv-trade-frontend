@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { ToastProvider } from './components/ToastProvider';
 import Navbar from './components/Navbar';
 import ChatBubble from './components/ChatBubble';
 import SupportFAB from './components/SupportFAB';
@@ -13,57 +14,59 @@ export default function App() {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#FEEAF2' }}>
-      <Navbar />
+    <ToastProvider>
+      <div className="min-h-screen" style={{ backgroundColor: '#FEEAF2' }}>
+        <Navbar />
 
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route
-            path="/"
-            element={
-              <PageWrapper>
-                <HomePage />
-              </PageWrapper>
-            }
-          />
-          <Route
-            path="/events"
-            element={
-              <PageWrapper>
-                <EventsPage />
-              </PageWrapper>
-            }
-          />
-          <Route
-            path="/about"
-            element={
-              <PageWrapper>
-                <AboutPage />
-              </PageWrapper>
-            }
-          />
-          <Route
-            path="/how-to-use"
-            element={
-              <PageWrapper>
-                <HowToUsePage />
-              </PageWrapper>
-            }
-          />
-          <Route
-            path="/faq"
-            element={
-              <PageWrapper>
-                <FAQPage />
-              </PageWrapper>
-            }
-          />
-        </Routes>
-      </AnimatePresence>
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route
+              path="/"
+              element={
+                <PageWrapper>
+                  <HomePage />
+                </PageWrapper>
+              }
+            />
+            <Route
+              path="/events"
+              element={
+                <PageWrapper>
+                  <EventsPage />
+                </PageWrapper>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <PageWrapper>
+                  <AboutPage />
+                </PageWrapper>
+              }
+            />
+            <Route
+              path="/how-to-use"
+              element={
+                <PageWrapper>
+                  <HowToUsePage />
+                </PageWrapper>
+              }
+            />
+            <Route
+              path="/faq"
+              element={
+                <PageWrapper>
+                  <FAQPage />
+                </PageWrapper>
+              }
+            />
+          </Routes>
+        </AnimatePresence>
 
-      <ChatBubble />
-      <SupportFAB />
-    </div>
+        <ChatBubble />
+        <SupportFAB />
+      </div>
+    </ToastProvider>
   );
 }
 

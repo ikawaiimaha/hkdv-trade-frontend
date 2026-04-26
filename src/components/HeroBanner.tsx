@@ -1,5 +1,6 @@
 import { Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useToast } from './ToastProvider';
 
 interface FloatingCharmProps {
   src: string;
@@ -39,6 +40,15 @@ interface HeroBannerProps {
 }
 
 export default function HeroBanner({ icon = '', title, subtitle, ctaText, onCtaClick, showMascot = true }: HeroBannerProps) {
+  const { showToast } = useToast();
+
+  const handleCta = () => {
+    if (onCtaClick) {
+      onCtaClick();
+    } else {
+      showToast('Join the community coming soon! 🎀', 'info');
+    }
+  };
   return (
     <div className="mx-4 rounded-3xl overflow-hidden relative" style={{ background: 'linear-gradient(135deg, #F04E7C 0%, #FB88A3 40%, #D4A5E0 100%)' }}>
       {/* Floating charms */}
@@ -114,7 +124,7 @@ export default function HeroBanner({ icon = '', title, subtitle, ctaText, onCtaC
             transition={{ duration: 0.5, delay: 0.3 }}
             whileHover={{ scale: 1.04, boxShadow: '0 8px 30px rgba(255,255,255,0.3)' }}
             whileTap={{ scale: 0.98 }}
-            onClick={onCtaClick}
+            onClick={handleCta}
             className="inline-flex items-center gap-2 bg-white/95 text-hkdv-pink-dark px-6 py-3 rounded-full font-bold text-sm shadow-lg backdrop-blur-sm transition-all"
           >
             <Sparkles size={16} />
