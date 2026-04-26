@@ -10,6 +10,7 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  envPrefix: 'VITE_',
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

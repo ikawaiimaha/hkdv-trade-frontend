@@ -1,24 +1,14 @@
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import RarityBadge from './RarityBadge';
-import type { Collection } from '../data/collections';
+import type { FrontendCollection } from '../hooks/useCollections';
 
 interface CollectionCardProps {
-  collection: Collection;
+  collection: FrontendCollection;
   index: number;
 }
 
 export default function CollectionCard({ collection, index }: CollectionCardProps) {
-  // Map collection type to rarity tier for demo
-  const tierMap: Record<string, import('./RarityBadge').RarityTier> = {
-    'sunshine-garden': 'epic',
-    'birthday-2026': 'common',
-    'sakura-lantern': 'rare',
-    'cinderella': 'mythic',
-    'cotton-candy': 'common',
-    'midnight-magician': 'epic',
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -35,8 +25,11 @@ export default function CollectionCard({ collection, index }: CollectionCardProp
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute top-3 left-3 flex items-center gap-2">
-          <RarityBadge tier={tierMap[collection.id] || 'common'} />
-          {collection.type === 'limited' && (
+          {collection.isLimited && (
+            <span className="text-xs">&#127873;</span>
+          )}
+          <RarityBadge tier={collection.isLimited ? 'epic' : 'common'} />
+          {collection.isLimited && (
             <span className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white bg-gradient-to-r from-purple-400 to-pink-400 uppercase tracking-wider">
               &#127873; Limited
             </span>

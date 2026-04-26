@@ -5,9 +5,11 @@ import FilterBar from '../components/FilterBar';
 import TradeMatchCard from '../components/TradeMatchCard';
 import DailyOpportunities from '../components/DailyOpportunities';
 import ScoreGuide from '../components/ScoreGuide';
-import { collections } from '../data/collections';
+import { useCollections } from '../hooks/useCollections';
 
 export default function HomePage() {
+  const { collections, loading, error } = useCollections();
+
   return (
     <div className="pt-14 pb-20">
       {/* Hero Banner */}
@@ -40,15 +42,35 @@ export default function HomePage() {
             New Releases
           </h2>
           <p className="text-sm text-hkdv-text-secondary">
-            The latest collections — click to browse items
+            {loading ? 'Loading collections...' : `${collections.length} collections available`}
           </p>
         </div>
 
+        {error && (
+          <div className="text-center py-8 bg-white rounded-2xl shadow-card border border-pink-100/30 mb-4">
+            <img src="/mascot-idle.png" alt="" className="w-12 h-12 mx-auto mb-2 opacity-50" />
+            <p className="text-sm text-hkdv-text-muted">Couldn&apos;t load collections</p>
+            <p className="text-xs text-hkdv-text-muted mt-1">{error}</p>
+          </div>
+        )}
+
         {/* Collection Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {collections.map((collection, index) => (
-            <CollectionCard key={collection.id} collection={collection} index={index} />
-          ))}
+          {loading
+            ? Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="bg-white rounded-2xl shadow-card border border-pink-100/30 animate-pulse">
+                  <div className="h-44 bg-pink-100/30 rounded-t-2xl" />
+                  <div className="p-4 space-y-3">
+                    <div className="h-4 bg-pink-100/30 rounded w-1/4" />
+                    <div className="h-4 bg-pink-100/30 rounded w-3/4" />
+                    <div className="h-3 bg-pink-100/30 rounded w-full" />
+                    <div className="h-3 bg-pink-100/30 rounded w-2/3" />
+                  </div>
+                </div>
+              ))
+            : collections.map((collection, index) => (
+                <CollectionCard key={collection.id} collection={collection} index={index} />
+              ))}
         </div>
       </section>
 

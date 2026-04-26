@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { eventTypeLabels, eventStatusConfig } from '../data/events';
-import type { Event } from '../data/events';
+import type { FrontendEvent } from '../hooks/useEvents';
 
 interface EventCardProps {
-  event: Event;
+  event: FrontendEvent;
   index: number;
 }
 
