@@ -10,8 +10,8 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 346 94% 76%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
@@ -22,54 +22,78 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.625rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --ring: 346 94% 76%;
+    --radius: 0.75rem;
+
+    /* Custom HKDV colors */
+    --color-primary: #FB88A3;
+    --color-primary-dark: #F04E7C;
+    --color-primary-light: #FFC2D6;
+    --color-bg-body: #FEEAF2;
+    --color-bg-card: #FFFFFF;
+    --color-bg-cream: #FFF9F0;
+    --color-text-primary: #5A3A44;
+    --color-text-secondary: #8B6B75;
+    --color-text-muted: #B8A0A8;
+    --color-accent-yellow: #FFE66D;
+    --color-accent-orange: #FF8C42;
+    --color-accent-green: #6BCB77;
+    --color-accent-purple: #C084FC;
+    --color-tag-new: #FB88A3;
+    --color-tag-limited: #C084FC;
+    --color-tag-live: #6BCB77;
+    --color-tag-soon: #FF8C42;
+
+    /* Spacing */
+    --container-max: 800px;
+    --container-padding: 16px;
+    --navbar-height: 56px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(90, 58, 68, 0.06);
+    --shadow-md: 0 4px 12px rgba(90, 58, 68, 0.08);
+    --shadow-lg: 0 8px 24px rgba(90, 58, 68, 0.12);
+    --shadow-float: 0 4px 16px rgba(251, 136, 163, 0.3);
   }
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  body {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--color-bg-body);
+    color: var(--color-text-primary);
+    scroll-behavior: smooth;
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
+}
+
+/* Custom animations */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(251, 136, 163, 0.25); }
+  50% { box-shadow: 0 4px 24px rgba(251, 136, 163, 0.45); }
+}
+
+.animate-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
 }
