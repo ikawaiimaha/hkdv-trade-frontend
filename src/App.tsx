@@ -13,6 +13,7 @@ import FAQPage from './pages/FAQPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ProfilePage from './pages/ProfilePage';
+import CollectionPage from './pages/CollectionPage';
 
 export default function App() {
   const location = useLocation();
@@ -34,6 +35,7 @@ export default function App() {
               <Route path="/login" element={<PageWrapper><LoginPage /></PageWrapper>} />
               <Route path="/signup" element={<PageWrapper><SignupPage /></PageWrapper>} />
               <Route path="/profile" element={<PageWrapper><ProfilePage /></PageWrapper>} />
+              <Route path="/collection/:id" element={<PageWrapper><CollectionPage /></PageWrapper>} />
             </Routes>
           </AnimatePresence>
 

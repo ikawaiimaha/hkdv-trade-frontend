@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import RarityBadge from './RarityBadge';
 import { useToast } from './ToastProvider';
@@ -13,14 +14,15 @@ export default function CollectionCard({ collection, index }: CollectionCardProp
   const { showToast } = useToast();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.08 }}
-      whileHover={{ y: -4, transition: { duration: 0.25 } }}
-      className="rounded-[24px] overflow-hidden shadow-soft hover:shadow-soft-hover transition-shadow duration-250 cursor-pointer border"
-      style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}
-    >
+    <Link to={`/collection/${collection.id}`}>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: index * 0.08 }}
+        whileHover={{ y: -4, transition: { duration: 0.25 } }}
+        className="rounded-[24px] overflow-hidden shadow-soft hover:shadow-soft-hover transition-shadow duration-250 border block"
+        style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}
+      >
       {/* Image */}
       <div className="h-40 overflow-hidden relative">
         <img src={collection.image} alt={collection.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -51,6 +53,7 @@ export default function CollectionCard({ collection, index }: CollectionCardProp
           </button>
         </div>
       </div>
-    </motion.div>
+      </motion.div>
+    </Link>
   );
 }
