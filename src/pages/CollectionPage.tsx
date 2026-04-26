@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Heart, CheckCircle, Sparkles, TrendingUp, Lock } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Sparkles, TrendingUp, Lock } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useToast } from '../components/ToastProvider';
 import { supabase } from '../lib/supabase';
+import ItemActionModal from '../components/ItemActionModal';
 
 interface CollectionItem {
   id: string;
@@ -30,11 +30,12 @@ interface CollectionData {
 export default function CollectionPage() {
   const { id } = useParams<{ id: string }>();
   const { trader, isLoggedIn } = useAuth();
-  const { showToast } = useToast();
   const [collection, setCollection] = useState<CollectionData | null>(null);
   const [items, setItems] = useState<CollectionItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [completion, setCompletion] = useState(0);
+  const [selectedItem, setSelectedItem] = useState<CollectionItem | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -96,17 +97,6 @@ export default function CollectionPage() {
 
     setLoading(false);
   }
-
-  const addToWishlist = async (itemId: string) => {
-    if (!isLoggedIn || !trader) { showToast('Please log in to use wishlist', 'warning'); return; }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (supabase as any)
-      .from('wishlist_entries')
-      .insert({ trader_id: trader.id, item_id: itemId, priority: 'want' });
-
-    if (error) showToast('Failed to add to wishlist', 'error');
-    else { showToast('Added to wishlist! 💖', 'success'); loadCollection(); }
-  };
 
   const rarityColor: Record<string, string> = {
     SSR: '#FF3B93',
@@ -251,7 +241,8 @@ export default function CollectionPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
-              className={`rounded-[24px] p-3 border shadow-soft transition-all ${
+              onClick={() => { setSelectedItem(item); setModalOpen(true); }}
+              className={`rounded-[24px] p-3 border shadow-soft transition-all cursor-pointer hover:shadow-soft-hover ${
                 item.isOwned ? 'ring-2 ring-[#9EE6C4]' : ''
               }`}
               style={{ backgroundColor: '#FFF6FA', borderColor: item.isOwned ? '#9EE6C4' : '#FFD6EC' }}
@@ -288,31 +279,44 @@ export default function CollectionPage() {
               <h3 className="text-[12px] font-bold leading-tight mb-1" style={{ color: '#4A1838' }}>{item.name}</h3>
               <p className="text-[10px] font-bold mb-2" style={{ color: '#B08AA0' }}>{item.character || 'Sanrio'}</p>
 
-              {/* Actions */}
-              <div className="flex items-center gap-1.5">
-                {!item.isOwned && !item.isOnWishlist && (
-                  <button
-                    onClick={() => addToWishlist(item.id)}
-                    className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-full text-[10px] font-bold border transition-colors hover:bg-[#FFE3F1]"
-                    style={{ borderColor: '#FFD6EC', color: '#FF3B93' }}
-                  >
-                    <Heart size={10} /> Wishlist
-                  </button>
-                )}
-                {item.isOnWishlist && (
-                  <span className="flex-1 text-center py-1.5 rounded-full text-[10px] font-bold" style={{ backgroundColor: '#FFE3F1', color: '#FF3B93' }}>
-                    <Heart size={10} className="inline" /> On Wishlist
-                  </span>
-                )}
-                {item.isOwned && (
-                  <span className="flex-1 text-center py-1.5 rounded-full text-[10px] font-bold" style={{ backgroundColor: '#E7FFF4', color: '#2FAF7F' }}>
-                    <CheckCircle size={10} className="inline" /> Owned
-                  </span>
-                )}
+              {/* Tap hint */}
+              <div className="flex items-center justify-center gap-1 py-1 rounded-full text-[9px] font-bold" style={{ backgroundColor: '#FFEAF3', color: '#B08AA0' }}>
+                <Sparkles size={8} /> Tap to manage
               </div>
             </motion.div>
           ))}
         </div>
+
+        {/* Item Action Modal */}
+        <ItemActionModal
+          item={selectedItem ? {
+            id: selectedItem.id,
+            name: selectedItem.name,
+            image_url: selectedItem.image_url,
+            rarity: selectedItem.rarity,
+            tier: selectedItem.rarity,
+            character: selectedItem.character,
+            collection_name: collection?.name || '',
+            collection_id: id || '',
+            item_code: '',
+            category: '',
+            source_type: '',
+            demand_level: '',
+            demand_score: 0,
+            projected_value: 0,
+            community_value: 0,
+            is_event_item: false,
+            is_limited: false,
+            wishlist_count: selectedItem.wishlist_count,
+            wiki_slug: '',
+            notes: '',
+            created_at: '',
+            updated_at: '',
+          } as unknown as import('../types/supabase').Item : null}
+          isOpen={modalOpen}
+          onClose={() => { setModalOpen(false); setSelectedItem(null); }}
+          onActionComplete={() => loadCollection()}
+        />
 
         {/* Empty state */}
         {items.length === 0 && (
