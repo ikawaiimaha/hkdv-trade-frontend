@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   ArrowLeft, Edit3, LogOut, Heart, RefreshCw, Star, Award,
-  TrendingUp, Package, Sparkles, CheckCircle, Target
+  TrendingUp, Package, Sparkles, CheckCircle, Target, Moon, UserCircle
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../components/ToastProvider';
@@ -19,16 +19,41 @@ export default function ProfilePage() {
   const navigate = useNavigate();
   const { inventory, wishlist, metrics, loading: statsLoading } = useProfileStats(trader?.id);
   const [isEditing, setIsEditing] = useState(false);
-  const [editForm, setEditForm] = useState({ displayName: '', bio: '', buddyName: '' });
-  const [activeTab, setActiveTab] = useState<'overview' | 'inventory' | 'wishlist'>('overview');
+  const [editForm, setEditForm] = useState({
+    displayName: '', bio: '', buddyName: '',
+    birthdayMonth: '', birthdayDay: '',
+    identityLabel: '', pronounsLabel: '',
+    showZodiac: true, showIdentity: true, showPronouns: true,
+  });
+  const [activeTab, setActiveTab] = useState<'overview' | 'inventory' | 'wishlist' | 'identity'>('overview');
 
   useEffect(() => { if (!isLoggedIn) { navigate('/login'); return; } }, [isLoggedIn, navigate]);
-  useEffect(() => { if (trader) setEditForm({ displayName: trader.display_name, bio: trader.bio || '', buddyName: trader.buddy_name || '' }); }, [trader]);
+  useEffect(() => { if (trader) setEditForm({
+    displayName: trader.display_name, bio: trader.bio || '', buddyName: trader.buddy_name || '',
+    birthdayMonth: trader.birthday_month?.toString() || '',
+    birthdayDay: trader.birthday_day?.toString() || '',
+    identityLabel: trader.identity_label || '',
+    pronounsLabel: trader.pronouns_label || '',
+    showZodiac: trader.show_zodiac ?? true,
+    showIdentity: trader.show_identity_charm ?? true,
+    showPronouns: trader.show_pronouns_charm ?? true,
+  }); }, [trader]);
 
   const handleSave = async () => {
     if (!trader) return;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (supabase as any).from('traders').update({ display_name: editForm.displayName, bio: editForm.bio, buddy_name: editForm.buddyName || null }).eq('id', trader.id);
+    const { error } = await (supabase as any).from('traders').update({
+      display_name: editForm.displayName,
+      bio: editForm.bio,
+      buddy_name: editForm.buddyName || null,
+      birthday_month: editForm.birthdayMonth ? parseInt(editForm.birthdayMonth) : null,
+      birthday_day: editForm.birthdayDay ? parseInt(editForm.birthdayDay) : null,
+      identity_label: editForm.identityLabel || null,
+      pronouns_label: editForm.pronounsLabel || null,
+      show_zodiac: editForm.showZodiac,
+      show_identity_charm: editForm.showIdentity,
+      show_pronouns_charm: editForm.showPronouns,
+    }).eq('id', trader.id);
     if (error) showToast('Failed to update', 'error');
     else { showToast('Profile updated! 🎀', 'success'); refreshTrader(); setIsEditing(false); }
   };
@@ -285,6 +310,84 @@ export default function ProfilePage() {
     </motion.div>
   );
 
+  const renderIdentity = () => (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
+      {/* Zodiac Card */}
+      <div className="rounded-[16px] p-4 border" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
+        <div className="flex items-center gap-2 mb-3">
+          <Moon size={14} style={{ color: '#7B5EAA' }} />
+          <h4 className="text-[13px] font-bold" style={{ color: '#4A1838' }}>Zodiac Sign</h4>
+          {trader.show_zodiac && (
+            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full ml-auto" style={{ backgroundColor: '#E7FFF4', color: '#2FAF7F' }}>Visible</span>
+          )}
+        </div>
+        {trader.zodiac_sign || (trader.birthday_month && trader.birthday_day) ? (
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center text-2xl" style={{ backgroundColor: '#F0E4FF' }}>
+              {trader.zodiac_sign === 'Aries' && '♈'}
+              {trader.zodiac_sign === 'Taurus' && '♉'}
+              {trader.zodiac_sign === 'Gemini' && '♊'}
+              {trader.zodiac_sign === 'Cancer' && '♋'}
+              {trader.zodiac_sign === 'Leo' && '♌'}
+              {trader.zodiac_sign === 'Virgo' && '♍'}
+              {trader.zodiac_sign === 'Libra' && '♎'}
+              {trader.zodiac_sign === 'Scorpio' && '♏'}
+              {trader.zodiac_sign === 'Sagittarius' && '♐'}
+              {trader.zodiac_sign === 'Capricorn' && '♑'}
+              {trader.zodiac_sign === 'Aquarius' && '♒'}
+              {trader.zodiac_sign === 'Pisces' && '♓'}
+              {!trader.zodiac_sign && '✨'}
+            </div>
+            <div>
+              <p className="text-[14px] font-bold" style={{ color: '#4A1838' }}>{trader.zodiac_sign || 'Unknown'}</p>
+              {trader.birthday_month && trader.birthday_day && (
+                <p className="text-[11px]" style={{ color: '#B08AA0' }}>
+                  {new Date(2000, trader.birthday_month - 1, trader.birthday_day).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
+                </p>
+              )}
+            </div>
+          </div>
+        ) : (
+          <p className="text-[12px]" style={{ color: '#B08AA0' }}>Add your birthday to display your zodiac sign.</p>
+        )}
+      </div>
+
+      {/* Identity Charm */}
+      {trader.identity_label && trader.show_identity_charm && (
+        <div className="rounded-[16px] p-4 border" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
+          <div className="flex items-center gap-2 mb-2">
+            <UserCircle size={14} style={{ color: '#FF3B93' }} />
+            <h4 className="text-[13px] font-bold" style={{ color: '#4A1838' }}>Identity</h4>
+          </div>
+          <span className="inline-block text-[12px] font-bold px-3 py-1.5 rounded-full" style={{ backgroundColor: '#FFE3F1', color: '#FF3B93' }}>
+            {trader.identity_label}
+          </span>
+        </div>
+      )}
+
+      {/* Pronouns Charm */}
+      {trader.pronouns_label && trader.show_pronouns_charm && (
+        <div className="rounded-[16px] p-4 border" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
+          <div className="flex items-center gap-2 mb-2">
+            <Heart size={14} style={{ color: '#FF8CC6' }} />
+            <h4 className="text-[13px] font-bold" style={{ color: '#4A1838' }}>Pronouns</h4>
+          </div>
+          <span className="inline-block text-[12px] font-bold px-3 py-1.5 rounded-full" style={{ backgroundColor: '#FFEAF3', color: '#7B5EAA' }}>
+            {trader.pronouns_label}
+          </span>
+        </div>
+      )}
+
+      {!trader.identity_label && !trader.pronouns_label && !trader.zodiac_sign && !(trader.birthday_month && trader.birthday_day) && (
+        <div className="text-center py-8 rounded-[24px] border" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
+          <UserCircle size={24} className="mx-auto mb-2 opacity-30" style={{ color: '#FF8CC6' }} />
+          <p className="text-body" style={{ color: '#B08AA0' }}>No identity charms set yet.</p>
+          <p className="text-caption mt-1" style={{ color: '#FF3B93' }}>Edit your profile to add zodiac, identity, and pronouns!</p>
+        </div>
+      )}
+    </motion.div>
+  );
+
   return (
     <div className="pt-[60px] pb-20">
       <div className="max-w-content mx-auto px-4 mt-5">
@@ -324,6 +427,82 @@ export default function ProfilePage() {
                 <textarea value={editForm.bio} onChange={(e) => setEditForm({ ...editForm, bio: e.target.value })} rows={2}
                   className="w-full px-3 py-2 rounded-[16px] text-[13px] border-2 border-transparent focus:outline-none resize-none" style={{ backgroundColor: '#FFEAF3', color: '#4A1838' }} />
               </div>
+
+              {/* Birthday for Zodiac */}
+              <div>
+                <label className="text-[12px] font-bold">Birthday (for Zodiac)</label>
+                <div className="flex gap-2">
+                  <select
+                    value={editForm.birthdayMonth}
+                    onChange={(e) => setEditForm({ ...editForm, birthdayMonth: e.target.value })}
+                    className="flex-1 px-3 py-2 rounded-[16px] text-[13px] border-2 border-transparent focus:outline-none"
+                    style={{ backgroundColor: '#FFEAF3', color: '#4A1838' }}
+                  >
+                    <option value="">Month</option>
+                    {Array.from({ length: 12 }, (_, i) => (
+                      <option key={i + 1} value={i + 1}>
+                        {new Date(2000, i, 1).toLocaleDateString('en-US', { month: 'long' })}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    value={editForm.birthdayDay}
+                    onChange={(e) => setEditForm({ ...editForm, birthdayDay: e.target.value })}
+                    className="flex-1 px-3 py-2 rounded-[16px] text-[13px] border-2 border-transparent focus:outline-none"
+                    style={{ backgroundColor: '#FFEAF3', color: '#4A1838' }}
+                  >
+                    <option value="">Day</option>
+                    {Array.from({ length: 31 }, (_, i) => (
+                      <option key={i + 1} value={i + 1}>{i + 1}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Identity */}
+              <div>
+                <label className="text-[12px] font-bold">Identity Label</label>
+                <input
+                  type="text"
+                  value={editForm.identityLabel}
+                  onChange={(e) => setEditForm({ ...editForm, identityLabel: e.target.value })}
+                  placeholder="e.g. Girl, Boy, Non-binary"
+                  className="w-full px-3 py-2 rounded-[16px] text-[13px] border-2 border-transparent focus:outline-none"
+                  style={{ backgroundColor: '#FFEAF3', color: '#4A1838' }}
+                />
+                <label className="flex items-center gap-2 mt-1.5 text-[11px]" style={{ color: '#7A4A68' }}>
+                  <input
+                    type="checkbox"
+                    checked={editForm.showIdentity}
+                    onChange={(e) => setEditForm({ ...editForm, showIdentity: e.target.checked })}
+                    className="rounded"
+                  />
+                  Show on profile
+                </label>
+              </div>
+
+              {/* Pronouns */}
+              <div>
+                <label className="text-[12px] font-bold">Pronouns</label>
+                <input
+                  type="text"
+                  value={editForm.pronounsLabel}
+                  onChange={(e) => setEditForm({ ...editForm, pronounsLabel: e.target.value })}
+                  placeholder="e.g. She/Her, He/Him, They/Them"
+                  className="w-full px-3 py-2 rounded-[16px] text-[13px] border-2 border-transparent focus:outline-none"
+                  style={{ backgroundColor: '#FFEAF3', color: '#4A1838' }}
+                />
+                <label className="flex items-center gap-2 mt-1.5 text-[11px]" style={{ color: '#7A4A68' }}>
+                  <input
+                    type="checkbox"
+                    checked={editForm.showPronouns}
+                    onChange={(e) => setEditForm({ ...editForm, showPronouns: e.target.checked })}
+                    className="rounded"
+                  />
+                  Show on profile
+                </label>
+              </div>
+
               <div className="flex gap-2">
                 <button onClick={handleSave} className="flex-1 h-9 rounded-full text-[12px] font-bold text-white" style={{ background: 'linear-gradient(135deg, #FF8CC6, #BFA2FF)' }}>Save</button>
                 <button onClick={() => setIsEditing(false)} className="flex-1 h-9 rounded-full text-[12px] font-bold border" style={{ borderColor: '#FFD6EC', color: '#7A4A68' }}>Cancel</button>
@@ -337,6 +516,7 @@ export default function ProfilePage() {
               { key: 'overview' as const, label: 'Overview', icon: Star },
               { key: 'inventory' as const, label: `Inventory (${inventory.length})`, icon: Package },
               { key: 'wishlist' as const, label: `Wishlist (${wishlist.length})`, icon: Heart },
+              { key: 'identity' as const, label: 'Identity', icon: UserCircle },
             ].map((tab) => (
               <button
                 key={tab.key}
@@ -355,6 +535,7 @@ export default function ProfilePage() {
           {activeTab === 'overview' && renderOverview()}
           {activeTab === 'inventory' && renderInventory()}
           {activeTab === 'wishlist' && renderWishlist()}
+          {activeTab === 'identity' && renderIdentity()}
 
           {/* Action Buttons */}
           <div className="flex gap-2 mt-4">
