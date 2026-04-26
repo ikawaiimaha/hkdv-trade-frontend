@@ -1,18 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Edit3, LogOut, Heart, RefreshCw, Star, Award } from 'lucide-react';
+import {
+  ArrowLeft, Edit3, LogOut, Heart, RefreshCw, Star, Award,
+  TrendingUp, Package, Sparkles, CheckCircle, Target
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../components/ToastProvider';
+import { useProfileStats } from '../hooks/useProfileStats';
 import { supabase } from '../lib/supabase';
 import AvatarUpload from '../components/AvatarUpload';
-
-interface ProfileStats {
-  completedTrades: number;
-  activeListings: number;
-  wishlistItems: number;
-  reputationScore: number;
-}
 
 const rankTitles = ['Strawberry Syrup','Strawberry Cookie','Strawberry Macaron','Strawberry Milk','Strawberry Parfait','Strawberry Cake'];
 
@@ -20,26 +17,13 @@ export default function ProfilePage() {
   const { trader, isLoggedIn, logout, refreshTrader, updateTraderField } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
-  const [stats, setStats] = useState<ProfileStats>({ completedTrades: 0, activeListings: 0, wishlistItems: 0, reputationScore: 0 });
-  const [loading, setLoading] = useState(true);
+  const { inventory, wishlist, metrics, loading: statsLoading } = useProfileStats(trader?.id);
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({ displayName: '', bio: '', buddyName: '' });
+  const [activeTab, setActiveTab] = useState<'overview' | 'inventory' | 'wishlist'>('overview');
 
-  useEffect(() => { if (!isLoggedIn) { navigate('/login'); return; } loadStats(); }, [isLoggedIn]);
+  useEffect(() => { if (!isLoggedIn) { navigate('/login'); return; } }, [isLoggedIn, navigate]);
   useEffect(() => { if (trader) setEditForm({ displayName: trader.display_name, bio: trader.bio || '', buddyName: trader.buddy_name || '' }); }, [trader]);
-
-  async function loadStats() {
-    if (!trader) return;
-    setLoading(true);
-    const [listingsRes, wishlistRes, repRes] = await Promise.all([
-      supabase.from('listings').select('*', { count: 'exact', head: true }).eq('trader_id', trader.id).eq('status', 'active'),
-      supabase.from('wishlist_entries').select('*', { count: 'exact', head: true }).eq('trader_id', trader.id),
-      supabase.from('reputation_snapshots').select('*').eq('trader_id', trader.id).single(),
-    ]);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setStats({ completedTrades: (repRes.data as any)?.completed_trades_count || 0, activeListings: listingsRes.count || 0, wishlistItems: wishlistRes.count || 0, reputationScore: (repRes.data as any)?.reputation_score || 0 });
-    setLoading(false);
-  }
 
   const handleSave = async () => {
     if (!trader) return;
@@ -54,6 +38,253 @@ export default function ProfilePage() {
 
   const rankTitle = rankTitles[Math.min(trader.strawberry_rank, 5)] || 'Strawberry Syrup';
 
+  const rarityColorMap: Record<string, string> = {
+    SSR: '#FF3B93',
+    SR: '#8A6A00',
+    R: '#2FAF7F',
+    N: '#7A4A68',
+  };
+
+  const renderOverview = () => (
+    <>
+      {/* Conversion Metrics */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="rounded-[24px] p-5 border shadow-soft mb-4"
+        style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}
+      >
+        <div className="flex items-center gap-2 mb-4">
+          <TrendingUp size={16} style={{ color: '#FF8CC6' }} />
+          <h3 className="text-h2 text-[14px]">Conversion Tracking</h3>
+        </div>
+
+        {statsLoading ? (
+          <div className="grid grid-cols-2 gap-3 animate-pulse">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="rounded-[16px] h-20" style={{ backgroundColor: '#FFEAF3' }} />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-3">
+            {/* Wishlist Fulfillment */}
+            <div className="rounded-[16px] p-3" style={{ backgroundColor: '#FFEAF3' }}>
+              <div className="flex items-center gap-1.5 mb-2">
+                <Target size={12} style={{ color: '#FF3B93' }} />
+                <span className="text-[11px] font-bold" style={{ color: '#7A4A68' }}>Wishlist Fulfilled</span>
+              </div>
+              <div className="flex items-end gap-1.5">
+                <span className="text-[22px] font-extrabold" style={{ color: '#FF3B93' }}>{metrics.wishlistFulfillmentRate}%</span>
+              </div>
+              <div className="h-1.5 rounded-full mt-2 overflow-hidden" style={{ backgroundColor: '#FFD6EC' }}>
+                <div className="h-full rounded-full transition-all" style={{ width: `${metrics.wishlistFulfillmentRate}%`, background: 'linear-gradient(90deg, #FF8CC6, #FF3B93)' }} />
+              </div>
+            </div>
+
+            {/* Trade Acceptance Rate */}
+            <div className="rounded-[16px] p-3" style={{ backgroundColor: '#E7FFF4' }}>
+              <div className="flex items-center gap-1.5 mb-2">
+                <CheckCircle size={12} style={{ color: '#2FAF7F' }} />
+                <span className="text-[11px] font-bold" style={{ color: '#7A4A68' }}>Trade Success</span>
+              </div>
+              <div className="flex items-end gap-1.5">
+                <span className="text-[22px] font-extrabold" style={{ color: '#2FAF7F' }}>{metrics.tradeAcceptanceRate}%</span>
+              </div>
+              <div className="h-1.5 rounded-full mt-2 overflow-hidden" style={{ backgroundColor: '#C8F5DC' }}>
+                <div className="h-full rounded-full transition-all" style={{ width: `${metrics.tradeAcceptanceRate}%`, background: 'linear-gradient(90deg, #9EE6C4, #2FAF7F)' }} />
+              </div>
+            </div>
+
+            {/* Offers Stats */}
+            <div className="rounded-[16px] p-3" style={{ backgroundColor: '#F0E4FF' }}>
+              <div className="flex items-center gap-1.5 mb-2">
+                <RefreshCw size={12} style={{ color: '#7B5EAA' }} />
+                <span className="text-[11px] font-bold" style={{ color: '#7A4A68' }}>Offer Activity</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="text-center">
+                  <p className="text-[16px] font-bold" style={{ color: '#4A1838' }}>{metrics.totalOffersSent}</p>
+                  <p className="text-[9px] font-bold" style={{ color: '#B08AA0' }}>Sent</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-[16px] font-bold" style={{ color: '#4A1838' }}>{metrics.totalOffersReceived}</p>
+                  <p className="text-[9px] font-bold" style={{ color: '#B08AA0' }}>Received</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-[16px] font-bold" style={{ color: '#2FAF7F' }}>{metrics.acceptedOffers}</p>
+                  <p className="text-[9px] font-bold" style={{ color: '#B08AA0' }}>Accepted</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Collection Completion */}
+            <div className="rounded-[16px] p-3" style={{ backgroundColor: '#FFF7CC' }}>
+              <div className="flex items-center gap-1.5 mb-2">
+                <Sparkles size={12} style={{ color: '#8A6A00' }} />
+                <span className="text-[11px] font-bold" style={{ color: '#7A4A68' }}>Collections</span>
+              </div>
+              <div className="flex items-end gap-1.5">
+                <span className="text-[22px] font-extrabold" style={{ color: '#8A6A00' }}>{metrics.collectionCompletionRate}%</span>
+              </div>
+              <div className="h-1.5 rounded-full mt-2 overflow-hidden" style={{ backgroundColor: '#FFE8A0' }}>
+                <div className="h-full rounded-full transition-all" style={{ width: `${metrics.collectionCompletionRate}%`, background: 'linear-gradient(90deg, #FFE8A0, #8A6A00)' }} />
+              </div>
+            </div>
+          </div>
+        )}
+      </motion.div>
+
+      {/* Quick Stats Row */}
+      <div className="grid grid-cols-4 gap-2 mb-4">
+        <div className="rounded-[16px] p-2.5 text-center" style={{ backgroundColor: '#FFEAF3' }}>
+          <RefreshCw size={14} className="mx-auto mb-1" style={{ color: '#FF8CC6' }} />
+          <p className="text-[14px] font-bold" style={{ color: '#4A1838' }}>{metrics.acceptedOffers}</p>
+          <p className="text-[10px] font-bold" style={{ color: '#B08AA0' }}>Trades</p>
+        </div>
+        <div className="rounded-[16px] p-2.5 text-center" style={{ backgroundColor: '#E7FFF4' }}>
+          <Package size={14} className="mx-auto mb-1" style={{ color: '#2FAF7F' }} />
+          <p className="text-[14px] font-bold" style={{ color: '#4A1838' }}>{inventory.length}</p>
+          <p className="text-[10px] font-bold" style={{ color: '#B08AA0' }}>Inventory</p>
+        </div>
+        <div className="rounded-[16px] p-2.5 text-center" style={{ backgroundColor: '#F0E4FF' }}>
+          <Heart size={14} className="mx-auto mb-1" style={{ color: '#7B5EAA' }} />
+          <p className="text-[14px] font-bold" style={{ color: '#4A1838' }}>{wishlist.length}</p>
+          <p className="text-[10px] font-bold" style={{ color: '#B08AA0' }}>Wishlist</p>
+        </div>
+        <div className="rounded-[16px] p-2.5 text-center" style={{ backgroundColor: '#FFF7CC' }}>
+          <Award size={14} className="mx-auto mb-1" style={{ color: '#8A6A00' }} />
+          <p className="text-[14px] font-bold" style={{ color: '#4A1838' }}>{trader.strawberry_rank}</p>
+          <p className="text-[10px] font-bold" style={{ color: '#B08AA0' }}>Rank</p>
+        </div>
+      </div>
+    </>
+  );
+
+  const renderInventory = () => (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-2">
+      {statsLoading ? (
+        <div className="animate-pulse space-y-2">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="rounded-[16px] h-16" style={{ backgroundColor: '#FFEAF3' }} />
+          ))}
+        </div>
+      ) : inventory.length === 0 ? (
+        <div className="text-center py-8 rounded-[24px] border" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
+          <Package size={24} className="mx-auto mb-2 opacity-30" style={{ color: '#FF8CC6' }} />
+          <p className="text-body" style={{ color: '#B08AA0' }}>No items in your inventory yet.</p>
+          <p className="text-caption mt-1" style={{ color: '#FF3B93' }}>Add items you own to start trading!</p>
+        </div>
+      ) : (
+        inventory.map((inv) => (
+          <div
+            key={inv.inventoryId}
+            className="flex items-center gap-3 p-3 rounded-[16px] border"
+            style={{ backgroundColor: '#FFF6FA', borderColor: inv.isTradeable ? '#9EE6C4' : '#FFD6EC' }}
+          >
+            <div
+              className="w-12 h-12 rounded-[12px] flex items-center justify-center text-lg flex-shrink-0"
+              style={{ backgroundColor: inv.isTradeable ? '#E7FFF4' : '#FFEAF3' }}
+            >
+              {inv.item.image_url ? (
+                <img src={inv.item.image_url} alt="" className="w-full h-full object-cover rounded-[12px]" />
+              ) : (
+                '🎁'
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[12px] font-bold truncate" style={{ color: '#4A1838' }}>{inv.item.name}</p>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span
+                  className="text-[9px] font-bold px-1.5 py-0.5 rounded-full"
+                  style={{
+                    backgroundColor: inv.item.rarity === 'SSR' ? '#FFE3F1' : inv.item.rarity === 'SR' ? '#FFF7CC' : inv.item.rarity === 'R' ? '#E7FFF4' : '#FFEAF3',
+                    color: rarityColorMap[inv.item.rarity || 'N'] || '#7A4A68',
+                  }}
+                >
+                  {inv.item.rarity || inv.item.tier || 'N'}
+                </span>
+                <span className="text-[10px] font-bold" style={{ color: '#B08AA0' }}>x{inv.quantityOwned}</span>
+              </div>
+            </div>
+            {inv.isTradeable && (
+              <span className="text-[9px] font-bold px-2 py-1 rounded-full" style={{ backgroundColor: '#E7FFF4', color: '#2FAF7F' }}>
+                Tradable
+              </span>
+            )}
+          </div>
+        ))
+      )}
+    </motion.div>
+  );
+
+  const renderWishlist = () => (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-2">
+      {statsLoading ? (
+        <div className="animate-pulse space-y-2">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="rounded-[16px] h-16" style={{ backgroundColor: '#FFEAF3' }} />
+          ))}
+        </div>
+      ) : wishlist.length === 0 ? (
+        <div className="text-center py-8 rounded-[24px] border" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
+          <Heart size={24} className="mx-auto mb-2 opacity-30" style={{ color: '#FF8CC6' }} />
+          <p className="text-body" style={{ color: '#B08AA0' }}>Your wishlist is empty.</p>
+          <p className="text-caption mt-1" style={{ color: '#FF3B93' }}>Browse collections to add items!</p>
+        </div>
+      ) : (
+        wishlist.map((entry) => {
+          const isOwned = inventory.some((inv) => inv.item.id === entry.item.id);
+          return (
+            <div
+              key={entry.entryId}
+              className="flex items-center gap-3 p-3 rounded-[16px] border"
+              style={{
+                backgroundColor: '#FFF6FA',
+                borderColor: isOwned ? '#9EE6C4' : '#FFD6EC',
+                opacity: isOwned ? 0.6 : 1,
+              }}
+            >
+              <div
+                className="w-12 h-12 rounded-[12px] flex items-center justify-center text-lg flex-shrink-0"
+                style={{ backgroundColor: isOwned ? '#E7FFF4' : '#FFEAF3' }}
+              >
+                {entry.item.image_url ? (
+                  <img src={entry.item.image_url} alt="" className="w-full h-full object-cover rounded-[12px]" />
+                ) : (
+                  '💝'
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[12px] font-bold truncate" style={{ color: '#4A1838' }}>{entry.item.name}</p>
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span
+                    className="text-[9px] font-bold px-1.5 py-0.5 rounded-full"
+                    style={{
+                      backgroundColor: entry.item.rarity === 'SSR' ? '#FFE3F1' : entry.item.rarity === 'SR' ? '#FFF7CC' : entry.item.rarity === 'R' ? '#E7FFF4' : '#FFEAF3',
+                      color: rarityColorMap[entry.item.rarity || 'N'] || '#7A4A68',
+                    }}
+                  >
+                    {entry.item.rarity || entry.item.tier || 'N'}
+                  </span>
+                  {entry.priority === 'high' && <span className="text-[9px] font-bold" style={{ color: '#FF3B93' }}>🔥 High</span>}
+                </div>
+              </div>
+              {isOwned ? (
+                <span className="text-[9px] font-bold px-2 py-1 rounded-full flex items-center gap-1" style={{ backgroundColor: '#E7FFF4', color: '#2FAF7F' }}>
+                  <CheckCircle size={10} /> Owned
+                </span>
+              ) : (
+                <span className="text-[9px] font-bold px-2 py-1 rounded-full" style={{ backgroundColor: '#FFE3F1', color: '#FF3B93' }}>
+                  {entry.priority}
+                </span>
+              )}
+            </div>
+          );
+        })
+      )}
+    </motion.div>
+  );
+
   return (
     <div className="pt-[60px] pb-20">
       <div className="max-w-content mx-auto px-4 mt-5">
@@ -61,6 +292,7 @@ export default function ProfilePage() {
           <ArrowLeft size={14} /> Back
         </Link>
 
+        {/* Profile Header Card */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="rounded-[24px] p-5 border shadow-soft mb-4" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
@@ -99,58 +331,41 @@ export default function ProfilePage() {
             </motion.div>
           )}
 
-          {/* Stats */}
-          {loading ? (
-            <div className="grid grid-cols-4 gap-2 animate-pulse">
-              {[1,2,3,4].map(i => <div key={i} className="rounded-[16px] p-3 h-16" style={{ backgroundColor: '#FFEAF3' }} />)}
-            </div>
-          ) : (
-            <div className="grid grid-cols-4 gap-2">
-              <div className="rounded-[16px] p-2.5 text-center" style={{ backgroundColor: '#FFEAF3' }}>
-                <RefreshCw size={14} className="mx-auto mb-1" style={{ color: '#FF8CC6' }} />
-                <p className="text-[14px] font-bold" style={{ color: '#4A1838' }}>{stats.completedTrades}</p>
-                <p className="text-[10px] font-bold" style={{ color: '#B08AA0' }}>Trades</p>
-              </div>
-              <div className="rounded-[16px] p-2.5 text-center" style={{ backgroundColor: '#E7FFF4' }}>
-                <Star size={14} className="mx-auto mb-1" style={{ color: '#2FAF7F' }} />
-                <p className="text-[14px] font-bold" style={{ color: '#4A1838' }}>{stats.activeListings}</p>
-                <p className="text-[10px] font-bold" style={{ color: '#B08AA0' }}>Listings</p>
-              </div>
-              <div className="rounded-[16px] p-2.5 text-center" style={{ backgroundColor: '#F0E4FF' }}>
-                <Heart size={14} className="mx-auto mb-1" style={{ color: '#7B5EAA' }} />
-                <p className="text-[14px] font-bold" style={{ color: '#4A1838' }}>{stats.wishlistItems}</p>
-                <p className="text-[10px] font-bold" style={{ color: '#B08AA0' }}>Wishlist</p>
-              </div>
-              <div className="rounded-[16px] p-2.5 text-center" style={{ backgroundColor: '#FFF7CC' }}>
-                <Award size={14} className="mx-auto mb-1" style={{ color: '#8A6A00' }} />
-                <p className="text-[14px] font-bold" style={{ color: '#4A1838' }}>{stats.reputationScore}</p>
-                <p className="text-[10px] font-bold" style={{ color: '#B08AA0' }}>Rep</p>
-              </div>
-            </div>
-          )}
+          {/* Tab Navigation */}
+          <div className="flex gap-1 p-1 rounded-[16px] mb-4" style={{ backgroundColor: '#FFEAF3' }}>
+            {[
+              { key: 'overview' as const, label: 'Overview', icon: Star },
+              { key: 'inventory' as const, label: `Inventory (${inventory.length})`, icon: Package },
+              { key: 'wishlist' as const, label: `Wishlist (${wishlist.length})`, icon: Heart },
+            ].map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-[12px] text-[11px] font-bold transition-all ${
+                  activeTab === tab.key ? 'text-white shadow-soft' : ''
+                }`}
+                style={activeTab === tab.key ? { background: 'linear-gradient(135deg, #FF8CC6, #BFA2FF)' } : { color: '#7A4A68' }}
+              >
+                <tab.icon size={12} /> {tab.label}
+              </button>
+            ))}
+          </div>
 
+          {/* Tab Content */}
+          {activeTab === 'overview' && renderOverview()}
+          {activeTab === 'inventory' && renderInventory()}
+          {activeTab === 'wishlist' && renderWishlist()}
+
+          {/* Action Buttons */}
           <div className="flex gap-2 mt-4">
-            <Link to="/" className="flex-1 flex items-center justify-center gap-2 h-9 rounded-full text-[12px] font-bold text-white" style={{ background: 'linear-gradient(135deg, #FF8CC6, #BFA2FF)' }}>
-              Browse Items
+            <Link to="/trades" className="flex-1 flex items-center justify-center gap-2 h-9 rounded-full text-[12px] font-bold text-white" style={{ background: 'linear-gradient(135deg, #FF8CC6, #BFA2FF)' }}>
+              Find Trades
             </Link>
             <button onClick={handleLogout} className="flex items-center justify-center gap-2 px-4 h-9 rounded-full text-[12px] font-bold border border-red-200 text-red-500 hover:bg-red-50 transition-colors">
               <LogOut size={14} /> Log Out
             </button>
           </div>
         </motion.div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="rounded-[24px] p-5 border shadow-soft" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
-            <h3 className="text-h2 mb-1">My Inventory</h3>
-            <p className="text-body" style={{ color: '#7A4A68' }}>Items you own and want to trade.</p>
-            <p className="text-caption mt-2" style={{ color: '#FF3B93' }}>Coming soon!</p>
-          </div>
-          <div className="rounded-[24px] p-5 border shadow-soft" style={{ backgroundColor: '#FFF6FA', borderColor: '#FFD6EC' }}>
-            <h3 className="text-h2 mb-1">My Wishlist</h3>
-            <p className="text-body" style={{ color: '#7A4A68' }}>Items you&apos;re hunting for.</p>
-            <p className="text-caption mt-2" style={{ color: '#FF3B93' }}>Coming soon!</p>
-          </div>
-        </div>
       </div>
     </div>
   );
