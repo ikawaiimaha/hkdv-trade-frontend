@@ -127,7 +127,7 @@ export default function Navbar() {
                     </div>
                   </div>
                   <Link
-                    to="/"
+                    to="/profile"
                     className="flex items-center gap-2 px-4 py-2.5 text-sm text-hkdv-text hover:bg-pink-50 transition-colors"
                   >
                     <User size={14} />

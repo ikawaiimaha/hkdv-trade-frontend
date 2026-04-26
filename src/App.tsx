@@ -12,6 +12,7 @@ import HowToUsePage from './pages/HowToUsePage';
 import FAQPage from './pages/FAQPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import ProfilePage from './pages/ProfilePage';
 
 export default function App() {
   const location = useLocation();
@@ -78,6 +79,14 @@ export default function App() {
                 element={
                   <PageWrapper>
                     <SignupPage />
+                  </PageWrapper>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <PageWrapper>
+                    <ProfilePage />
                   </PageWrapper>
                 }
               />
