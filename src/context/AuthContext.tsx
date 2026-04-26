@@ -2,7 +2,6 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from '
 import { supabase } from '../lib/supabase';
 import type { Trader } from '../types/supabase';
 
-// Session helpers
 const STORAGE_KEY = 'hkdv_trader_id';
 
 function getSessionId(): string | null {
@@ -26,6 +25,7 @@ interface AuthContextValue {
   trader: Trader | null;
   isLoading: boolean;
   isLoggedIn: boolean;
+  isApproved: boolean;
   login: (username: string, passcode: string, persist?: boolean) => Promise<{ error: string | null }>;
   logout: () => Promise<void>;
   signup: (data: SignupData) => Promise<{ error: string | null }>;
@@ -40,6 +40,7 @@ export interface SignupData {
   passcode: string;
   buddyName?: string;
   applicationNote?: string;
+  invitationCode?: string;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -48,7 +49,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [trader, setTrader] = useState<Trader | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load session from storage on mount
   useEffect(() => {
     async function loadSession() {
       const storedId = getSessionId();
@@ -57,7 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           .from('traders')
           .select('*')
           .eq('id', storedId)
-          .eq('status', 'active')
+          .neq('status', 'banned')
           .single();
 
         if (!error && data) {
@@ -80,7 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .from('traders')
       .select('*')
       .eq('username', username)
-      .eq('status', 'active')
+      .neq('status', 'banned')
       .single();
 
     if (error || !data) {
@@ -118,7 +118,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         passcode_hash: signupData.passcode,
         buddy_name: signupData.buddyName || null,
         application_note: signupData.applicationNote || null,
-        status: 'active',
+        status: 'invited',
         is_approved: false,
         strawberry_rank: 0,
         strawberry_title: 'Strawberry Syrup',
@@ -126,8 +126,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         selected_charm_ids: [],
         charm_visibility: true,
         show_zodiac: true,
-        show_identity_charm: false,
-        show_pronouns_charm: false,
+        show_identity_charm: true,
+        show_pronouns_charm: true,
         avatar_pending_review: false,
       })
       .select()
@@ -171,6 +171,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         trader,
         isLoading,
         isLoggedIn: !!trader,
+        isApproved: trader?.status === 'active',
         login,
         logout,
         signup,

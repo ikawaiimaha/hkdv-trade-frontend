@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Menu, X, LogOut, User, Bell, Award } from 'lucide-react';
+import { Menu, X, LogOut, User, Bell, Award, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from './ToastProvider';
 import { useNotifications } from '../hooks/useNotifications';
@@ -121,16 +121,34 @@ export default function Navbar() {
                   <div className="px-4 py-3 border-b border-[#FFD6EC]">
                     <p className="text-[13px] font-bold" style={{ color: '#4A1838' }}>{trader.display_name}</p>
                     <p className="text-[11px] font-bold" style={{ color: '#7A4A68' }}>@{trader.username}</p>
-                    <p className="text-[11px] font-bold mt-1" style={{ color: '#FF3B93' }}>
-                      🍓 {rankTitles[Math.min(trader.strawberry_rank, 5)] || 'Strawberry Syrup'}
-                    </p>
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <span className="text-[11px] font-bold" style={{ color: '#FF3B93' }}>
+                        🍓 {rankTitles[Math.min(trader.strawberry_rank, 5)] || 'Strawberry Syrup'}
+                      </span>
+                      {trader.status === 'pending' && (
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full" style={{ backgroundColor: '#FFF7CC', color: '#8A6A00' }}>Pending</span>
+                      )}
+                      {trader.status === 'active' && (
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full" style={{ backgroundColor: '#E7FFF4', color: '#2FAF7F' }}>Verified</span>
+                      )}
+                    </div>
                   </div>
                   <Link to="/profile" className="flex items-center gap-2 px-4 py-2.5 text-[13px] hover:bg-[#FFE3F1] transition-colors" style={{ color: '#4A1838' }}>
                     <User size={14} /> My Profile
                   </Link>
+                  {trader.is_admin && (
+                    <Link to="/admin" className="flex items-center gap-2 px-4 py-2.5 text-[13px] hover:bg-[#FFE3F1] transition-colors" style={{ color: '#FF3B93' }}>
+                      <Shield size={14} /> Admin Dashboard
+                    </Link>
+                  )}
                   <Link to="/badges" className="flex items-center gap-2 px-4 py-2.5 text-[13px] hover:bg-[#FFE3F1] transition-colors" style={{ color: '#4A1838' }}>
                     <Award size={14} /> Badges
                   </Link>
+                  {trader.status !== 'active' && (
+                    <Link to="/verify" className="flex items-center gap-2 px-4 py-2.5 text-[13px] hover:bg-[#FFE3F1] transition-colors" style={{ color: '#FF3B93' }}>
+                      <Shield size={14} /> Verify Account
+                    </Link>
+                  )}
                   <button onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2.5 text-[13px] hover:bg-red-50 transition-colors text-red-500">
                     <LogOut size={14} /> Log Out
                   </button>

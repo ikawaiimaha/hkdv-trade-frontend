@@ -6,6 +6,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import ChatBubble from './components/ChatBubble';
 import SupportFAB from './components/SupportFAB';
+import InvitationGate from './components/InvitationGate';
 import OnboardingModal, { isOnboardingComplete } from './components/OnboardingModal';
 import HomePage from './pages/HomePage';
 import EventsPage from './pages/EventsPage';
@@ -18,20 +19,21 @@ import ProfilePage from './pages/ProfilePage';
 import CollectionPage from './pages/CollectionPage';
 import TradesPage from './pages/TradesPage';
 import BadgesPage from './pages/BadgesPage';
+import HKDVVerificationPage from './pages/HKDVVerificationPage';
+import AdminDashboard from './pages/AdminDashboard';
 
 function AppContent() {
   const location = useLocation();
-  const { isLoggedIn } = useAuth();
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
+  const { isLoggedIn, isApproved } = useAuth();
+  const isAuthPage = ['/login', '/signup', '/verify'].includes(location.pathname);
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
-    // Show onboarding for newly logged-in users who haven't completed it
-    if (isLoggedIn && !isOnboardingComplete()) {
+    if (isLoggedIn && isApproved && !isOnboardingComplete()) {
       const timer = setTimeout(() => setShowOnboarding(true), 500);
       return () => clearTimeout(timer);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, isApproved]);
 
   return (
     <div className="min-h-screen bg-momo-bg" style={{ color: '#4A1838' }}>
@@ -39,28 +41,31 @@ function AppContent() {
 
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
+          {/* Public routes — anyone can see */}
           <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
           <Route path="/events" element={<PageWrapper><EventsPage /></PageWrapper>} />
           <Route path="/about" element={<PageWrapper><AboutPage /></PageWrapper>} />
           <Route path="/how-to-use" element={<PageWrapper><HowToUsePage /></PageWrapper>} />
           <Route path="/faq" element={<PageWrapper><FAQPage /></PageWrapper>} />
+          <Route path="/collection/:id" element={<PageWrapper><CollectionPage /></PageWrapper>} />
           <Route path="/login" element={<PageWrapper><LoginPage /></PageWrapper>} />
           <Route path="/signup" element={<PageWrapper><SignupPage /></PageWrapper>} />
-          <Route path="/profile" element={<PageWrapper><ProfilePage /></PageWrapper>} />
-          <Route path="/collection/:id" element={<PageWrapper><CollectionPage /></PageWrapper>} />
-          <Route path="/trades" element={<PageWrapper><TradesPage /></PageWrapper>} />
-          <Route path="/badges" element={<PageWrapper><BadgesPage /></PageWrapper>} />
+          <Route path="/verify" element={<PageWrapper><HKDVVerificationPage /></PageWrapper>} />
+
+          {/* Protected routes — require approval */}
+          <Route path="/profile" element={<PageWrapper><InvitationGate><ProfilePage /></InvitationGate></PageWrapper>} />
+          <Route path="/trades" element={<PageWrapper><InvitationGate><TradesPage /></InvitationGate></PageWrapper>} />
+          <Route path="/badges" element={<PageWrapper><InvitationGate><BadgesPage /></InvitationGate></PageWrapper>} />
+
+          {/* Admin only */}
+          <Route path="/admin" element={<PageWrapper><AdminDashboard /></PageWrapper>} />
         </Routes>
       </AnimatePresence>
 
       {!isAuthPage && <ChatBubble />}
       {!isAuthPage && <SupportFAB />}
 
-      {/* Onboarding Modal */}
-      <OnboardingModal
-        isOpen={showOnboarding}
-        onClose={() => setShowOnboarding(false)}
-      />
+      <OnboardingModal isOpen={showOnboarding} onClose={() => setShowOnboarding(false)} />
     </div>
   );
 }
