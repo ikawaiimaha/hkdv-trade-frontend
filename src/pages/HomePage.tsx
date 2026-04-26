@@ -6,9 +6,16 @@ import TradeMatchCard from '../components/TradeMatchCard';
 import DailyOpportunities from '../components/DailyOpportunities';
 import ScoreGuide from '../components/ScoreGuide';
 import { useCollections } from '../hooks/useCollections';
+import { useTradeMatches } from '../hooks/useTradeMatches';
+import { useAuth } from '../context/AuthContext';
 
 export default function HomePage() {
   const { collections, loading, error } = useCollections();
+  const { trader, isLoggedIn } = useAuth();
+  const { matches: tradeMatches, loading: matchesLoading } = useTradeMatches(trader?.id);
+
+  // Show top match or empty state
+  const topMatch = tradeMatches[0];
 
   return (
     <div className="pt-[60px] pb-20">
@@ -18,8 +25,12 @@ export default function HomePage() {
 
       <div className="max-w-content mx-auto px-4 mt-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-8">
-          <TradeMatchCard />
-          <DailyOpportunities />
+          {isLoggedIn ? (
+            <TradeMatchCard match={topMatch} index={0} />
+          ) : (
+            <TradeMatchCard />
+          )}
+          <DailyOpportunities matches={tradeMatches.slice(0, 3)} loading={matchesLoading} />
         </div>
         <div className="mb-8">
           <ScoreGuide />

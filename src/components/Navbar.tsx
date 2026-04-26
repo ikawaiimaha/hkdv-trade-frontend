@@ -7,6 +7,7 @@ import { useToast } from './ToastProvider';
 
 const navItems = [
   { path: '/', label: 'Marketplace' },
+  { path: '/trades', label: 'Trades' },
   { path: '/events', label: 'Events' },
   { path: '/about', label: 'About' },
   { path: '/how-to-use', label: 'How To Use' },
