@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Menu, X, LogOut, User, Bell } from 'lucide-react';
+import { Menu, X, LogOut, User, Bell, Award } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from './ToastProvider';
 import { useNotifications } from '../hooks/useNotifications';
@@ -127,6 +127,9 @@ export default function Navbar() {
                   </div>
                   <Link to="/profile" className="flex items-center gap-2 px-4 py-2.5 text-[13px] hover:bg-[#FFE3F1] transition-colors" style={{ color: '#4A1838' }}>
                     <User size={14} /> My Profile
+                  </Link>
+                  <Link to="/badges" className="flex items-center gap-2 px-4 py-2.5 text-[13px] hover:bg-[#FFE3F1] transition-colors" style={{ color: '#4A1838' }}>
+                    <Award size={14} /> Badges
                   </Link>
                   <button onClick={handleLogout} className="w-full flex items-center gap-2 px-4 py-2.5 text-[13px] hover:bg-red-50 transition-colors text-red-500">
                     <LogOut size={14} /> Log Out
