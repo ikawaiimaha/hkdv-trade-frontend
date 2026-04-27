@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+
+<defs>
+  <linearGradient id="legendary_ornate_aura-stroke" x1="80" y1="60" x2="426" y2="440" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#fff6dc"/>
+    <stop offset="1" stop-color="#e7c86e"/>
+  </linearGradient>
+  <filter id="legendary_ornate_aura-shadow" x="8" y="8" width="496" height="496" color-interpolation-filters="sRGB">
+    <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="rgba(130, 92, 28, 0.16)"/>
+  </filter>
+</defs>
+<g filter="url(#legendary_ornate_aura-shadow)">
+  <circle cx="256" cy="256" r="216" stroke="url(#legendary_ornate_aura-stroke)" stroke-width="18"/>
+  <circle cx="256" cy="256" r="194" stroke="#fff0c2" stroke-width="8"/>
+  <path d="m164 102 34-46 32 30 26-38 28 38 34-30 30 46-18 12-18-24-30 34-26-36-26 36-30-34-18 24-18-12Z" fill="#c79632"/>
+  <path d="M122 172c-34 36-52 84-52 134 0 56 22 110 62 150l18-14c-36-36-56-84-56-136 0-44 16-86 46-118l-18-16Z" fill="#fff0c2"/>
+  <path d="M390 172c34 36 52 84 52 134 0 56-22 110-62 150l-18-14c36-36 56-84 56-136 0-44-16-86-46-118l18-16Z" fill="#fff0c2"/>
+  <path d="m256 420 10 20 22 3-16 16 4 22-20-11-20 11 4-22-16-16 22-3 10-20Z" fill="#c79632"/>
+</g>
+
+</svg>

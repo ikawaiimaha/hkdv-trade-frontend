@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+
+<defs>
+  <linearGradient id="charm_trader-bg" x1="96" y1="72" x2="424" y2="440" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#ffe6f0"/>
+    <stop offset="1" stop-color="#ff9dc4"/>
+  </linearGradient>
+  <linearGradient id="charm_trader-inner" x1="144" y1="120" x2="372" y2="390" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#fff7fb"/>
+    <stop offset="1" stop-color="#ffd9ea"/>
+  </linearGradient>
+  <linearGradient id="charm_trader-ring" x1="112" y1="80" x2="400" y2="432" gradientUnits="userSpaceOnUse">
+    <stop stop-color="#ffffff"/>
+    <stop offset="1" stop-color="#ffd9eb"/>
+  </linearGradient>
+  <filter id="charm_trader-shadow" x="90" y="100" width="332" height="316" color-interpolation-filters="sRGB">
+    <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="rgba(80, 40, 60, 0.18)"/>
+  </filter>
+</defs>
+<circle cx="256" cy="256" r="222" fill="url(#charm_trader-bg)"/>
+<circle cx="256" cy="256" r="204" stroke="url(#charm_trader-ring)" stroke-width="22"/>
+<circle cx="256" cy="256" r="160" fill="url(#charm_trader-inner)"/>
+<path d="M118 146c48-72 136-102 216-84 34 8 66 22 94 44-52-14-104-16-154-7-56 10-108 34-156 70Z" fill="rgba(255,255,255,0.46)"/>
+<g filter="url(#charm_trader-shadow)">
+  
+<ellipse cx="188" cy="232" rx="74" ry="54" fill="#ff72ac"/>
+<ellipse cx="324" cy="232" rx="74" ry="54" fill="#ff72ac"/>
+<circle cx="256" cy="238" r="34" fill="#ffc9df"/>
+<path d="M228 206 170 168" stroke="#ffc9df" stroke-linecap="round" stroke-width="18"/>
+<path d="M284 206 342 168" stroke="#ffc9df" stroke-linecap="round" stroke-width="18"/>
+<path d="M216 304c20-28 60-28 80 0l16 76h-112l16-76Z" fill="#ff72ac"/>
+<circle cx="352" cy="170" r="16" fill="#ffc9df"/>
+<path d="m352 140 7 14 15 2-11 11 3 15-14-8-14 8 3-15-11-11 15-2 7-14Z" fill="#fff6fb"/>
+
+</g>
+
+</svg>

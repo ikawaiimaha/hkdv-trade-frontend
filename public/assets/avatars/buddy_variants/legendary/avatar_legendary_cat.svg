@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+
+<circle cx="256" cy="224" r="164" fill="#fff0c2" opacity="0.28"/>
+<circle cx="256" cy="236" r="152" fill="#ffffff" opacity="0.42"/>
+
+<polygon points="188,106 218,58 238,120" fill="#ffffff"/>
+<polygon points="324,106 294,58 274,120" fill="#ffffff"/>
+<circle cx="256" cy="184" r="104" fill="#ffffff"/>
+<rect x="184" y="288" width="144" height="112" rx="50" fill="#fff2d1"/>
+<ellipse cx="222" cy="184" rx="10" ry="14" fill="#3f3a4a"/>
+<ellipse cx="290" cy="184" rx="10" ry="14" fill="#3f3a4a"/>
+<circle cx="208" cy="218" r="12" fill="#ffdce6"/>
+<circle cx="304" cy="218" r="12" fill="#ffdce6"/>
+<circle cx="256" cy="214" r="10" fill="#ffcfdd"/>
+<line x1="174" y1="190" x2="204" y2="190" stroke="#c79632" stroke-width="7" stroke-linecap="round"/>
+<line x1="308" y1="190" x2="338" y2="190" stroke="#c79632" stroke-width="7" stroke-linecap="round"/>
+
+
+<polygon points="136,106 164,68 196,104 224,58 256,104 288,68 320,106 348,58 376,104 392,130 136,130" fill="#c79632"/>
+<rect x="136" y="126" width="256" height="20" rx="10" fill="#fff7e0"/>
+<circle cx="160" cy="116" r="8" fill="#fff6dc" opacity="0.95"/>
+<circle cx="354" cy="118" r="8" fill="#fff6dc" opacity="0.95"/>
+<polygon points="256,304 280,330 256,356 232,330" fill="#c79632"/>
+
+
+</svg>

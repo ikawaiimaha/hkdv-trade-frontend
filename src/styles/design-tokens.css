@@ -1,0 +1,56 @@
+:root {
+  --pink-primary: #ff8cc6;
+  --pink-dark: #ff3b93;
+  --pink-bg: #ffeaf3;
+  --pink-light: #fff6fa;
+  --lavender: #bfa2ff;
+  --purple-outline: #7b5eaa;
+  --border-soft: #ffd6ec;
+  --surface-card: #fff6fa;
+  --text-primary: #4a1838;
+  --text-secondary: #7a4a68;
+  --text-muted: #b08aa0;
+  --white: #ffffff;
+  --mint: #9ee6c4;
+  --peach: #ffc8a2;
+  --blue-soft: #a7d8ff;
+  --yellow-soft: #fff3a3;
+}
+
+.shadow-soft {
+  box-shadow: 0 2px 16px rgba(255, 140, 198, 0.12);
+}
+
+.shadow-soft-hover {
+  box-shadow: 0 4px 24px rgba(255, 140, 198, 0.18);
+}
+
+@keyframes momo-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes momo-twinkle {
+  0%,
+  100% {
+    opacity: 0.28;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-float {
+  animation: momo-float 3.2s ease-in-out infinite;
+}
+
+.animate-twinkle {
+  animation: momo-twinkle 2s ease-in-out infinite;
+}

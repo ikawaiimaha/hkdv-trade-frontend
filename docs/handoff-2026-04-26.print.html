@@ -1,0 +1,205 @@
+﻿<!doctype html><html><head><meta charset="utf-8"><title>HKDV Trader OS Handoff</title><style>body{font-family:Segoe UI,Arial,sans-serif;color:#2b1b24;max-width:900px;margin:40px auto;padding:0 24px;line-height:1.6}h1,h2,h3{color:#4a1838;line-height:1.2}h1{font-size:32px;border-bottom:2px solid #ffd6ec;padding-bottom:12px}h2{font-size:22px;margin-top:32px}h3{font-size:18px;margin-top:24px}p,li{font-size:14px}code{background:#fff1f7;padding:2px 6px;border-radius:6px;font-family:Consolas,monospace}pre{background:#fff6fa;border:1px solid #ffd6ec;border-radius:12px;padding:14px;white-space:pre-wrap}ul,ol{padding-left:24px}.muted{color:#7a4a68}</style></head><body>
+<h1>HKDV Trader OS Handoff</h1>
+<p>Date: April 26, 2026</p>
+<p>Repo: <code>C:\Users\squir\Documents\New project\hkdv-trade-frontend-main</code></p>
+<h2>1. Project Summary</h2>
+<p>This repo is a single-page Vite + React trading desk for Hello Kitty Dream Village item trading.</p>
+<p>It is not the same app shape as the TypeScript route-based Kimi sandbox app. During this handoff cycle, only the parts that cleanly mapped into the real repo were ported. The current app remains a single-page workspace with hash-based sections, a live/mock Supabase switch, catalog save flows, trade matching, and Dream Board scaffolding.</p>
+<h2>2. Tech Stack</h2>
+<ul>
+<li>React 19</li>
+<li>Vite 8</li>
+<li><code>@supabase/supabase-js</code></li>
+<li>Plain CSS modules-by-file, imported from <code>src/main.jsx</code></li>
+</ul>
+<p>Main commands:</p>
+<ul>
+<li><code>npm run dev</code></li>
+<li><code>npm run build</code></li>
+<li><code>npm run preview</code></li>
+<li><code>npm run refresh:wiki-data</code></li>
+</ul>
+<h2>3. Environment</h2>
+<p>Supabase client config is read from env, not hardcoded:</p>
+<ul>
+<li><code>VITE_SUPABASE_URL</code></li>
+<li><code>VITE_SUPABASE_PUBLISHABLE_KEY</code></li>
+<li>fallback: <code>VITE_SUPABASE_ANON_KEY</code></li>
+</ul>
+<p>Client setup lives in:</p>
+<ul>
+<li><code>src/lib/supabaseClient.js</code></li>
+</ul>
+<p>Do not replace the client file with literal keys. Set env vars instead.</p>
+<h2>4. Current App State</h2>
+<h3>Shipped UI/UX</h3>
+<ul>
+<li>Toast provider and root error boundary in <code>src/main.jsx</code></li>
+<li>Updated hero/banner presentation</li>
+<li>Trade-ready visual card style</li>
+<li>Catalog grid with item action modal</li>
+<li>Asset manager section for owned items + wishlist</li>
+<li>Dream Board section with draggable owned-item sticker pool</li>
+<li>Live trade match section in dashboard</li>
+</ul>
+<h3>Live data behavior</h3>
+<ul>
+<li>App supports Supabase-backed mode when env vars are present</li>
+<li>App falls back to mock/demo workspace when Supabase is unavailable</li>
+<li>Catalog item save actions write to:</li>
+</ul>
+<p>  - <code>wishlist_entries</code></p>
+<p>  - <code>trader_inventory</code></p>
+<h2>5. Files Added or Ported</h2>
+<h3>Core UI</h3>
+<ul>
+<li><code>src/components/HeroBanner.jsx</code></li>
+<li><code>src/components/ToastProvider.jsx</code></li>
+<li><code>src/components/Navbar.jsx</code></li>
+<li><code>src/components/TradeMatchCard.jsx</code></li>
+<li><code>src/components/ItemActionModal.jsx</code></li>
+<li><code>src/components/DreamBoardCanvas.jsx</code></li>
+</ul>
+<h3>Catalog / Collection Flow</h3>
+<ul>
+<li><code>src/hooks/useCatalog.js</code></li>
+<li><code>src/components/CatalogGrid.jsx</code></li>
+<li><code>src/sections/CatalogSection.jsx</code></li>
+<li><code>src/styles/catalog-grid.css</code></li>
+<li><code>src/styles/catalog-section.css</code></li>
+<li><code>src/styles/item-modal.css</code></li>
+</ul>
+<h3>Asset Manager / Inventory-Wishlist</h3>
+<ul>
+<li><code>src/components/AssetList.jsx</code></li>
+<li><code>src/hooks/useTraderAssets.js</code></li>
+<li><code>src/sections/AssetManagerSection.jsx</code></li>
+<li><code>src/styles/asset-manager.css</code></li>
+</ul>
+<h3>Dream Board</h3>
+<ul>
+<li><code>src/components/OwnedStickerPool.jsx</code></li>
+<li><code>src/hooks/useTraderInventory.js</code></li>
+<li><code>src/hooks/useDreamBoard.js</code></li>
+<li><code>src/sections/DreamBoardSection.jsx</code></li>
+<li><code>src/styles/dream-board.css</code></li>
+<li><code>src/styles/dream-board-canvas.css</code></li>
+</ul>
+<h3>Trade Matching</h3>
+<ul>
+<li><code>src/hooks/useTradeMatches.js</code></li>
+<li><code>src/styles/trade-card.css</code></li>
+</ul>
+<h3>Shared styling</h3>
+<ul>
+<li><code>src/styles/design-tokens.css</code></li>
+<li><code>src/styles/hero-banner.css</code></li>
+<li><code>src/styles/navbar.css</code></li>
+<li><code>src/styles/toast.css</code></li>
+</ul>
+<h2>6. Assets Ported</h2>
+<h3>Mascot / base display assets</h3>
+<ul>
+<li><code>public/momo-idle.png</code></li>
+<li><code>public/momo-happy.png</code></li>
+<li><code>public/momo-proud.png</code></li>
+<li><code>public/ghost-mascot.png</code></li>
+<li><code>public/mascot-idle.png</code></li>
+</ul>
+<h3>Base charm set</h3>
+<ul>
+<li><code>public/charm-bow.png</code></li>
+<li><code>public/charm-cloud.png</code></li>
+<li><code>public/charm-flower.png</code></li>
+<li><code>public/charm-heart.png</code></li>
+<li><code>public/charm-star.png</code></li>
+</ul>
+<h3>Buddy charm set</h3>
+<p>Ported from the Kimi redesign package:</p>
+<ul>
+<li><code>public/charm_aggretsuko.png</code></li>
+<li><code>public/charm_badtzmaru.png</code></li>
+<li><code>public/charm_cinnamoroll.png</code></li>
+<li><code>public/charm_cogimyun.png</code></li>
+<li><code>public/charm_gudetama.png</code></li>
+<li><code>public/charm_hellokitty.png</code></li>
+<li><code>public/charm_keroppi.png</code></li>
+<li><code>public/charm_kuromi.png</code></li>
+<li><code>public/charm_littletwinstars.png</code></li>
+<li><code>public/charm_mocha.png</code></li>
+<li><code>public/charm_mymelody.png</code></li>
+<li><code>public/charm_mysweetpiano.png</code></li>
+<li><code>public/charm_pochacco.png</code></li>
+<li><code>public/charm_pompompurin.png</code></li>
+<li><code>public/charm_tuxedosam.png</code></li>
+<li><code>public/charm_v2.png</code></li>
+<li><code>public/charm_wishmemell.png</code></li>
+</ul>
+<h2>7. Database / SQL Work</h2>
+<h3>Existing or added migration files in repo</h3>
+<ul>
+<li><code>supabase/migrations/20250427_test_happy_bag_items.sql</code></li>
+<li><code>supabase/migrations/20250427_catalog_seed_kuromi_cinnamoroll.sql</code></li>
+<li><code>supabase/migrations/20260426_0013_trade_ready_notifications.sql</code></li>
+<li><code>supabase/migrations/20260426_0014_backfill_collection_items.sql</code></li>
+</ul>
+<h3>Important note</h3>
+<p>The extra catalog seed migration for Kuromi + Cinnamoroll was added to the repo but was not executed locally in this session.</p>
+<h3>Dream Board schema note</h3>
+<p><code>src/hooks/useDreamBoard.js</code> expects:</p>
+<ul>
+<li><code>dream_boards</code></li>
+<li><code>dream_board_stickers</code></li>
+</ul>
+<p>The local <code>supabase/schema.sql</code> currently does not show those tables. That means the Dream Board UI is wired, but live save/load depends on those tables existing in the actual Supabase project.</p>
+<p>If the live database does not have them yet, Dream Board persistence will fail until the schema is added.</p>
+<h2>8. Catalog Status</h2>
+<p>Catalog UI was upgraded from a single featured collection to a three-collection layout:</p>
+<ul>
+<li>Strawberry Milk Cafe</li>
+<li>Kuromi Midnight Sleepover</li>
+<li>Cinnamoroll Cloud Cafe</li>
+</ul>
+<p>The UI is ready now. The second and third collections appear only after running:</p>
+<ul>
+<li><code>supabase/migrations/20250427_catalog_seed_kuromi_cinnamoroll.sql</code></li>
+</ul>
+<h2>9. Known Gaps / Risks</h2>
+<ol>
+<li>Dream Board persistence may fail if <code>dream_boards</code> and <code>dream_board_stickers</code> are not present in Supabase.</li>
+<li>The extra catalog seed migration exists in git but has not been applied to the live database here.</li>
+<li>The current repo is intentionally not a full merge of the Kimi TypeScript app. It keeps the existing workspace shell and only ports compatible features.</li>
+</ol>
+<h2>10. Verification Status</h2>
+<p>Verified locally:</p>
+<ul>
+<li><code>cmd /c npm run build</code></li>
+</ul>
+<p>Build passed after the latest catalog, asset-manager, Dream Board, and charm asset changes.</p>
+<p>Not verified in this session:</p>
+<ul>
+<li>Running new SQL in Supabase</li>
+<li>Production deployment after the latest changes</li>
+<li>Live Dream Board persistence against a database with board tables</li>
+</ul>
+<h2>11. Recommended Next Steps</h2>
+<ol>
+<li>Run <code>supabase/migrations/20250427_catalog_seed_kuromi_cinnamoroll.sql</code> in Supabase.</li>
+<li>Confirm whether <code>dream_boards</code> and <code>dream_board_stickers</code> exist in the real database.</li>
+<li>If board tables are missing, add the Dream Board schema before testing save/load.</li>
+<li>Deploy after the SQL and board schema are confirmed.</li>
+<li>Next feature priority after that: trade-ready notification completion or Dream Board persistence polish.</li>
+</ol>
+<h2>12. Short Resume for Next Developer</h2>
+<p>The repo is now a polished Vite trading desk with:</p>
+<ul>
+<li>Supabase + mock fallback</li>
+<li>catalog add-to-wishlist / add-to-inventory</li>
+<li>asset manager</li>
+<li>live trade match UI</li>
+<li>Dream Board UI shell with draggable owned items</li>
+<li>mascot/charm asset pack</li>
+</ul>
+<p>The biggest remaining dependency is database alignment for Dream Boards and running the extra catalog seed SQL.</p>
+</body></html>
+

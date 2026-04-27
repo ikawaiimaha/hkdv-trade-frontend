@@ -1,0 +1,145 @@
+.dream-board-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dream-board-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border: 2px solid var(--border-soft, #ffd6ec);
+  border-radius: 24px;
+  background-color: var(--pink-light, #fff6fa);
+  box-shadow: inset 0 2px 12px rgba(255, 140, 198, 0.08);
+}
+
+.default-pink-grid {
+  background-image:
+    linear-gradient(var(--pink-bg, #ffeaf3) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pink-bg, #ffeaf3) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.empty-canvas-prompt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--text-muted, #b08aa0);
+  text-align: center;
+  pointer-events: none;
+}
+
+.prompt-icon {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
+
+.placed-sticker {
+  position: absolute;
+  width: 80px;
+  cursor: grab;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  transition: filter 0.2s;
+}
+
+.placed-sticker:hover {
+  z-index: 10;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
+}
+
+.placed-sticker img {
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.remove-sticker-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--border-soft, #ffd6ec);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--pink-dark, #ff3b93);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.2s;
+}
+
+.placed-sticker:hover .remove-sticker-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.board-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.board-actions .btn-primary,
+.board-actions .btn-secondary {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 999px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.board-actions .btn-primary {
+  background-color: var(--pink-main, #ff8cc6);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(255, 140, 198, 0.25);
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.board-actions .btn-primary:hover {
+  background-color: var(--pink-dark, #ff3b93);
+  transform: translateY(-1px);
+}
+
+.board-actions .btn-primary:active {
+  transform: scale(0.97);
+}
+
+.board-actions .btn-secondary {
+  border: 2px solid var(--border-soft, #ffd6ec);
+  background-color: #fff;
+  color: var(--pink-dark, #ff3b93);
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.board-actions .btn-secondary:hover {
+  background-color: var(--pink-light, #fff6fa);
+  transform: translateY(-1px);
+}
+
+.board-actions .btn-secondary:active {
+  transform: scale(0.97);
+}
+
+@media (max-width: 480px) {
+  .placed-sticker {
+    width: 60px;
+  }
+
+  .dream-board-canvas {
+    border-radius: 16px;
+  }
+
+  .board-actions .btn-primary,
+  .board-actions .btn-secondary {
+    padding: 10px 18px;
+    font-size: 0.85rem;
+  }
+}

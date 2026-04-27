@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HKDV Trader OS</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<div class="app-shell">
+
+<header class="top-nav">
+  <div class="nav-left">
+    <div class="brand">HKDV</div>
+    <nav class="nav-links">
+      <a class="active">Dashboard</a>
+      <a>Inventory</a>
+      <a>Duplicates</a>
+      <a>Wishlist</a>
+      <a>Listings</a>
+    </nav>
+  </div>
+  <button class="primary-btn small-btn">+ List</button>
+</header>
+
+<main class="page-shell">
+
+<h1>Dashboard</h1>
+<p class="subtitle">Inventory Preview</p>
+
+<!-- 🔥 REAL INVENTORY ON DASHBOARD -->
+<div class="item-grid">
+
+  <article class="item-card target-card">
+    <div class="item-image"></div>
+    <h3>HK Lamp</h3>
+    <p>SR • Petite • Medium Demand</p>
+    <button class="primary-btn" id="open-offer">Make Offer</button>
+  </article>
+
+  <article class="item-card">
+    <div class="item-image"></div>
+    <h3>HK Plush</h3>
+    <p>SSR • Sweet • High Demand</p>
+  </article>
+
+  <article class="item-card">
+    <div class="item-image"></div>
+    <h3>HK Lamp</h3>
+    <p>SR • Petite • Medium Demand</p>
+  </article>
+
+  <article class="item-card">
+    <div class="item-image"></div>
+    <h3>HK Chair</h3>
+    <p>R • Lucky • Low Demand</p>
+  </article>
+
+</div>
+
+</main>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay hidden" id="offer-modal">
+  <div class="modal-card">
+
+    <div class="modal-header">
+      <h2>Make Offer</h2>
+      <button id="close-offer" class="icon-btn">×</button>
+    </div>
+
+    <div class="modal-section">
+      <h4>You Want</h4>
+      <div class="offer-box">
+        HK Lamp (SR • Petite)
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <h4>You Offer</h4>
+      <div id="offer-items" class="offer-box empty">
+        Select items below
+      </div>
+    </div>
+
+    <!-- 🔥 INTERACTIVE INVENTORY -->
+    <div class="modal-section">
+      <h4>Select Items</h4>
+
+      <div class="item-grid">
+
+        <article class="item-card selectable" data-name="HK Plush" data-value="100">
+          <div class="item-image"></div>
+          <h3>HK Plush</h3>
+        </article>
+
+        <article class="item-card selectable" data-name="HK Lamp" data-value="60">
+          <div class="item-image"></div>
+          <h3>HK Lamp</h3>
+        </article>
+
+        <article class="item-card selectable" data-name="HK Chair" data-value="30">
+          <div class="item-image"></div>
+          <h3>HK Chair</h3>
+        </article>
+
+      </div>
+
+    </div>
+
+    <div class="modal-section">
+      <h4>Fairness</h4>
+      <div id="fairness" class="fairness neutral">
+        No offer yet
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="secondary-btn" id="cancel-offer">Cancel</button>
+      <button class="primary-btn">Send Offer</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>

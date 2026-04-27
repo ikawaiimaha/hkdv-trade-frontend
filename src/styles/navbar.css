@@ -1,0 +1,62 @@
+.momomint-navbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 214, 236, 0.9);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+.momomint-navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.momomint-navbar__brand img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.momomint-navbar__brand strong,
+.momomint-navbar__brand span {
+  display: block;
+}
+
+.momomint-navbar__brand strong {
+  color: var(--text-primary, #4a1838);
+}
+
+.momomint-navbar__brand span {
+  color: var(--text-muted, #b08aa0);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.momomint-navbar__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.momomint-navbar__link {
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-secondary, #7a4a68);
+  font-size: 0.84rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.momomint-navbar__link.is-active {
+  border-color: var(--border-soft, #ffd6ec);
+  background: #ffe3f1;
+  color: var(--pink-dark, #ff3b93);
+}
